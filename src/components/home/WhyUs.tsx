@@ -48,7 +48,7 @@ export default function WhyUs() {
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
       {/* Decorative orb */}
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#f97316]/3 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}

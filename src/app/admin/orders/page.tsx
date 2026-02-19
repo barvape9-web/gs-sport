@@ -130,7 +130,7 @@ export default function AdminOrdersPage() {
                 key={order.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="hover:bg-white/2 transition-colors"
+                className="hover:bg-white/5 transition-colors"
               >
                 <td className="px-6 py-4">
                   <span className="text-sm font-mono font-bold text-white">

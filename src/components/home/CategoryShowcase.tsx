@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
@@ -13,6 +14,7 @@ const categories = [
     href: '/products?gender=MEN',
     accent: '#3b82f6',
     gradient: 'from-blue-900/30 to-black',
+    image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
     filters: ['Upper Wear', 'Lower Wear', 'Winter Wear', 'Accessories'],
   },
   {
@@ -23,6 +25,7 @@ const categories = [
     href: '/products?gender=WOMEN',
     accent: '#ec4899',
     gradient: 'from-pink-900/30 to-black',
+    image: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800&q=80',
     filters: ['Upper Wear', 'Lower Wear', 'Summer Wear', 'Accessories'],
   },
 ];
@@ -60,20 +63,29 @@ export default function CategoryShowcase() {
               className="group relative overflow-hidden rounded-2xl cursor-pointer"
               style={{ minHeight: '500px' }}
             >
-              {/* Background */}
+              {/* Background Image */}
+              <div className="absolute inset-0">
+                <Image
+                  src={cat.image}
+                  alt={cat.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              </div>
+              {/* Dark overlay for readability */}
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${cat.gradient}`}
+                className="absolute inset-0"
                 style={{
-                  background: `linear-gradient(135deg, ${cat.accent}22 0%, #0a0a0a 100%)`,
+                  background: `linear-gradient(135deg, ${cat.accent}40 0%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.95) 100%)`,
                 }}
               />
-              <div className="absolute inset-0 glass-card border-0" />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%)' }} />
 
               {/* Animated background orb */}
               <motion.div
-                animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+                animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.35, 0.15] }}
                 transition={{ duration: 4, repeat: Infinity, delay: i }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl pointer-events-none"
+                className="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl pointer-events-none"
                 style={{ backgroundColor: cat.accent }}
               />
 

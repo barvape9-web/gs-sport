@@ -36,9 +36,10 @@ export default function Hero() {
       {/* Grid overlay */}
       <div className="absolute inset-0 grid-bg z-0 opacity-60" />
 
-      {/* Gradient radial */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[#f97316]/5 blur-[120px] pointer-events-none z-0" />
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-purple-900/10 blur-[80px] pointer-events-none z-0" />
+      {/* Gradient radial — stronger glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full bg-[#f97316]/10 blur-[150px] pointer-events-none z-0" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-purple-500/10 blur-[100px] pointer-events-none z-0" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#f97316]/8 blur-[100px] pointer-events-none z-0" />
 
       <motion.div
         style={{ y, opacity }}
