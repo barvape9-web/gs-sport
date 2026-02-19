@@ -99,7 +99,7 @@ export default function ProductDetailPage() {
             <span className="text-white/60 truncate max-w-[200px]">{product.name}</span>
           </nav>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
             {/* Images */}
             <div className="space-y-4">
               <motion.div

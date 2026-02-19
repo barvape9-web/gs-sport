@@ -100,13 +100,13 @@ function ProductsPageInner() {
         {/* Header */}
         <div className="relative py-16 overflow-hidden border-b border-white/5">
           <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#f97316]/5 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,90vw)] h-[min(300px,50vw)] bg-[#f97316]/5 rounded-full blur-[80px] pointer-events-none" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <p className="text-[#f97316] text-sm font-bold uppercase tracking-widest mb-3">
                 {filters.gender ? `${filters.gender}'s Collection` : 'All Products'}
               </p>
-              <h1 className="text-5xl font-black text-white mb-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
                 {filters.gender === 'MEN' ? (
                   <>Men&apos;s <span className="gradient-text">Collection</span></>
                 ) : filters.gender === 'WOMEN' ? (
@@ -181,13 +181,13 @@ function ProductsPageInner() {
             </div>
           </div>
 
-          <div className="flex gap-8">
+          <div className="flex gap-4 sm:gap-8">
             {/* Filters Sidebar */}
             <AnimatePresence>
               {showFilters && (
                 <motion.div
                   initial={{ opacity: 0, x: -20, width: 0 }}
-                  animate={{ opacity: 1, x: 0, width: 280 }}
+                  animate={{ opacity: 1, x: 0, width: 'min(280px, 80vw)' }}
                   exit={{ opacity: 0, x: -20, width: 0 }}
                   className="flex-shrink-0 overflow-hidden"
                 >

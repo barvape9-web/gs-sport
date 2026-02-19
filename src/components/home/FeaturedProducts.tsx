@@ -34,10 +34,10 @@ export default function FeaturedProducts() {
       : products.filter((p) => p.gender === activeFilter);
 
   return (
-    <section className="py-24 bg-[#0a0a0a] relative overflow-hidden">
+    <section className="py-12 sm:py-24 bg-[#0a0a0a] relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[min(500px,90vw)] h-[min(500px,90vw)] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -52,7 +52,7 @@ export default function FeaturedProducts() {
               <TrendingUp size={16} />
               Featured Collection
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black text-white">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
               Best <span className="gradient-text">Sellers</span>
             </h2>
           </motion.div>

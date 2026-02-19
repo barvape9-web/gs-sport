@@ -40,7 +40,7 @@ export default function ContactPage() {
               <p className="text-[#f97316] text-sm font-bold uppercase tracking-widest mb-3">
                 Get In Touch
               </p>
-              <h1 className="text-5xl font-black text-white mb-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
                 Contact <span className="gradient-text">Us</span>
               </h1>
               <p className="text-white/40 text-lg">We&apos;re here to help. Reach out anytime.</p>

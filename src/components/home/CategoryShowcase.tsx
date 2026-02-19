@@ -32,7 +32,7 @@ const categories = [
 
 export default function CategoryShowcase() {
   return (
-    <section className="py-24 bg-[#060606] relative overflow-hidden">
+    <section className="py-12 sm:py-24 bg-[#060606] relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,18 +41,18 @@ export default function CategoryShowcase() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-16"
         >
-          <p className="text-[#f97316] text-sm font-bold uppercase tracking-[0.3em] mb-4">
+          <p className="text-[#f97316] text-xs sm:text-sm font-bold uppercase tracking-[0.3em] mb-3 sm:mb-4">
             Shop by Category
           </p>
-          <h2 className="text-4xl sm:text-5xl font-black text-white">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
             Find Your <span className="gradient-text">Style</span>
           </h2>
         </motion.div>
 
         {/* Two column showcase */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {categories.map((cat, i) => (
             <motion.div
               key={cat.gender}
@@ -60,8 +60,7 @@ export default function CategoryShowcase() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: i * 0.1 }}
-              className="group relative overflow-hidden rounded-2xl cursor-pointer"
-              style={{ minHeight: '500px' }}
+              className="group relative overflow-hidden rounded-2xl cursor-pointer min-h-[350px] sm:min-h-[450px] md:min-h-[500px]"
             >
               {/* Background Image */}
               <div className="absolute inset-0">
@@ -90,7 +89,7 @@ export default function CategoryShowcase() {
               />
 
               {/* Content */}
-              <div className="relative z-10 p-10 h-full flex flex-col justify-between" style={{ minHeight: '500px' }}>
+              <div className="relative z-10 p-6 sm:p-10 h-full flex flex-col justify-between min-h-[350px] sm:min-h-[450px] md:min-h-[500px]">
                 <div>
                   <div
                     className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-6 border"
@@ -103,8 +102,8 @@ export default function CategoryShowcase() {
                     {cat.gender === 'MEN' ? "Men's" : "Women's"}
                   </div>
 
-                  <h3 className="text-4xl font-black text-white mb-3">{cat.title}</h3>
-                  <p className="text-lg font-semibold mb-4" style={{ color: cat.accent }}>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-3">{cat.title}</h3>
+                  <p className="text-base sm:text-lg font-semibold mb-4" style={{ color: cat.accent }}>
                     {cat.subtitle}
                   </p>
                   <p className="text-white/50 text-sm leading-relaxed max-w-xs">

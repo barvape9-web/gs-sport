@@ -68,13 +68,13 @@ export default function DashboardPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-6 mb-10"
+            className="flex items-center gap-4 sm:gap-6 mb-10"
           >
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#f97316] to-[#ea580c] flex items-center justify-center text-3xl font-black text-white shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+            <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#f97316] to-[#ea580c] flex items-center justify-center text-xl sm:text-3xl font-black text-white shadow-[0_0_30px_rgba(249,115,22,0.3)]">
               {user.name?.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h1 className="text-3xl font-black text-white">
+              <h1 className="text-xl sm:text-3xl font-black text-white">
                 Welcome, <span className="gradient-text">{user.name}</span>
               </h1>
               <p className="text-white/40 mt-1">{user.email}</p>

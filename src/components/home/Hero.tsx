@@ -37,9 +37,9 @@ export default function Hero() {
       <div className="absolute inset-0 grid-bg z-0 opacity-60" />
 
       {/* Gradient radial — stronger glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full bg-[#f97316]/10 blur-[150px] pointer-events-none z-0" />
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-purple-500/10 blur-[100px] pointer-events-none z-0" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#f97316]/8 blur-[100px] pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(900px,100vw)] h-[min(900px,100vw)] rounded-full bg-[#f97316]/10 blur-[150px] pointer-events-none z-0" />
+      <div className="absolute top-0 right-0 w-[min(500px,60vw)] h-[min(500px,60vw)] rounded-full bg-purple-500/10 blur-[100px] pointer-events-none z-0" />
+      <div className="absolute bottom-0 left-0 w-[min(400px,50vw)] h-[min(400px,50vw)] rounded-full bg-[#f97316]/8 blur-[100px] pointer-events-none z-0" />
 
       <motion.div
         style={{ y, opacity }}
@@ -62,7 +62,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-5xl sm:text-7xl lg:text-8xl font-black leading-none tracking-tighter mb-6"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-none tracking-tighter mb-6"
         >
           <span className="block text-white">Elevate Your</span>
           <span className="block gradient-text glow-text">Performance</span>
@@ -74,7 +74,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-base sm:text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed px-2"
         >
           Premium sportswear engineered for athletes who demand excellence. Discover the GS • Sport
           collection — where performance meets style.
@@ -85,7 +85,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-12 sm:mb-16 px-4"
         >
           <Link href="/products">
             <motion.button
@@ -119,13 +119,13 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="grid grid-cols-3 max-w-lg mx-auto gap-1"
+          className="grid grid-cols-3 w-full max-w-lg mx-auto gap-1 sm:gap-2"
         >
           {stats.map(({ icon: Icon, value, label }) => (
-            <div key={label} className="glass-card py-5 px-4 text-center group hover:border-[#f97316]/20 transition-all">
-              <Icon size={20} className="text-[#f97316] mx-auto mb-2" />
-              <div className="text-2xl font-black text-white">{value}</div>
-              <div className="text-xs text-white/40 mt-0.5 font-medium">{label}</div>
+            <div key={label} className="glass-card py-3 sm:py-5 px-2 sm:px-4 text-center group hover:border-[#f97316]/20 transition-all">
+              <Icon size={20} className="text-[#f97316] mx-auto mb-1 sm:mb-2" />
+              <div className="text-lg sm:text-2xl font-black text-white">{value}</div>
+              <div className="text-[10px] sm:text-xs text-white/40 mt-0.5 font-medium">{label}</div>
             </div>
           ))}
         </motion.div>

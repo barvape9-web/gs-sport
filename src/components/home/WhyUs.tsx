@@ -44,11 +44,11 @@ const features = [
 
 export default function WhyUs() {
   return (
-    <section className="py-24 bg-[#0a0a0a] relative overflow-hidden">
+    <section className="py-12 sm:py-24 bg-[#0a0a0a] relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
       {/* Decorative orb */}
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -61,10 +61,10 @@ export default function WhyUs() {
           <p className="text-[#f97316] text-sm font-bold uppercase tracking-[0.3em] mb-4">
             Why GS • Sport
           </p>
-          <h2 className="text-4xl sm:text-5xl font-black text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
             The <span className="gradient-text">Standard</span> of Excellence
           </h2>
-          <p className="text-white/40 text-lg max-w-2xl mx-auto">
+          <p className="text-white/40 text-base sm:text-lg max-w-2xl mx-auto">
             We don&apos;t just make sportswear. We engineer excellence into every thread.
           </p>
         </motion.div>
@@ -113,7 +113,7 @@ export default function WhyUs() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-16 glass-card p-10 text-center relative overflow-hidden"
+          className="mt-10 sm:mt-16 glass-card p-6 sm:p-10 text-center relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-[#f97316]/5 via-transparent to-[#f97316]/5 pointer-events-none" />
           <h3 className="text-3xl font-black text-white mb-3">

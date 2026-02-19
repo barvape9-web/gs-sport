@@ -59,7 +59,7 @@ export default function LoginPage() {
           animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
           transition={{ duration: 20 + i * 5, repeat: Infinity, ease: 'linear' }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#f97316]/5"
-          style={{ width: size, height: size }}
+          style={{ width: `min(${size}px, 90vw)`, height: `min(${size}px, 90vw)` }}
         />
       ))}
 

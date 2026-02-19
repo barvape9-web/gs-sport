@@ -113,9 +113,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}
 
       {/* Main content */}
-      <div className="flex-1 lg:ml-64">
+      <div className="flex-1 lg:ml-64 min-w-0">
         {/* Top bar */}
-        <div className="sticky top-0 z-20 flex items-center justify-between px-6 h-16 glass-dark border-b border-white/5">
+        <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 h-16 glass-dark border-b border-white/5">
           <button
             className="lg:hidden text-white/60 hover:text-white"
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -135,7 +135,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         {/* Page content */}
-        <main className="p-6">{children}</main>
+        <main className="p-3 sm:p-6 overflow-x-hidden">{children}</main>
       </div>
     </div>
   );
