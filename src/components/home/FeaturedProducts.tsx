@@ -17,7 +17,7 @@ export default function FeaturedProducts() {
     const fetchProducts = async () => {
       try {
         const res = await axios.get('/api/products?featured=true&limit=8');
-        setProducts(res.data.data || []);
+        setProducts(res.data.products || []);
       } catch {
         // Use mock data if API not available
         setProducts(getMockProducts());

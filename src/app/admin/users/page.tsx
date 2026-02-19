@@ -1,28 +1,35 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Shield, User, Trash2, Filter, ChevronDown } from 'lucide-react';
+import { Search, Shield, User, Trash2, Filter, ChevronDown, Loader2 } from 'lucide-react';
 import { User as UserType } from '@/types';
 import { formatDate } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
-const MOCK_USERS: UserType[] = Array.from({ length: 20 }, (_, i) => ({
-  id: `user-${String(i).padStart(6, '0')}`,
-  name: ['Alex Johnson', 'Sam Williams', 'Jordan Smith', 'Casey Brown', 'Riley Davis'][i % 5] + (i >= 5 ? ` ${i}` : ''),
-  email: `user${i + 1}@example.com`,
-  role: i === 0 ? 'ADMIN' : 'USER',
-  createdAt: new Date(Date.now() - i * 3 * 24 * 60 * 60 * 1000).toISOString(),
-  updatedAt: new Date().toISOString(),
-}));
-
 type RoleFilter = 'ALL' | 'USER' | 'ADMIN';
 
 export default function AdminUsersPage() {
-  const [users, setUsers] = useState<UserType[]>(MOCK_USERS);
+  const [users, setUsers] = useState<UserType[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState<RoleFilter>('ALL');
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get('/api/admin/users');
+        setUsers(res.data.users || []);
+      } catch {
+        toast.error('Failed to load users');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
 
   const filtered = users.filter((u) => {
     const matchesSearch =
@@ -105,6 +112,12 @@ export default function AdminUsersPage() {
           <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
         </div>
       </div>
+
+      {loading && (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="animate-spin text-[#f97316]" size={32} />
+        </div>
+      )}
 
       {/* Users Table */}
       <div className="glass-card overflow-hidden">

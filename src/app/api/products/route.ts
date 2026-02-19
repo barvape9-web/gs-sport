@@ -9,15 +9,22 @@ export async function GET(request: NextRequest) {
     const gender = searchParams.get('gender');
     const category = searchParams.get('category');
     const featured = searchParams.get('featured');
-    const sort = searchParams.get('sort') || 'newest';
+    const sort = searchParams.get('sort') || searchParams.get('sortBy') || 'newest';
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '12');
     const search = searchParams.get('search');
+    const minPrice = searchParams.get('minPrice');
+    const maxPrice = searchParams.get('maxPrice');
 
     const where: Record<string, unknown> = {};
     if (gender && gender !== 'ALL') where.gender = gender;
     if (category) where.category = category;
     if (featured === 'true') where.isFeatured = true;
+    if (minPrice || maxPrice) {
+      where.price = {};
+      if (minPrice) (where.price as Record<string, number>).gte = parseFloat(minPrice);
+      if (maxPrice) (where.price as Record<string, number>).lte = parseFloat(maxPrice);
+    }
     if (search) {
       where.OR = [
         { name: { contains: search, mode: 'insensitive' } },
@@ -27,8 +34,9 @@ export async function GET(request: NextRequest) {
 
     const orderBy: Record<string, string> = {};
     if (sort === 'newest') orderBy.createdAt = 'desc';
-    else if (sort === 'price-asc') orderBy.price = 'asc';
-    else if (sort === 'price-desc') orderBy.price = 'desc';
+    else if (sort === 'price-asc' || sort === 'price_asc') orderBy.price = 'asc';
+    else if (sort === 'price-desc' || sort === 'price_desc') orderBy.price = 'desc';
+    else if (sort === 'popularity') orderBy.popularity = 'desc';
 
     const [products, total] = await Promise.all([
       prisma.product.findMany({

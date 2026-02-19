@@ -1,41 +1,35 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, ChevronDown, Eye, Edit } from 'lucide-react';
+import { Search, Filter, ChevronDown, Eye, Edit, Loader2 } from 'lucide-react';
 import { Order, OrderStatus } from '@/types';
 import { formatPrice, formatDate, getOrderStatusColor } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
-const MOCK_ORDERS: Order[] = Array.from({ length: 15 }, (_, i) => ({
-  id: `ord-${String(i).padStart(6, '0')}`,
-  userId: `user-${i}`,
-  status: (['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'] as OrderStatus[])[i % 5],
-  total: 49.99 + i * 23.5,
-  subtotal: 44.99 + i * 23.5,
-  shipping: 5.0,
-  address: {
-    fullName: `Customer ${i + 1}`,
-    line1: '123 Main St',
-    city: 'New York',
-    state: 'NY',
-    postalCode: '10001',
-    country: 'US',
-    phone: '+1 555-0100',
-  },
-  items: [],
-  createdAt: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString(),
-  updatedAt: new Date().toISOString(),
-  user: { id: `user-${i}`, name: `Customer ${i + 1}`, email: `customer${i + 1}@example.com`, role: 'USER', createdAt: '', updatedAt: '' },
-}));
-
 const ALL_STATUSES: OrderStatus[] = ['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
 
 export default function AdminOrdersPage() {
-  const [orders, setOrders] = useState<Order[]>(MOCK_ORDERS);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<OrderStatus | 'ALL'>('ALL');
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get('/api/orders');
+        setOrders(res.data.orders || []);
+      } catch {
+        toast.error('Failed to load orders');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrders();
+  }, []);
 
   const filtered = orders.filter((o) => {
     const matchesSearch =
@@ -90,6 +84,12 @@ export default function AdminOrdersPage() {
           <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
         </div>
       </div>
+
+      {loading && (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="animate-spin text-[#f97316]" size={32} />
+        </div>
+      )}
 
       {/* Summary stats */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">

@@ -70,7 +70,7 @@ function ProductsPageInner() {
       if (filters.search) params.set('search', filters.search);
 
       const res = await axios.get(`/api/products?${params.toString()}`);
-      setProducts(res.data.data || []);
+      setProducts(res.data.products || []);
     } catch {
       // Use mock data
       let filtered = MOCK_PRODUCTS;

@@ -28,7 +28,7 @@ export default function DashboardPage() {
     const fetchOrders = async () => {
       try {
         const res = await axios.get('/api/orders/user');
-        setOrders(res.data.data || []);
+        setOrders(res.data.orders || []);
       } catch {
         setOrders([]);
       } finally {

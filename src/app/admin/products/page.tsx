@@ -74,7 +74,7 @@ export default function AdminProductsPage() {
     const fetchProducts = async () => {
       try {
         const res = await axios.get('/api/products?admin=true');
-        setProducts(res.data.data || MOCK_PRODUCTS);
+        setProducts(res.data.products || MOCK_PRODUCTS);
       } catch {
         setProducts(MOCK_PRODUCTS);
       }
@@ -131,7 +131,7 @@ export default function AdminProductsPage() {
         toast.success('Product updated!');
       } else {
         const res = await axios.post('/api/products', payload);
-        setProducts((prev) => [res.data.data, ...prev]);
+        setProducts((prev) => [res.data, ...prev]);
         toast.success('Product created!');
       }
       setIsModalOpen(false);
