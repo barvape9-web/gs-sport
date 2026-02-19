@@ -1,0 +1,148 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Gender {
+  MEN
+  WOMEN
+  UNISEX
+}
+
+enum Category {
+  UPPER_WEAR
+  LOWER_WEAR
+  WINTER_WEAR
+  SUMMER_WEAR
+  ACCESSORIES
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      Role     @default(USER)
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders       Order[]
+  savedProducts SavedProduct[]
+  cart         CartItem[]
+
+  @@map("users")
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  description   String
+  price         Float
+  originalPrice Float?
+  images        String[]
+  gender        Gender
+  category      Category
+  sizes         String[]
+  colors        String[]
+  stock         Int      @default(0)
+  isActive      Boolean  @default(true)
+  isFeatured    Boolean  @default(false)
+  popularity    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  orderItems   OrderItem[]
+  savedByUsers SavedProduct[]
+  cartItems    CartItem[]
+
+  @@map("products")
+}
+
+model Order {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  status    OrderStatus @default(PENDING)
+  total     Float
+  subtotal  Float
+  shipping  Float       @default(0)
+  address   Json
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  items OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+  size      String?
+  color     String?
+
+  @@map("order_items")
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int      @default(1)
+  size      String?
+  color     String?
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId, size, color])
+  @@map("cart_items")
+}
+
+model SavedProduct {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@map("saved_products")
+}
+
+model SiteTheme {
+  id             String   @id @default(cuid())
+  primaryColor   String   @default("#f97316")
+  secondaryColor String   @default("#ffffff")
+  accentColor    String   @default("#000000")
+  isDarkMode     Boolean  @default(true)
+  updatedAt      DateTime @updatedAt
+
+  @@map("site_themes")
+}
