@@ -101,7 +101,7 @@ function ProductsPageInner() {
         <div className="relative py-16 overflow-hidden border-b border-white/5">
           <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,90vw)] h-[min(300px,50vw)] bg-[#f97316]/5 rounded-full blur-[80px] pointer-events-none" />
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <p className="text-[#f97316] text-sm font-bold uppercase tracking-widest mb-3">
                 {filters.gender ? `${filters.gender}'s Collection` : 'All Products'}
@@ -120,7 +120,7 @@ function ProductsPageInner() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {/* Controls */}
           <div className="flex items-center justify-between mb-8 gap-4">
             <motion.button
@@ -205,7 +205,7 @@ function ProductsPageInner() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                    className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4"
                   >
                     {Array.from({ length: 12 }).map((_, i) => (
                       <div key={i} className="glass-card aspect-[3/4] shimmer rounded-2xl" />
@@ -235,7 +235,7 @@ function ProductsPageInner() {
                     key="products"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4"
+                    className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4"
                   >
                     {products.map((product, i) => (
                       <motion.div

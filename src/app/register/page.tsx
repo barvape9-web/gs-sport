@@ -63,7 +63,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center relative overflow-hidden px-4 py-12">
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-[#f97316]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/4 right-0 w-[min(500px,80vw)] h-[min(500px,80vw)] bg-[#f97316]/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left - Benefits */}

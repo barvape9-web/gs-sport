@@ -37,7 +37,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   width: 100%;
-  max-width: 100vw;
 }
 
 img, video, canvas, svg {
@@ -147,7 +146,7 @@ img, video, canvas, svg {
 /* Responsive container utility */
 .container-app {
   width: 100%;
-  max-width: 80rem; /* 1280px */
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;

@@ -50,7 +50,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center relative overflow-hidden px-4">
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#f97316]/4 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(800px,90vw)] h-[min(800px,90vw)] bg-[#f97316]/4 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Animated rings */}
       {[300, 500, 700].map((size, i) => (

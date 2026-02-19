@@ -100,7 +100,7 @@ export default function CheckoutPage() {
     <>
       <Navbar />
       <main className="min-h-screen pt-20 pb-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-xs text-white/30 mb-8">
             <Link href="/" className="hover:text-white/60 transition-colors">Home</Link>

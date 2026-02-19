@@ -37,13 +37,13 @@ export default function Hero() {
       <div className="absolute inset-0 grid-bg z-0 opacity-60" />
 
       {/* Gradient radial — stronger glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(900px,100vw)] h-[min(900px,100vw)] rounded-full bg-[#f97316]/10 blur-[150px] pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(900px,90vw)] h-[min(900px,90vw)] rounded-full bg-[#f97316]/10 blur-[150px] pointer-events-none z-0" />
       <div className="absolute top-0 right-0 w-[min(500px,60vw)] h-[min(500px,60vw)] rounded-full bg-purple-500/10 blur-[100px] pointer-events-none z-0" />
       <div className="absolute bottom-0 left-0 w-[min(400px,50vw)] h-[min(400px,50vw)] rounded-full bg-[#f97316]/8 blur-[100px] pointer-events-none z-0" />
 
       <motion.div
         style={{ y, opacity }}
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center"
+        className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center"
       >
         {/* Badge */}
         <motion.div

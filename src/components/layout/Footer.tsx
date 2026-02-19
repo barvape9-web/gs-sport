@@ -38,7 +38,7 @@ export default function Footer() {
       <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-[#f97316]/30 via-transparent to-transparent pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+      <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
         {/* Top section */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-16">
           {/* Brand */}
