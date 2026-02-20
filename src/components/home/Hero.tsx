@@ -194,17 +194,6 @@ export default function Hero() {
                   />
                 </div>
 
-                {/* Caption */}
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="mt-6 sm:mt-8 text-sm sm:text-base md:text-lg font-semibold uppercase tracking-[0.25em] text-center"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  🇬🇪 {t('hero.madeInGeorgia')} 🇬🇪
-                </motion.p>
-
                 <Link href="/products" className="mt-6">
                   <motion.button
                     whileTap={{ scale: 0.95 }}
@@ -264,18 +253,7 @@ export default function Hero() {
           </button>
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-3 left-1/2 -translate-x-1/2 hidden sm:flex"
-        >
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-xs uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{t('hero.scroll')}</span>
-            <div className="w-px h-8" style={{ backgroundImage: 'linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 60%, transparent), transparent)' }} />
-          </div>
-        </motion.div>
+
       </motion.div>
     </section>
   );
