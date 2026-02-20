@@ -49,12 +49,19 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
+  const isWomen = product.gender === 'WOMEN';
+
   return (
     <motion.div
       whileHover={{ y: -6, scale: 1.03 }}
       transition={{ duration: 0.25 }}
       className="product-card group cursor-pointer overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-200 h-full"
-      style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)', willChange: 'transform' }}
+      style={{
+        backgroundColor: isWomen ? 'rgba(236,72,153,0.04)' : 'var(--card-bg)',
+        border: isWomen ? '1px solid rgba(236,72,153,0.15)' : '1px solid var(--card-border)',
+        boxShadow: isWomen ? '0 0 20px rgba(236,72,153,0.06), inset 0 0 30px rgba(236,72,153,0.03)' : undefined,
+        willChange: 'transform',
+      }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
@@ -141,14 +148,14 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
         </div>
 
         {/* Info */}
-        <div className="p-3 sm:p-4 lg:p-5">
+        <div className="p-3 sm:p-4 lg:p-5" style={isWomen ? { background: 'linear-gradient(180deg, rgba(236,72,153,0.04) 0%, rgba(236,72,153,0.08) 100%)' } : undefined}>
           <div className="flex items-start justify-between gap-1 sm:gap-2">
             <div className="flex-1 min-w-0">
               <p className="text-[9px] sm:text-[10px] font-medium uppercase tracking-wider mb-0.5 sm:mb-1" style={{ color: 'var(--text-muted)' }}>
                 {getCategoryLabel(product.category)}
               </p>
-              <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-wide leading-tight line-clamp-2 transition-colors duration-300" style={{ color: 'var(--text-primary)', '--hover-c': 'var(--color-primary)' } as React.CSSProperties}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
+              <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-wide leading-tight line-clamp-2 transition-colors duration-300" style={{ color: 'var(--text-primary)' } as React.CSSProperties}
+                onMouseEnter={(e) => (e.currentTarget.style.color = isWomen ? '#ec4899' : 'var(--color-primary)')}
                 onMouseLeave={(e) => (e.currentTarget.style.color = '')}
               >
                 {product.name}
@@ -177,7 +184,7 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
                 key={star}
                 size={10}
                 className={`${star <= 4 ? '' : 'stroke-white/20'}`}
-                style={star <= 4 ? { fill: 'var(--color-primary)', stroke: 'var(--color-primary)' } : undefined}
+                style={star <= 4 ? { fill: isWomen ? '#ec4899' : 'var(--color-primary)', stroke: isWomen ? '#ec4899' : 'var(--color-primary)' } : undefined}
               />
             ))}
             <span className="text-[9px] sm:text-[10px] ml-1" style={{ color: 'var(--text-muted)' }}>({product.popularity})</span>
@@ -185,7 +192,7 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
 
           {/* Price */}
           <div className="flex items-center gap-1.5 sm:gap-2 mt-2 sm:mt-3">
-            <span className="text-base sm:text-lg font-black" style={{ color: 'var(--color-primary)' }}>
+            <span className="text-base sm:text-lg font-black" style={{ color: isWomen ? '#ec4899' : 'var(--color-primary)' }}>
               {formatPrice(product.price)}
             </span>
             {product.originalPrice && (
@@ -202,7 +209,7 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
                 <span
                   key={size}
                   className="px-1.5 sm:px-2 py-0.5 text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest rounded-md"
-                  style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-muted)' }}
+                  style={{ border: isWomen ? '1px solid rgba(236,72,153,0.15)' : '1px solid var(--border-subtle)', color: 'var(--text-muted)' }}
                 >
                   {size}
                 </span>
