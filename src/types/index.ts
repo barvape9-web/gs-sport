@@ -86,6 +86,28 @@ export interface SiteTheme {
   isDarkMode: boolean;
 }
 
+export interface ChatConversation {
+  id: string;
+  userId: string;
+  user?: User;
+  subject: string;
+  isOpen: boolean;
+  messages: ChatMessage[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  conversationId: string;
+  senderId: string;
+  sender?: User;
+  content: string;
+  isAdmin: boolean;
+  isRead: boolean;
+  createdAt: string;
+}
+
 export interface AnalyticsData {
   revenue: {
     daily: number;

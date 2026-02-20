@@ -17,6 +17,7 @@ import {
   Shield,
   ChevronRight,
   Sparkles,
+  MessageCircle,
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 
@@ -25,6 +26,7 @@ const navItems = [
   { href: '/admin/products', label: 'Products', icon: Package, color: '#3b82f6' },
   { href: '/admin/orders', label: 'Orders', icon: ShoppingCart, color: '#10b981' },
   { href: '/admin/users', label: 'Users', icon: Users, color: '#8b5cf6' },
+  { href: '/admin/chat', label: 'Chat', icon: MessageCircle, color: '#f59e0b' },
   { href: '/admin/analytics', label: 'Analytics', icon: TrendingUp, color: '#ec4899' },
   { href: '/admin/theme', label: 'Theme', icon: Palette, color: '#06b6d4' },
 ];
