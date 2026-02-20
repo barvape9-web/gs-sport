@@ -31,7 +31,7 @@ export default function HomePage() {
   }
 
   return (
-    <main>
+    <main className="bg-zinc-950">
       <Navbar />
       <Hero />
       <CategoryShowcase />

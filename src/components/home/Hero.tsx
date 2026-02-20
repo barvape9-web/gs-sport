@@ -26,7 +26,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
+      className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-zinc-950"
     >
       {/* 3D Background */}
       <div className="absolute inset-0 z-0">
@@ -36,6 +36,9 @@ export default function Hero() {
       {/* Grid overlay */}
       <div className="absolute inset-0 grid-bg z-0 opacity-60" />
 
+      {/* Dark gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70 z-0 pointer-events-none" />
+
       {/* Gradient radial — stronger glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(900px,90vw)] h-[min(900px,90vw)] rounded-full bg-[#f97316]/10 blur-[150px] pointer-events-none z-0" />
       <div className="absolute top-0 right-0 w-[min(500px,60vw)] h-[min(500px,60vw)] rounded-full bg-purple-500/10 blur-[100px] pointer-events-none z-0" />
@@ -43,17 +46,19 @@ export default function Hero() {
 
       <motion.div
         style={{ y, opacity }}
-        className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center"
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center"
       >
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-8"
+          className="inline-flex items-center gap-2 glass px-4 py-2 rounded-lg mb-10"
         >
           <span className="w-2 h-2 rounded-full bg-[#f97316] animate-pulse" />
-          <span className="text-sm text-white/70 font-medium">New Season Collection 2026</span>
+          <span className="text-xs sm:text-sm text-white/70 font-semibold uppercase tracking-[0.2em]">
+            New Season Collection 2026
+          </span>
           <ArrowRight size={14} className="text-[#f97316]" />
         </motion.div>
 
@@ -62,11 +67,10 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-none tracking-tighter mb-6"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[0.95] tracking-tight mb-6 uppercase"
         >
-          <span className="block text-white">Elevate Your</span>
-          <span className="block gradient-text glow-text">Performance</span>
-          <span className="block text-white/90">Game</span>
+          <span className="block text-white">Unleash</span>
+          <span className="block gradient-text glow-text">Your Power</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -74,10 +78,9 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-base sm:text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed px-2"
+          className="text-base sm:text-lg text-white/60 max-w-xl mx-auto mb-10 leading-relaxed"
         >
-          Premium sportswear engineered for athletes who demand excellence. Discover the GS • Sport
-          collection — where performance meets style.
+          Premium sportswear engineered for peak performance.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -85,13 +88,13 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-12 sm:mb-16 px-4"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-12 sm:mb-16"
         >
           <Link href="/products">
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(249, 115, 22, 0.4)' }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(249, 115, 22, 0.35)' }}
               whileTap={{ scale: 0.95 }}
-              className="btn-primary px-10 py-4 rounded-full text-lg font-bold text-white flex items-center gap-2 group"
+              className="btn-primary px-10 py-4 rounded-lg text-base sm:text-lg font-semibold uppercase tracking-widest text-white flex items-center gap-2 group transition-all duration-300"
             >
               Shop Collection
               <motion.span
@@ -107,7 +110,7 @@ export default function Hero() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-4 rounded-full text-lg font-semibold text-white glass hover:border-[#f97316]/30 transition-all"
+              className="px-10 py-4 rounded-lg text-base sm:text-lg font-semibold uppercase tracking-widest text-white glass hover:border-[#f97316]/30 transition-all duration-300"
             >
               Women&apos;s Collection
             </motion.button>

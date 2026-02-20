@@ -47,7 +47,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center relative overflow-hidden px-4">
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center relative overflow-hidden px-4">
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(800px,90vw)] h-[min(800px,90vw)] bg-[#f97316]/4 rounded-full blur-[120px] pointer-events-none" />
@@ -70,30 +70,34 @@ export default function LoginPage() {
         className="w-full max-w-md relative"
       >
         {/* Card */}
-        <div className="glass-card p-8 sm:p-10">
+        <div className="glass-card p-8 sm:p-10 border border-white/10">
           {/* Logo */}
           <div className="text-center mb-8">
             <Link href="/">
-              <span className="text-3xl font-black">
+              <span className="text-3xl font-black uppercase tracking-tight">
                 <span className="text-white">GS</span>
                 <span className="text-[#f97316]"> •</span>
                 <span className="text-white"> Sport</span>
               </span>
             </Link>
-            <h1 className="text-2xl font-bold text-white mt-4">Welcome back</h1>
-            <p className="text-white/40 text-sm mt-1">Sign in to your account</p>
+            <h1 className="text-2xl font-extrabold uppercase tracking-wide text-white mt-4">
+              Welcome back
+            </h1>
+            <p className="text-white/40 text-sm mt-1">Sign in to continue</p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">Email</label>
+              <label className="block text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">
+                Email
+              </label>
               <input
                 {...register('email')}
                 type="email"
                 placeholder="you@example.com"
-                className="w-full input-glass px-4 py-3 rounded-xl text-sm"
+                className="w-full input-glass px-4 py-3 rounded-lg text-sm focus:ring-2 focus:ring-[#f97316]/25"
               />
               {errors.email && (
                 <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
@@ -102,13 +106,15 @@ export default function LoginPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-2">Password</label>
+              <label className="block text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">
+                Password
+              </label>
               <div className="relative">
                 <input
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
-                  className="w-full input-glass px-4 py-3 rounded-xl text-sm pr-12"
+                  className="w-full input-glass px-4 py-3 rounded-lg text-sm pr-12 focus:ring-2 focus:ring-[#f97316]/25"
                 />
                 <button
                   type="button"
@@ -136,7 +142,7 @@ export default function LoginPage() {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={isLoading}
-              className="w-full btn-primary py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full btn-primary py-3.5 rounded-lg font-semibold uppercase tracking-widest text-white flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {isLoading ? (
                 <Loader2 size={18} className="animate-spin" />
@@ -159,8 +165,10 @@ export default function LoginPage() {
             </div>
 
             {/* Demo accounts */}
-            <div className="glass rounded-xl p-4 text-xs text-white/40 space-y-1">
-              <p className="font-semibold text-white/60 mb-2">Demo Accounts:</p>
+            <div className="glass rounded-lg p-4 text-xs text-white/40 space-y-1 border border-white/10">
+              <p className="font-semibold uppercase tracking-widest text-white/60 mb-2">
+                Demo Accounts
+              </p>
               <p>Admin: admin@gs-sport.com / admin123</p>
               <p>User: user@gs-sport.com / user123</p>
             </div>

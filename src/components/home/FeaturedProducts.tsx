@@ -39,7 +39,7 @@ export default function FeaturedProducts() {
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute top-0 right-0 w-[min(500px,90vw)] h-[min(500px,90vw)] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-6">
           <motion.div
@@ -90,7 +90,7 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
             >
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="glass-card aspect-[3/4] shimmer rounded-2xl" />
@@ -102,7 +102,7 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
             >
               {filteredProducts.map((product, i) => (
                 <motion.div

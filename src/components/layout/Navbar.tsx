@@ -48,12 +48,12 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-2xl'
-            : 'bg-transparent'
+            ? 'bg-zinc-950/95 backdrop-blur-xl border-b border-white/10 shadow-2xl'
+            : 'bg-zinc-950/60 backdrop-blur-md'
         }`}
       >
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
               <motion.div
@@ -61,7 +61,7 @@ export default function Navbar() {
                 whileTap={{ scale: 0.95 }}
                 className="relative"
               >
-                <span className="text-2xl font-black tracking-tight">
+                <span className="text-xl sm:text-2xl font-extrabold tracking-[0.12em] uppercase">
                   <span className="text-white">GS</span>
                   <span className="text-[#f97316]"> •</span>
                   <span className="text-white"> Sport</span>
@@ -76,7 +76,7 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-2">
               {navLinks.map((link) => (
                 <div
                   key={link.href}
@@ -86,10 +86,10 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    className={`group relative flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-semibold uppercase tracking-widest transition-all duration-300 ${
                       pathname === link.href
-                        ? 'text-[#f97316]'
-                        : 'text-white/70 hover:text-white hover:bg-white/5'
+                        ? 'text-white'
+                        : 'text-white/70 hover:text-white'
                     }`}
                   >
                     {link.label}
@@ -101,6 +101,11 @@ export default function Navbar() {
                         }`}
                       />
                     )}
+                    <span
+                      className={`pointer-events-none absolute left-3 right-3 -bottom-0.5 h-px origin-left scale-x-0 bg-gradient-to-r from-[#f97316] via-[#f97316]/60 to-transparent transition-transform duration-300 group-hover:scale-x-100 ${
+                        pathname === link.href ? 'scale-x-100' : ''
+                      }`}
+                    />
                   </Link>
 
                   {/* Dropdown */}
@@ -111,13 +116,13 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute top-full left-0 mt-2 w-52 glass-card p-2 shadow-2xl"
+                        className="absolute top-full left-0 mt-3 w-56 glass-card p-2 shadow-2xl"
                       >
                         {link.sublinks.map((sub) => (
                           <Link
                             key={sub.href}
                             href={sub.href}
-                            className="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200"
+                            className="block px-4 py-3 text-xs font-semibold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300"
                           >
                             {sub.label}
                           </Link>
@@ -134,7 +139,7 @@ export default function Navbar() {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 text-white/70 hover:text-white transition-colors"
+                className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300"
               >
                 <Search size={20} />
               </motion.button>
@@ -144,7 +149,7 @@ export default function Navbar() {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={toggleCart}
-                className="relative p-2 text-white/70 hover:text-white transition-colors"
+                className="relative p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300"
               >
                 <ShoppingBag size={20} />
                 {totalItems > 0 && (
@@ -199,7 +204,7 @@ export default function Navbar() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="hidden sm:flex items-center gap-2 px-4 py-2 btn-primary rounded-full text-sm font-semibold text-white"
+                    className="hidden sm:flex items-center gap-2 px-4 py-2 btn-primary rounded-lg text-xs font-semibold uppercase tracking-widest text-white"
                   >
                     <User size={16} />
                     Sign In
@@ -210,7 +215,7 @@ export default function Navbar() {
               {/* Mobile toggle */}
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                className="md:hidden p-2 text-white/70 hover:text-white"
+                className="md:hidden p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300"
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
               >
                 {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -226,7 +231,7 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/10"
+              className="md:hidden bg-zinc-950/95 backdrop-blur-xl border-t border-white/10"
             >
               <div className="px-4 py-4 space-y-1">
                 {navLinks.map((link) => (

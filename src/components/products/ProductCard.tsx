@@ -40,15 +40,15 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <motion.div
-      whileHover={{ y: -8 }}
+      whileHover={{ y: -6, scale: 1.03 }}
       transition={{ duration: 0.3 }}
-      className="product-card glass-card group cursor-pointer overflow-hidden"
+      className="product-card group cursor-pointer overflow-hidden rounded-xl bg-zinc-900/70 border border-white/5 shadow-lg hover:shadow-2xl transition-all duration-300"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
       <Link href={`/products/${product.id}`}>
         {/* Image container */}
-        <div className="relative aspect-[3/4] overflow-hidden rounded-t-xl bg-gradient-to-br from-white/5 to-white/10">
+        <div className="relative aspect-[3/4] overflow-hidden rounded-t-xl bg-gradient-to-br from-zinc-900 via-zinc-900 to-black">
           {product.images?.[0] ? (
             <Image
               src={product.images[0]}
@@ -73,13 +73,13 @@ export default function ProductCard({ product }: ProductCardProps) {
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-1.5">
             {product.isFeatured && (
-              <span className="px-2 py-1 bg-[#f97316] text-white text-[10px] font-bold rounded-full flex items-center gap-1">
+              <span className="px-2 py-1 bg-[#f97316] text-white text-[10px] font-extrabold rounded-md flex items-center gap-1 uppercase tracking-widest">
                 <Zap size={10} />
                 HOT
               </span>
             )}
             {discount > 0 && (
-              <span className="px-2 py-1 bg-red-500 text-white text-[10px] font-bold rounded-full">
+              <span className="px-2 py-1 bg-red-500 text-white text-[10px] font-extrabold rounded-md uppercase tracking-widest">
                 -{discount}%
               </span>
             )}
@@ -88,7 +88,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           {/* Gender badge */}
           <div className="absolute top-3 right-3">
             <span
-              className={`px-2 py-1 text-[10px] font-bold rounded-full ${
+              className={`px-2 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-widest ${
                 product.gender === 'MEN'
                   ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
                   : product.gender === 'WOMEN'
@@ -111,7 +111,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleAddToCart}
-              className="flex-1 btn-primary py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1"
+              className="flex-1 btn-primary py-2.5 rounded-lg text-xs font-semibold uppercase tracking-widest text-white flex items-center justify-center gap-2 transition-all duration-300"
             >
               <ShoppingBag size={14} />
               Add to Cart
@@ -119,7 +119,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 glass rounded-xl flex items-center justify-center"
+              className="w-10 h-10 glass rounded-lg flex items-center justify-center"
             >
               <Eye size={14} className="text-white/70" />
             </motion.button>
@@ -127,13 +127,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Info */}
-        <div className="p-4">
+        <div className="p-5">
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1 min-w-0">
               <p className="text-[10px] text-white/40 font-medium uppercase tracking-wider mb-1">
                 {getCategoryLabel(product.category)}
               </p>
-              <h3 className="text-sm font-bold text-white leading-tight line-clamp-2 group-hover:text-[#f97316] transition-colors">
+              <h3 className="text-sm font-extrabold uppercase tracking-wide text-white leading-tight line-clamp-2 group-hover:text-[#f97316] transition-colors duration-300">
                 {product.name}
               </h3>
             </div>
@@ -183,7 +183,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               {product.sizes.slice(0, 4).map((size) => (
                 <span
                   key={size}
-                  className="px-1.5 py-0.5 text-[9px] font-bold border border-white/10 rounded text-white/40"
+                  className="px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-widest border border-white/10 rounded-md text-white/40"
                 >
                   {size}
                 </span>

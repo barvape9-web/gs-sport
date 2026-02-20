@@ -22,14 +22,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.variable} antialiased bg-[#0a0a0a] text-white`}>
+      <body
+        className={`${inter.variable} antialiased bg-zinc-950 text-white min-h-screen overflow-x-hidden`}
+      >
         <Providers>
           {children}
           <Toaster
@@ -41,12 +39,8 @@ export default function RootLayout({
                 border: "1px solid rgba(249, 115, 22, 0.3)",
                 backdropFilter: "blur(20px)",
               },
-              success: {
-                iconTheme: { primary: "#f97316", secondary: "#fff" },
-              },
-              error: {
-                iconTheme: { primary: "#ef4444", secondary: "#fff" },
-              },
+              success: { iconTheme: { primary: "#f97316", secondary: "#fff" } },
+              error: { iconTheme: { primary: "#ef4444", secondary: "#fff" } },
             }}
           />
         </Providers>

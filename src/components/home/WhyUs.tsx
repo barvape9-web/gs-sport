@@ -50,7 +50,7 @@ export default function WhyUs() {
       {/* Decorative orb */}
       <div className="absolute bottom-0 left-0 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
