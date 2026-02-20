@@ -163,25 +163,32 @@ export default function AdminProductsPage() {
 
     setIsLoading(true);
     try {
+      /* ── Upload images (graceful — skip if fails) ── */
       let uploadedUrls: string[] = [];
       if (imageFiles.length > 0) {
         setIsUploading(true);
         for (const file of imageFiles) {
-          const fd = new FormData();
-          fd.append('image', file);
-          const res = await axios.post('/api/upload', fd);
-          uploadedUrls.push(res.data.url);
+          try {
+            const fd = new FormData();
+            fd.append('image', file);
+            const res = await axios.post('/api/upload', fd);
+            uploadedUrls.push(res.data.url);
+          } catch (uploadErr: unknown) {
+            const msg = axios.isAxiosError(uploadErr)
+              ? uploadErr.response?.data?.error
+              : 'Upload failed';
+            toast.error(msg || `Failed to upload ${file.name}`);
+          }
         }
         setIsUploading(false);
       }
 
       const allImages = [...existingImages, ...uploadedUrls];
 
-      const payload = {
+      const payload: Record<string, unknown> = {
         name: form.name,
         description: form.description,
         price: parseFloat(form.price),
-        originalPrice: form.originalPrice ? parseFloat(form.originalPrice) : undefined,
         stock: parseInt(form.stock) || 0,
         sizes: form.sizes.split(',').map((s) => s.trim()).filter(Boolean),
         colors: form.colors.split(',').map((c) => c.trim()).filter(Boolean),
@@ -190,6 +197,13 @@ export default function AdminProductsPage() {
         isFeatured: form.isFeatured,
         images: allImages,
       };
+
+      // Send originalPrice as null (not undefined) so Prisma clears it
+      if (form.originalPrice && parseFloat(form.originalPrice) > 0) {
+        payload.originalPrice = parseFloat(form.originalPrice);
+      } else {
+        payload.originalPrice = null;
+      }
 
       if (editingProduct) {
         const res = await axios.put(`/api/products/${editingProduct.id}`, payload);
