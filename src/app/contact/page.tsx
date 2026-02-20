@@ -21,8 +21,8 @@ export default function ContactPage() {
   const { t } = useTranslation();
 
   const contactInfo = [
-    { icon: Mail, label: t('contact.email'), value: 'sardlishviligiorgi0@gmail.com', color: 'var(--color-primary)' },
-    { icon: Phone, label: t('contact.phone'), value: '+995 557781251', color: '#3b82f6' },
+    { icon: Mail, label: t('contact.email'), value: 'sardlishviligiorgi0@gmail.com', color: 'var(--color-primary)', href: 'mailto:sardlishviligiorgi0@gmail.com' },
+    { icon: Phone, label: t('contact.phone'), value: '+995 557781251', color: '#3b82f6', href: 'tel:+995557781251' },
     { icon: Instagram, label: t('contact.instagram'), value: '@_g_s_s_p_o_r_t_', color: '#e1306c', href: 'https://www.instagram.com/_g_s_s_p_o_r_t_/', extraGap: true },
     { icon: Clock, label: t('contact.supportHours'), value: t('contact.onlineSupport'), color: '#8b5cf6' },
   ];

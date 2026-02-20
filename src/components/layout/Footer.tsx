@@ -104,13 +104,13 @@ export default function Footer() {
         {/* Contact info */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
           {[
-            { icon: Mail, text: 'sardlishviligiorgi0@gmail.com' },
-            { icon: Phone, text: '+995 557781251' },
-          ].map(({ icon: Icon, text }) => (
-            <div key={text} className="flex items-center gap-3 glass-card px-4 py-3">
+            { icon: Mail, text: 'sardlishviligiorgi0@gmail.com', href: 'mailto:sardlishviligiorgi0@gmail.com' },
+            { icon: Phone, text: '+995 557781251', href: 'tel:+995557781251' },
+          ].map(({ icon: Icon, text, href }) => (
+            <a key={text} href={href} className="flex items-center gap-3 glass-card px-4 py-3 hover:scale-[1.02] transition-transform cursor-pointer">
               <Icon size={16} style={{ color: 'var(--color-primary)' }} />
               <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{text}</span>
-            </div>
+            </a>
           ))}
         </div>
 
