@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, ChevronDown, Eye, Edit, Loader2, Check, ShoppingCart, X, Package } from 'lucide-react';
+import { Search, Filter, ChevronDown, Eye, Edit, Loader2, Check, ShoppingCart, X, Package, Phone } from 'lucide-react';
 import { Order, OrderStatus } from '@/types';
 import { formatPrice, formatDate, getOrderStatusColor } from '@/lib/utils';
 import toast from 'react-hot-toast';
@@ -386,6 +386,14 @@ export default function AdminOrdersPage() {
                         {selectedOrder.address.city}, {selectedOrder.address.state} {selectedOrder.address.postalCode}<br />
                         {selectedOrder.address.country}
                       </p>
+                      {selectedOrder.address.phone && (
+                        <div className="flex items-center gap-2 mt-3 pt-3" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                          <Phone size={13} style={{ color: 'var(--color-primary)' }} />
+                          <a href={`tel:${selectedOrder.address.phone}`} className="text-sm font-semibold hover:underline" style={{ color: 'var(--color-primary)' }}>
+                            {selectedOrder.address.phone}
+                          </a>
+                        </div>
+                      )}
                     </div>
                   )}
 
