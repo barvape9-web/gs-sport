@@ -194,7 +194,7 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                 rotateX: { duration: 1.2, ease: 'easeOut' as const },
                 y: { duration: 4, repeat: Infinity, ease: 'easeInOut' as const, delay: 1.5 },
               }}
-              className="relative mb-6"
+              className="relative mb-2"
               style={{ perspective: '800px' }}
             >
               {/* Glow layers behind image */}
