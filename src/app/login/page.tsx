@@ -161,12 +161,21 @@ export default function LoginPage() {
           </form>
 
           {/* Sign up link */}
-          <p className="text-center text-sm mt-6" style={{ color: 'var(--text-muted)' }}>
-            {t('login.noAccount')}{' '}
-            <Link href="/register" className="font-semibold" style={{ color: 'var(--color-primary)' }}>
-              {t('login.createOne')}
+          <div className="text-center mt-8 pt-6" style={{ borderTop: '1px solid color-mix(in srgb, var(--color-primary) 15%, transparent)' }}>
+            <p className="text-sm mb-3" style={{ color: 'var(--text-muted)' }}>
+              {t('login.noAccount')}
+            </p>
+            <Link href="/register">
+              <motion.span
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-block text-lg sm:text-xl font-bold tracking-wide transition-all"
+                style={{ color: 'var(--color-primary)' }}
+              >
+                {t('login.createOne')}
+              </motion.span>
             </Link>
-          </p>
+          </div>
         </div>
       </motion.div>
     </div>

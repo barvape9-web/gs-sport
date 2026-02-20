@@ -9,6 +9,7 @@ import { useTranslation } from '@/lib/useTranslation';
 interface ProductFiltersProps {
   filters: IProductFilters;
   onFiltersChange: (filters: IProductFilters) => void;
+  onClose?: () => void;
 }
 
 const categories: { value: Category; label: string }[] = [
@@ -19,7 +20,7 @@ const categories: { value: Category; label: string }[] = [
   { value: 'ACCESSORIES', label: getCategoryLabel('ACCESSORIES') },
 ];
 
-export default function ProductFilters({ filters, onFiltersChange }: ProductFiltersProps) {
+export default function ProductFilters({ filters, onFiltersChange, onClose }: ProductFiltersProps) {
   const { t } = useTranslation();
 
   const genders: { value: Gender; label: string }[] = [
@@ -66,7 +67,7 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
             <motion.button
               key={value}
               whileHover={{ x: 4 }}
-              onClick={() => update('gender', value)}
+              onClick={() => { update('gender', value); onClose?.(); }}
               className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
                 filters.gender === value
                   ? 'border'
@@ -93,7 +94,7 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
             <motion.button
               key={value}
               whileHover={{ x: 4 }}
-              onClick={() => update('category', value)}
+              onClick={() => { update('category', value); onClose?.(); }}
               className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
                 filters.category === value
                   ? 'border'

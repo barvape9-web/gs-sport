@@ -211,7 +211,7 @@ function ProductsPageInner() {
                     >
                       <X size={16} style={{ color: 'var(--text-muted)' }} />
                     </button>
-                    <ProductFilters filters={filters} onFiltersChange={setFilters} />
+                    <ProductFilters filters={filters} onFiltersChange={setFilters} onClose={() => setShowFilters(false)} />
                   </motion.div>
                 </>
               )}
