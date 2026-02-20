@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, User, Menu, X, ChevronDown, Search, Shield } from 'lucide-react';
+import { ShoppingBag, User, Menu, X, ChevronDown, Shield } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 import CartDrawer from '@/components/cart/CartDrawer';
@@ -29,6 +29,7 @@ export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [onlineCount, setOnlineCount] = useState(0);
   const { getTotalItems, toggleCart } = useCartStore();
   const { user, logout } = useAuthStore();
 
@@ -36,6 +37,20 @@ export default function Navbar() {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Simulated live user counter
+  useEffect(() => {
+    const randomBetween = (min: number, max: number) =>
+      Math.floor(Math.random() * (max - min + 1)) + min;
+    setOnlineCount(randomBetween(5, 50));
+    const interval = setInterval(() => {
+      setOnlineCount((prev) => {
+        const delta = randomBetween(-3, 3);
+        return Math.max(5, Math.min(50, prev + delta));
+      });
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const totalItems = getTotalItems();
@@ -142,14 +157,33 @@ export default function Navbar() {
 
             {/* Actions */}
             <div className="flex items-center gap-2">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="p-2 rounded-lg transition-all duration-300"
-                style={{ color: 'var(--text-secondary)' }}
-              >
-                <Search size={20} />
-              </motion.button>
+              {/* Live Counter */}
+              {onlineCount > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border"
+                  style={{
+                    borderColor: 'color-mix(in srgb, #22c55e 25%, transparent)',
+                    backgroundColor: 'color-mix(in srgb, #22c55e 6%, transparent)',
+                  }}
+                >
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                  </span>
+                  <motion.span
+                    key={onlineCount}
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-[11px] font-semibold tracking-wide"
+                    style={{ color: '#4ade80' }}
+                  >
+                    Online: {onlineCount}
+                  </motion.span>
+                </motion.div>
+              )}
 
               {/* Cart */}
               <motion.button
