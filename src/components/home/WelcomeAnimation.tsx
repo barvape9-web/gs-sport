@@ -97,18 +97,23 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
               transition={{ duration: 0.6, ease: 'easeOut' }}
               className="text-center"
             >
-              <div className="flex items-center gap-3 mb-2">
+              <motion.div
+                initial={{ x: -80, opacity: 0 }}
+                animate={stage >= 2 ? { x: 0, opacity: 1 } : {}}
+                transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
+                className="flex items-center justify-center gap-3 mb-2"
+              >
                 <motion.div
                   initial={{ width: 0 }}
                   animate={stage >= 2 ? { width: '40px' } : {}}
-                  transition={{ duration: 0.4, delay: 0.2 }}
+                  transition={{ duration: 0.4, delay: 0.3 }}
                   className="h-px"
                   style={{ backgroundImage: 'linear-gradient(to right, transparent, var(--color-primary))' }}
                 />
                 <motion.span
                   initial={{ opacity: 0, letterSpacing: '0.5em' }}
                   animate={stage >= 2 ? { opacity: 1, letterSpacing: '0.3em' } : {}}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-xs font-bold uppercase tracking-[0.3em]"
                   style={{ color: 'var(--color-primary)' }}
                 >
@@ -117,11 +122,11 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                 <motion.div
                   initial={{ width: 0 }}
                   animate={stage >= 2 ? { width: '40px' } : {}}
-                  transition={{ duration: 0.4, delay: 0.2 }}
+                  transition={{ duration: 0.4, delay: 0.3 }}
                   className="h-px"
                   style={{ backgroundImage: 'linear-gradient(to left, transparent, var(--color-primary))' }}
                 />
-              </div>
+              </motion.div>
 
               <motion.h1
                 initial={{ opacity: 0, scale: 0.8 }}
