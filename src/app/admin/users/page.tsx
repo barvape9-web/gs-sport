@@ -83,18 +83,18 @@ export default function AdminUsersPage() {
             <Users size={18} style={{ color: '#8b5cf6', filter: 'drop-shadow(0 2px 4px rgba(139,92,246,0.4))' }} />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-white">Users</h1>
-            <p className="text-white/35 text-sm">{users.length} registered users</p>
+            <h1 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>Users</h1>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{users.length} registered users</p>
           </div>
         </div>
         <div className="flex gap-3">
           <motion.div whileHover={{ y: -2 }} className="admin-stat-card !p-3 text-center" style={{ '--card-glow': 'rgba(249,115,22,0.1)' } as React.CSSProperties}>
             <p className="text-lg font-black text-[#f97316]">{users.filter((u) => u.role === 'ADMIN').length}</p>
-            <p className="text-[10px] text-white/25 uppercase tracking-wider font-bold">Admins</p>
+            <p className="text-[10px] uppercase tracking-wider font-bold" style={{ color: 'var(--text-muted)' }}>Admins</p>
           </motion.div>
           <motion.div whileHover={{ y: -2 }} className="admin-stat-card !p-3 text-center" style={{ '--card-glow': 'rgba(59,130,246,0.1)' } as React.CSSProperties}>
             <p className="text-lg font-black text-blue-400">{users.filter((u) => u.role === 'USER').length}</p>
-            <p className="text-[10px] text-white/25 uppercase tracking-wider font-bold">Users</p>
+            <p className="text-[10px] uppercase tracking-wider font-bold" style={{ color: 'var(--text-muted)' }}>Users</p>
           </motion.div>
         </div>
       </div>
@@ -159,13 +159,13 @@ export default function AdminUsersPage() {
                       <span className="text-xs font-black" style={{ color: colors[idx % colors.length] }}>{initials(user.name)}</span>
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-white">{user.name || 'Unknown'}</p>
-                      <p className="text-xs text-white/30">{user.email}</p>
+                      <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{user.name || 'Unknown'}</p>
+                      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{user.email}</p>
                     </div>
                   </div>
                 </td>
                 <td className="hidden md:table-cell">
-                  <span className="text-xs text-white/40">{formatDate(user.createdAt)}</span>
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{formatDate(user.createdAt)}</span>
                 </td>
                 <td>
                   <span
@@ -213,7 +213,7 @@ export default function AdminUsersPage() {
         </table>
         </div>
         {filtered.length === 0 && (
-          <div className="py-16 text-center text-white/30">
+          <div className="py-16 text-center" style={{ color: 'var(--text-muted)' }}>
             <p>No users found</p>
           </div>
         )}

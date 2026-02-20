@@ -33,7 +33,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-black border-t border-white/5 overflow-hidden">
+    <footer className="relative overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-subtle)' }}>
       {/* Background decoration */}
       <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full pointer-events-none" style={{ backgroundImage: 'linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 30%, transparent), transparent, transparent)' }} />
@@ -45,18 +45,18 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-6">
               <span className="text-3xl font-black">
-                <span className="text-white">GS</span>
+                <span style={{ color: 'var(--text-primary)' }}>GS</span>
                 <span style={{ color: 'var(--color-primary)' }}> •</span>
-                <span className="text-white"> Sport</span>
+                <span style={{ color: 'var(--text-primary)' }}> Sport</span>
               </span>
             </Link>
-            <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-xs">
+            <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: 'var(--text-muted)' }}>
               Premium sportswear engineered for peak performance. Elevate your game with GS • Sport.
             </p>
 
             {/* Newsletter */}
             <div className="glass-card p-4">
-              <p className="text-sm font-semibold text-white mb-3">Stay Updated</p>
+              <p className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Stay Updated</p>
               <div className="flex gap-2">
                 <input
                   type="email"
@@ -77,7 +77,7 @@ export default function Footer() {
           {/* Links */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">
+              <h3 className="text-sm font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--text-primary)' }}>
                 {category}
               </h3>
               <ul className="space-y-2.5">
@@ -85,8 +85,8 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/50 hover:text-white transition-colors duration-200"
-                      style={{ '--hover-color': 'var(--color-primary)' } as React.CSSProperties}
+                      className="text-sm transition-colors duration-200"
+                      style={{ color: 'var(--text-muted)', '--hover-color': 'var(--color-primary)' } as React.CSSProperties}
                       onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                     >
@@ -108,14 +108,14 @@ export default function Footer() {
           ].map(({ icon: Icon, text }) => (
             <div key={text} className="flex items-center gap-3 glass-card px-4 py-3">
               <Icon size={16} style={{ color: 'var(--color-primary)' }} />
-              <span className="text-sm text-white/50">{text}</span>
+              <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{text}</span>
             </div>
           ))}
         </div>
 
         {/* Bottom */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/5">
-          <p className="text-xs text-white/30">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
             © {new Date().getFullYear()} GS • Sport. All rights reserved.
           </p>
 
@@ -126,7 +126,8 @@ export default function Footer() {
                 href={href}
                 whileHover={{ scale: 1.2 }}
                 aria-label={label}
-                className="text-white/30 transition-colors"
+                className="transition-colors"
+                style={{ color: 'var(--text-muted)' }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
                 onMouseLeave={(e) => (e.currentTarget.style.color = '')}
               >
@@ -135,7 +136,7 @@ export default function Footer() {
             ))}
           </div>
 
-          <div className="flex gap-4 text-xs text-white/30">
+          <div className="flex gap-4 text-xs" style={{ color: 'var(--text-muted)' }}>
             <Link href="/privacy" className="hover:text-white/60 transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-white/60 transition-colors">Terms</Link>
           </div>

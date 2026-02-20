@@ -47,7 +47,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center relative overflow-hidden px-4">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden px-4" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(800px,90vw)] h-[min(800px,90vw)] rounded-full blur-[120px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 4%, transparent)' }} />

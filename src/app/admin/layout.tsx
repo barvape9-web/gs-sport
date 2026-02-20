@@ -60,7 +60,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] flex relative">
+    <div className="min-h-screen flex relative" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Mesh gradient background */}
       <div className="admin-mesh-bg" />
 
@@ -71,26 +71,26 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }`}
       >
         {/* Logo */}
-        <div className="p-6 border-b border-white/5">
+        <div className="p-6" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
           <Link href="/admin" className="flex items-center gap-3 group">
             <motion.div
               whileHover={{ rotate: [0, -10, 10, 0] }}
               transition={{ duration: 0.5 }}
               className="icon-3d w-11 h-11"
               style={{
-                background: 'linear-gradient(135deg, #f97316, #ea580c)',
-                boxShadow: '0 4px 15px rgba(249,115,22,0.3), 0 8px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2)',
+                background: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))',
+                boxShadow: '0 4px 15px color-mix(in srgb, var(--color-primary) 30%, transparent), 0 8px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2)',
               }}
             >
               <Shield size={20} className="text-white" />
             </motion.div>
             <div>
-              <span className="font-black text-white text-sm tracking-wide group-hover:text-[#f97316] transition-colors">
+              <span className="font-black text-sm tracking-wide transition-colors" style={{ color: 'var(--text-primary)' }}>
                 GS • Sport
               </span>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <Sparkles size={9} className="text-[#f97316]" />
-                <p className="text-[10px] text-white/30 font-medium">Admin Panel</p>
+                <Sparkles size={9} style={{ color: 'var(--color-primary)' }} />
+                <p className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>Admin Panel</p>
               </div>
             </div>
           </Link>
@@ -98,7 +98,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Nav */}
         <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-white/20 font-bold px-3 mb-3">
+          <p className="text-[9px] uppercase tracking-[0.2em] font-bold px-3 mb-3" style={{ color: 'var(--text-muted)' }}>
             Navigation
           </p>
           {navItems.map(({ href, label, icon: Icon, color, exact }) => {
@@ -108,7 +108,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <motion.div
                   whileHover={{ x: 4 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`admin-nav-item ${active ? 'active' : 'text-white/45 hover:text-white/80'}`}
+                  className={`admin-nav-item ${active ? 'active' : ''}`}
                 >
                   <Icon3D icon={Icon} color={color} size={16} active={active} />
                   <span className="relative z-10 font-medium">{label}</span>
@@ -118,7 +118,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                       className="ml-auto"
                       transition={{ type: 'spring', bounce: 0.3, duration: 0.5 }}
                     >
-                      <ChevronRight size={14} className="text-[#f97316]" />
+                      <ChevronRight size={14} style={{ color: 'var(--color-primary)' }} />
                     </motion.div>
                   )}
                 </motion.div>
@@ -128,22 +128,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* User section */}
-        <div className="p-4 border-t border-white/5">
+        <div className="p-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
           <div className="flex items-center gap-3 mb-3 px-2">
             <div className="icon-3d w-9 h-9" style={{
-              background: 'linear-gradient(135deg, #f97316, #ea580c)',
-              boxShadow: '0 4px 12px rgba(249,115,22,0.25), inset 0 1px 0 rgba(255,255,255,0.15)',
+              background: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))',
+              boxShadow: '0 4px 12px color-mix(in srgb, var(--color-primary) 25%, transparent), inset 0 1px 0 rgba(255,255,255,0.15)',
             }}>
               <span className="text-xs font-black text-white">{user?.name?.charAt(0)}</span>
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-white truncate">{user?.name}</p>
-              <p className="text-[10px] text-white/25 truncate">{user?.email}</p>
+              <p className="text-xs font-semibold truncate" style={{ color: 'var(--text-primary)' }}>{user?.name}</p>
+              <p className="text-[10px] truncate" style={{ color: 'var(--text-muted)' }}>{user?.email}</p>
             </div>
           </div>
           <div className="flex gap-2">
             <Link href="/" className="flex-1">
-              <button className="w-full py-2.5 text-xs glass rounded-xl text-white/40 hover:text-white hover:bg-white/5 transition-all font-medium">
+              <button className="w-full py-2.5 text-xs glass rounded-xl transition-all font-medium" style={{ color: 'var(--text-muted)' }}>
                 Main Site
               </button>
             </Link>
@@ -176,16 +176,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16 admin-topbar">
           <div className="flex items-center gap-4">
             <button
-              className="lg:hidden text-white/50 hover:text-white p-2 rounded-xl hover:bg-white/5 transition-all"
+              className="lg:hidden p-2 rounded-xl transition-all" style={{ color: 'var(--text-muted)' }}
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
             <div>
-              <h1 className="text-sm font-bold text-white/90">
+              <h1 className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
                 {navItems.find((n) => isActive(n))?.label || 'Admin'}
               </h1>
-              <p className="text-[10px] text-white/25 hidden sm:block">
+              <p className="text-[10px] hidden sm:block" style={{ color: 'var(--text-muted)' }}>
                 {new Date().toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
               </p>
             </div>
@@ -193,8 +193,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="flex items-center gap-3">
             <motion.span
               whileHover={{ scale: 1.05 }}
-              className="admin-badge bg-[#f97316]/10 text-[#f97316] border border-[#f97316]/20"
-              style={{ boxShadow: '0 2px 10px rgba(249,115,22,0.15)' }}
+              className="admin-badge"
+              style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 10%, transparent)', color: 'var(--color-primary)', border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)', boxShadow: '0 2px 10px color-mix(in srgb, var(--color-primary) 15%, transparent)' }}
             >
               <Shield size={10} />
               Admin

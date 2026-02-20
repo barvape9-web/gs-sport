@@ -48,9 +48,15 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'bg-zinc-950/95 backdrop-blur-xl border-b border-white/10 shadow-2xl'
-            : 'bg-zinc-950/60 backdrop-blur-md'
+            ? 'backdrop-blur-xl shadow-2xl'
+            : 'backdrop-blur-md'
         }`}
+        style={{
+          backgroundColor: isScrolled
+            ? 'color-mix(in srgb, var(--bg-primary) 95%, transparent)'
+            : 'color-mix(in srgb, var(--bg-primary) 60%, transparent)',
+          borderBottom: isScrolled ? '1px solid var(--glass-border)' : 'none',
+        }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
@@ -62,9 +68,9 @@ export default function Navbar() {
                 className="relative"
               >
                 <span className="text-xl sm:text-2xl font-extrabold tracking-[0.12em] uppercase">
-                  <span className="text-white">GS</span>
+                  <span style={{ color: 'var(--text-primary)' }}>GS</span>
                   <span style={{ color: 'var(--color-primary)' }}> •</span>
-                  <span className="text-white"> Sport</span>
+                  <span style={{ color: 'var(--text-primary)' }}> Sport</span>
                 </span>
                 <motion.div
                   className="absolute -bottom-1 left-0 h-0.5"
@@ -87,11 +93,8 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className={`group relative flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-semibold uppercase tracking-widest transition-all duration-300 ${
-                      pathname === link.href
-                        ? 'text-white'
-                        : 'text-white/70 hover:text-white'
-                    }`}
+                    className={`group relative flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-semibold uppercase tracking-widest transition-all duration-300`}
+                    style={{ color: pathname === link.href ? 'var(--text-primary)' : 'var(--text-secondary)' }}
                   >
                     {link.label}
                     {link.sublinks && (
@@ -124,7 +127,8 @@ export default function Navbar() {
                           <Link
                             key={sub.href}
                             href={sub.href}
-                            className="block px-4 py-3 text-xs font-semibold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300"
+                            className="block px-4 py-3 text-xs font-semibold uppercase tracking-widest rounded-lg transition-all duration-300"
+                            style={{ color: 'var(--text-secondary)' }}
                           >
                             {sub.label}
                           </Link>
@@ -141,7 +145,8 @@ export default function Navbar() {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300"
+                className="p-2 rounded-lg transition-all duration-300"
+                style={{ color: 'var(--text-secondary)' }}
               >
                 <Search size={20} />
               </motion.button>
@@ -151,7 +156,8 @@ export default function Navbar() {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={toggleCart}
-                className="relative p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300"
+                className="relative p-2 rounded-lg transition-all duration-300"
+                style={{ color: 'var(--text-secondary)' }}
               >
                 <ShoppingBag size={20} />
                 {totalItems > 0 && (
@@ -171,7 +177,8 @@ export default function Navbar() {
                 <div className="relative group">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
-                    className="flex items-center gap-2 px-3 py-2 glass rounded-full text-sm font-medium text-white/80 hover:text-white transition-all"
+                    className="flex items-center gap-2 px-3 py-2 glass rounded-full text-sm font-medium transition-all"
+                    style={{ color: 'var(--text-secondary)' }}
                   >
                     <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundImage: 'linear-gradient(to bottom right, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))' }}>
                       {user.name?.charAt(0).toUpperCase()}
@@ -181,7 +188,8 @@ export default function Navbar() {
                   <div className="absolute right-0 top-full mt-2 w-48 glass-card p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                     <Link
                       href="/dashboard"
-                      className="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5 rounded-lg"
+                      className="block px-4 py-2.5 text-sm rounded-lg"
+                      style={{ color: 'var(--text-secondary)' }}
                     >
                       Dashboard
                     </Link>
@@ -219,7 +227,8 @@ export default function Navbar() {
               {/* Mobile toggle */}
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                className="md:hidden p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300"
+                className="md:hidden p-2 rounded-lg transition-all duration-300"
+                style={{ color: 'var(--text-secondary)' }}
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
               >
                 {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -235,7 +244,8 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-zinc-950/95 backdrop-blur-xl border-t border-white/10"
+              className="md:hidden backdrop-blur-xl"
+              style={{ backgroundColor: 'color-mix(in srgb, var(--bg-primary) 95%, transparent)', borderTop: '1px solid var(--glass-border)' }}
             >
               <div className="px-4 py-4 space-y-1">
                 {navLinks.map((link) => (
@@ -246,9 +256,9 @@ export default function Navbar() {
                       className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                         pathname === link.href
                           ? 'bg-[color-mix(in_srgb,var(--color-primary)_10%,transparent)]'
-                          : 'text-white/70 hover:text-white hover:bg-white/5'
+                          : ''
                       }`}
-                      style={pathname === link.href ? { color: 'var(--color-primary)' } : undefined}
+                      style={pathname === link.href ? { color: 'var(--color-primary)' } : { color: 'var(--text-secondary)' }}
                     >
                       {link.label}
                     </Link>
@@ -259,7 +269,8 @@ export default function Navbar() {
                             key={sub.href}
                             href={sub.href}
                             onClick={() => setIsMobileOpen(false)}
-                            className="block px-4 py-2 text-xs text-white/50 hover:text-white/80 rounded-lg hover:bg-white/5"
+                            className="block px-4 py-2 text-xs rounded-lg"
+                            style={{ color: 'var(--text-muted)' }}
                           >
                             {sub.label}
                           </Link>
@@ -269,7 +280,7 @@ export default function Navbar() {
                   </div>
                 ))}
                 {!user && (
-                  <div className="pt-2 border-t border-white/10">
+                  <div className="pt-2" style={{ borderTop: '1px solid var(--glass-border)' }}>
                     <Link href="/login" onClick={() => setIsMobileOpen(false)}>
                       <button className="w-full btn-primary py-3 rounded-xl text-sm font-semibold text-white">
                         Sign In

@@ -61,7 +61,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center relative overflow-hidden px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden px-4 py-12" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute top-1/4 right-0 w-[min(500px,80vw)] h-[min(500px,80vw)] rounded-full blur-[100px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 5%, transparent)' }} />
 

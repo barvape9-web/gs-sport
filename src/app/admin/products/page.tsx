@@ -185,8 +185,8 @@ export default function AdminProductsPage() {
             <Package size={18} style={{ color: '#3b82f6', filter: 'drop-shadow(0 2px 4px rgba(59,130,246,0.4))' }} />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-white">Products</h1>
-            <p className="text-white/35 text-sm">{products.length} total products</p>
+            <h1 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>Products</h1>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{products.length} total products</p>
           </div>
         </div>
         <motion.button
@@ -239,7 +239,7 @@ export default function AdminProductsPage() {
                       <Package size={14} className="text-blue-400" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-white truncate max-w-[160px]">
+                      <p className="text-sm font-semibold truncate max-w-[160px]" style={{ color: 'var(--text-primary)' }}>
                         {product.name}
                       </p>
                       {product.isFeatured && (
@@ -249,7 +249,7 @@ export default function AdminProductsPage() {
                   </div>
                 </td>
                 <td className="hidden md:table-cell">
-                  <span className="text-xs text-white/50">{getCategoryLabel(product.category)}</span>
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{getCategoryLabel(product.category)}</span>
                 </td>
                 <td className="hidden lg:table-cell">
                   <span
@@ -314,7 +314,7 @@ export default function AdminProductsPage() {
         </table>
 
         {filtered.length === 0 && (
-          <div className="py-16 text-center text-white/30">
+          <div className="py-16 text-center" style={{ color: 'var(--text-muted)' }}>
             <Package size={32} className="mx-auto mb-3 opacity-30" />
             <p>No products found</p>
           </div>
@@ -344,7 +344,7 @@ export default function AdminProductsPage() {
                     <div className="icon-3d w-10 h-10" style={{ background: 'linear-gradient(135deg, #f9731625, #f9731610)', border: '1px solid #f9731620', boxShadow: '0 4px 15px rgba(249,115,22,0.15), inset 0 1px 0 rgba(255,255,255,0.1)' }}>
                       <Package size={16} style={{ color: '#f97316' }} />
                     </div>
-                    <h2 className="text-lg font-bold text-white">
+                    <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
                       {editingProduct ? 'Edit Product' : 'New Product'}
                     </h2>
                   </div>
@@ -358,7 +358,7 @@ export default function AdminProductsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="sm:col-span-2">
-                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Product Name</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Product Name</label>
                     <input
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -368,7 +368,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Description</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Description</label>
                     <textarea
                       value={form.description}
                       onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -379,7 +379,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Price ($)</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Price ($)</label>
                     <input
                       value={form.price}
                       onChange={(e) => setForm({ ...form, price: e.target.value })}
@@ -391,7 +391,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Original Price ($)</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Original Price ($)</label>
                     <input
                       value={form.originalPrice}
                       onChange={(e) => setForm({ ...form, originalPrice: e.target.value })}
@@ -403,7 +403,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Gender</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Gender</label>
                     <select
                       value={form.gender}
                       onChange={(e) => setForm({ ...form, gender: e.target.value as Gender })}
@@ -416,7 +416,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Category</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Category</label>
                     <select
                       value={form.category}
                       onChange={(e) => setForm({ ...form, category: e.target.value as Category })}
@@ -431,7 +431,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Stock</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Stock</label>
                     <input
                       value={form.stock}
                       onChange={(e) => setForm({ ...form, stock: e.target.value })}
@@ -441,7 +441,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Sizes (comma-separated)</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Sizes (comma-separated)</label>
                     <input
                       value={form.sizes}
                       onChange={(e) => setForm({ ...form, sizes: e.target.value })}
@@ -451,7 +451,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Colors (comma-separated)</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Colors (comma-separated)</label>
                     <input
                       value={form.colors}
                       onChange={(e) => setForm({ ...form, colors: e.target.value })}
@@ -461,10 +461,10 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Product Images</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Product Images</label>
                     <div className="border-2 border-dashed border-white/10 rounded-xl p-8 text-center hover:border-[#f97316]/30 transition-colors cursor-pointer">
                       <Upload size={24} className="text-white/20 mx-auto mb-2" />
-                      <p className="text-xs text-white/30">Click to upload product images</p>
+                      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Click to upload product images</p>
                     </div>
                   </div>
 
@@ -476,7 +476,7 @@ export default function AdminProductsPage() {
                       onChange={(e) => setForm({ ...form, isFeatured: e.target.checked })}
                       className="w-4 h-4 accent-[#f97316]"
                     />
-                    <label htmlFor="featured" className="text-sm text-white/60">
+                    <label htmlFor="featured" className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                       Mark as Featured Product
                     </label>
                   </div>

@@ -12,10 +12,10 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setStage(1), 500),
-      setTimeout(() => setStage(2), 1200),
-      setTimeout(() => setStage(3), 2000),
-      setTimeout(() => onComplete(), 3200),
+      setTimeout(() => setStage(1), 600),
+      setTimeout(() => setStage(2), 1500),
+      setTimeout(() => setStage(3), 4400),
+      setTimeout(() => onComplete(), 5000),
     ];
     return () => timers.forEach(clearTimeout);
   }, [onComplete]);
@@ -149,12 +149,12 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
               transition={{ delay: 0.5 }}
               className="mt-10 w-48"
             >
-              <div className="h-px bg-white/10 rounded-full overflow-hidden">
+              <div className="h-0.5 bg-white/10 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: '0%' }}
                   animate={stage >= 2 ? { width: '100%' } : {}}
-                  transition={{ duration: 1, ease: 'easeInOut', delay: 0.6 }}
-                  className="h-full"
+                  transition={{ duration: 2.5, ease: 'easeInOut', delay: 0.3 }}
+                  className="h-full rounded-full"
                   style={{ backgroundImage: 'linear-gradient(to right, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, #fff))' }}
                 />
               </div>

@@ -98,7 +98,7 @@ export default function AdminDashboard() {
       <div className="admin-page-header flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <h1 className="text-2xl font-black text-white">Dashboard</h1>
+            <h1 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>Dashboard</h1>
             <motion.div
               animate={{ rotate: [0, 15, -15, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
               <Activity size={18} className="text-[#f97316]" />
             </motion.div>
           </div>
-          <p className="text-white/35 text-sm">Welcome back — here&apos;s what&apos;s happening today.</p>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Welcome back — here&apos;s what&apos;s happening today.</p>
         </div>
         <div className="flex gap-1.5 p-1 glass rounded-xl">
           {(['7d', '30d', '90d'] as const).map((p) => (
@@ -154,8 +154,8 @@ export default function AdminDashboard() {
                 {stat.change}
               </motion.div>
             </div>
-            <p className="text-3xl font-black text-white tracking-tight">{stat.value}</p>
-            <p className="text-xs text-white/35 mt-1.5 font-medium">{stat.title}</p>
+            <p className="text-3xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>{stat.value}</p>
+            <p className="text-xs mt-1.5 font-medium" style={{ color: 'var(--text-muted)' }}>{stat.title}</p>
           </motion.div>
         ))}
       </div>
@@ -175,8 +175,8 @@ export default function AdminDashboard() {
                 <Zap size={14} style={{ color: '#f97316' }} />
               </div>
               <div>
-                <h3 className="font-bold text-white text-sm">Revenue Overview</h3>
-                <p className="text-[10px] text-white/25">Last {period}</p>
+                <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>Revenue Overview</h3>
+                <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>Last {period}</p>
               </div>
             </div>
           </div>
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
             <div className="icon-3d w-8 h-8" style={{ background: 'linear-gradient(135deg, #3b82f620, #3b82f608)', border: '1px solid #3b82f618' }}>
               <ShoppingCart size={14} style={{ color: '#3b82f6' }} />
             </div>
-            <h3 className="font-bold text-white text-sm">Order Status</h3>
+            <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>Order Status</h3>
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <PieChart>
@@ -268,7 +268,7 @@ export default function AdminDashboard() {
               />
               <Legend
                 formatter={(value) => (
-                  <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11 }}>{value}</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: 11 }}>{value}</span>
                 )}
               />
             </PieChart>
@@ -289,7 +289,7 @@ export default function AdminDashboard() {
             <div className="icon-3d w-8 h-8" style={{ background: 'linear-gradient(135deg, #10b98120, #10b98108)', border: '1px solid #10b98118' }}>
               <Package size={14} style={{ color: '#10b981' }} />
             </div>
-            <h3 className="font-bold text-white text-sm">Top Products</h3>
+            <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>Top Products</h3>
           </div>
           <div className="space-y-3">
             {topProducts.map((product, i) => (
@@ -314,7 +314,7 @@ export default function AdminDashboard() {
                 </span>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold text-white/80 truncate group-hover:text-white transition-colors">{product.name}</p>
-                  <div className="mt-1.5 h-1 bg-white/5 rounded-full overflow-hidden">
+                  <div className="mt-1.5 h-1 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--overlay-bg)' }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(product.sales / 234) * 100}%` }}
@@ -323,7 +323,7 @@ export default function AdminDashboard() {
                       style={{ background: `linear-gradient(90deg, ${COLORS[i]}, ${COLORS[i]}80)` }}
                     />
                   </div>
-                  <p className="text-[10px] text-white/25 mt-1">{product.sales} sales</p>
+                  <p className="text-[10px] mt-1" style={{ color: 'var(--text-muted)' }}>{product.sales} sales</p>
                 </div>
                 <span className="text-sm font-bold shrink-0" style={{ color: COLORS[i] }}>
                   {formatPrice(product.revenue)}
@@ -345,7 +345,7 @@ export default function AdminDashboard() {
             <div className="icon-3d w-8 h-8" style={{ background: 'linear-gradient(135deg, #8b5cf620, #8b5cf608)', border: '1px solid #8b5cf618' }}>
               <TrendingUp size={14} style={{ color: '#8b5cf6' }} />
             </div>
-            <h3 className="font-bold text-white text-sm">Orders per Day</h3>
+            <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>Orders per Day</h3>
           </div>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={filteredTrend.slice(-14)}>

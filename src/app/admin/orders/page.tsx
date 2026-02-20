@@ -79,7 +79,7 @@ function StatusDropdown({
             className="fixed z-[9999] w-44 rounded-xl border border-white/10 bg-[#141414]/95 backdrop-blur-xl shadow-2xl p-1.5"
             style={{ top: pos.top, left: pos.left }}
           >
-            <p className="px-3 py-1.5 text-[9px] uppercase tracking-widest text-white/25 font-bold">
+            <p className="px-3 py-1.5 text-[9px] uppercase tracking-widest font-bold" style={{ color: 'var(--text-muted)' }}>
               Change Status
             </p>
             {ALL_STATUSES.map((s) => (
@@ -174,8 +174,8 @@ export default function AdminOrdersPage() {
             <ShoppingCart size={18} style={{ color: '#10b981', filter: 'drop-shadow(0 2px 4px rgba(16,185,129,0.4))' }} />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-white">Orders</h1>
-            <p className="text-white/35 text-sm">{orders.length} total orders</p>
+            <h1 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>Orders</h1>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{orders.length} total orders</p>
           </div>
         </div>
       </div>
@@ -241,8 +241,8 @@ export default function AdminOrdersPage() {
                   : undefined,
               } as React.CSSProperties}
             >
-              <p className="text-2xl font-black text-white">{count}</p>
-              <p className="text-[10px] mt-1 uppercase tracking-wider font-bold" style={{ color: selected ? color : 'rgba(255,255,255,0.35)' }}>
+              <p className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>{count}</p>
+              <p className="text-[10px] mt-1 uppercase tracking-wider font-bold" style={{ color: selected ? color : 'var(--text-muted)' }}>
                 {status}
               </p>
             </motion.button>
@@ -273,16 +273,16 @@ export default function AdminOrdersPage() {
                 transition={{ delay: i * 0.03 }}
               >
                 <td>
-                  <span className="text-sm font-mono font-bold text-white">
+                  <span className="text-sm font-mono font-bold" style={{ color: 'var(--text-primary)' }}>
                     #{order.id.replace('ord-', '').toUpperCase()}
                   </span>
                 </td>
                 <td className="hidden md:table-cell">
-                  <p className="text-xs text-white/70">{order.user?.name}</p>
-                  <p className="text-[10px] text-white/25">{order.user?.email}</p>
+                  <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{order.user?.name}</p>
+                  <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{order.user?.email}</p>
                 </td>
                 <td className="hidden lg:table-cell">
-                  <span className="text-xs text-white/40">{formatDate(order.createdAt)}</span>
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{formatDate(order.createdAt)}</span>
                 </td>
                 <td>
                   <span className="text-sm font-bold text-[#f97316]">{formatPrice(order.total)}</span>
@@ -319,7 +319,7 @@ export default function AdminOrdersPage() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="py-16 text-center text-white/25">
+          <div className="py-16 text-center" style={{ color: 'var(--text-muted)' }}>
             <ShoppingCart size={32} className="mx-auto mb-3 opacity-30" />
             <p>No orders found</p>
           </div>

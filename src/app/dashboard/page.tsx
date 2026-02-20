@@ -42,7 +42,7 @@ export default function DashboardPage() {
     return (
       <main>
         <Navbar />
-        <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
           <div className="text-center">
             <p className="text-white/60 mb-4">Please sign in to view your dashboard</p>
             <Link href="/login">
@@ -60,7 +60,7 @@ export default function DashboardPage() {
   return (
     <main>
       <Navbar />
-      <div className="min-h-screen bg-[#0a0a0a] pt-24">
+      <div className="min-h-screen pt-24" style={{ backgroundColor: 'var(--bg-primary)' }}>
         <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

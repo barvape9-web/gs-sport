@@ -30,7 +30,7 @@ export default function ContactPage() {
   return (
     <main>
       <Navbar />
-      <div className="min-h-screen bg-[#0a0a0a] pt-24">
+      <div className="min-h-screen pt-24" style={{ backgroundColor: 'var(--bg-primary)' }}>
         {/* Header */}
         <div className="relative py-16 overflow-hidden border-b border-white/5">
           <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />

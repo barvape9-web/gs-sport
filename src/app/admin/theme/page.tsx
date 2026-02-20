@@ -19,11 +19,11 @@ function ColorPicker({ label, value, onChange }: { label: string; value: string;
   return (
     <div className="flex items-center justify-between">
       <div>
-        <p className="text-sm font-semibold text-white/80">{label}</p>
-        <p className="text-xs text-white/30 font-mono mt-0.5">{value}</p>
+        <p className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>{label}</p>
+        <p className="text-xs font-mono mt-0.5" style={{ color: 'var(--text-muted)' }}>{value}</p>
       </div>
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg border border-white/10 shadow-inner" style={{ background: value }} />
+        <div className="w-8 h-8 rounded-lg shadow-inner" style={{ background: value, border: '1px solid var(--glass-border)' }} />
         <input
           type="color"
           value={value}
@@ -74,8 +74,8 @@ export default function AdminThemePage() {
           <Palette size={18} style={{ color: '#06b6d4', filter: 'drop-shadow(0 2px 4px rgba(6,182,212,0.4))' }} />
         </div>
         <div>
-          <h1 className="text-2xl font-black text-white">Theme Customization</h1>
-          <p className="text-white/35 text-sm">Customize the visual appearance of GS • Sport store</p>
+          <h1 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>Theme Customization</h1>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Customize the visual appearance of GS • Sport store</p>
         </div>
       </div>
 
@@ -85,7 +85,7 @@ export default function AdminThemePage() {
           <div className="icon-3d w-7 h-7" style={{ background: 'linear-gradient(135deg, #f9731618, #f9731608)', border: '1px solid #f9731612' }}>
             <Palette size={12} style={{ color: '#f97316' }} />
           </div>
-          <h2 className="text-sm font-bold text-white uppercase tracking-wider">Preset Themes</h2>
+          <h2 className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--text-primary)' }}>Preset Themes</h2>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {PRESET_THEMES.map((preset) => (
@@ -101,7 +101,7 @@ export default function AdminThemePage() {
                   <div key={i} className="w-5 h-5 rounded-full shadow-md" style={{ background: c }} />
                 ))}
               </div>
-              <p className="text-xs font-semibold text-white/70 group-hover:text-white transition-colors">{preset.name}</p>
+              <p className="text-xs font-semibold transition-colors" style={{ color: 'var(--text-secondary)' }}>{preset.name}</p>
             </motion.button>
           ))}
         </div>
@@ -113,18 +113,18 @@ export default function AdminThemePage() {
           <div className="icon-3d w-7 h-7" style={{ background: 'linear-gradient(135deg, #10b98118, #10b98108)', border: '1px solid #10b98112' }}>
             <Palette size={12} style={{ color: '#10b981' }} />
           </div>
-          <h2 className="text-sm font-bold text-white uppercase tracking-wider">Custom Colors</h2>
+          <h2 className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--text-primary)' }}>Custom Colors</h2>
         </div>
         <ColorPicker label="Primary Color" value={primaryColor} onChange={updatePrimaryColor} />
-        <div className="border-t border-white/5" />
+        <div className="" style={{ borderTop: '1px solid var(--border-subtle)' }} />
         <ColorPicker label="Secondary Color" value={secondaryColor} onChange={updateSecondaryColor} />
-        <div className="border-t border-white/5" />
+        <div className="" style={{ borderTop: '1px solid var(--border-subtle)' }} />
         <ColorPicker label="Accent Color" value={accentColor} onChange={updateAccentColor} />
       </div>
 
       {/* Color Preview */}
       <div className="admin-chart-card p-6 space-y-4">
-        <h2 className="text-sm font-bold text-white uppercase tracking-wider">Live Preview</h2>
+        <h2 className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--text-primary)' }}>Live Preview</h2>
         <div className="grid grid-cols-3 gap-3">
           {[
             { label: 'Primary', color: primaryColor },
@@ -134,8 +134,8 @@ export default function AdminThemePage() {
             <div key={label} className="glass rounded-xl overflow-hidden">
               <div className="h-16" style={{ background: `linear-gradient(135deg, ${color}, ${color}88)` }} />
               <div className="p-3">
-                <p className="text-xs font-bold text-white/70">{label}</p>
-                <p className="text-[10px] font-mono text-white/30 mt-0.5">{color}</p>
+                <p className="text-xs font-bold" style={{ color: 'var(--text-secondary)' }}>{label}</p>
+                <p className="text-[10px] font-mono mt-0.5" style={{ color: 'var(--text-muted)' }}>{color}</p>
               </div>
             </div>
           ))}
@@ -156,18 +156,19 @@ export default function AdminThemePage() {
       <div className="admin-chart-card p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-white/5">
-              {isDarkMode ? <Moon size={16} className="text-[#f97316]" /> : <Sun size={16} className="text-[#f97316]" />}
+            <div className="p-2 rounded-lg" style={{ backgroundColor: 'var(--overlay-bg)' }}>
+              {isDarkMode ? <Moon size={16} style={{ color: 'var(--color-primary)' }} /> : <Sun size={16} style={{ color: 'var(--color-primary)' }} />}
             </div>
             <div>
-              <p className="text-sm font-semibold text-white">Dark Mode</p>
-              <p className="text-xs text-white/30">Toggle between dark and light interface</p>
+              <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Dark Mode</p>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Toggle between dark and light interface</p>
             </div>
           </div>
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={toggleDarkMode}
-            className={`relative w-12 h-6 rounded-full transition-colors ${isDarkMode ? 'bg-[#f97316]' : 'bg-white/10'}`}
+            className="relative w-12 h-6 rounded-full transition-colors"
+            style={{ backgroundColor: isDarkMode ? 'var(--color-primary)' : 'var(--input-border)' }}
           >
             <motion.div
               animate={{ x: isDarkMode ? 24 : 2 }}
@@ -175,19 +176,19 @@ export default function AdminThemePage() {
             />
           </motion.button>
         </div>
-        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-white/5">
-          <Monitor size={14} className="text-white/30" />
-          <span className="text-xs text-white/40">Currently: {isDarkMode ? 'Dark Mode' : 'Light Mode'}</span>
+        <div className="flex items-center gap-3 mt-4 pt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+          <Monitor size={14} style={{ color: 'var(--text-muted)' }} />
+          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Currently: {isDarkMode ? 'Dark Mode' : 'Light Mode'}</span>
         </div>
       </div>
 
       {/* Actions */}
       <div className="flex gap-3">
         <motion.button
-          whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(249,115,22,0.3)' }}
+          whileHover={{ scale: 1.02, boxShadow: '0 0 30px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
           whileTap={{ scale: 0.98 }}
           onClick={handleSave}
-          className="btn-primary px-6 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 flex-1 justify-center"
+          className="btn-primary px-6 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 flex-1 justify-center text-white"
         >
           {saved ? <Check size={16} /> : null}
           {saved ? 'Saved!' : 'Save Changes'}
@@ -196,7 +197,8 @@ export default function AdminThemePage() {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleReset}
-          className="glass px-6 py-3 rounded-2xl text-sm font-bold text-white/50 hover:text-white border border-white/10 hover:border-white/20 transition-all flex items-center gap-2"
+          className="glass px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2"
+          style={{ color: 'var(--text-muted)' }}
         >
           <RotateCcw size={14} />
           Reset

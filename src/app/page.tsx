@@ -31,7 +31,7 @@ export default function HomePage() {
   }
 
   return (
-    <main className="bg-zinc-950 overflow-x-clip">
+    <main className="overflow-x-clip" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <Navbar />
       <Hero />
       <CategoryShowcase />
