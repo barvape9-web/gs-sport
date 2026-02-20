@@ -38,31 +38,25 @@ const generateRevenueTrend = () =>
       month: 'short',
       day: 'numeric',
     }),
-    revenue: Math.floor(Math.random() * 3000) + 1000,
-    orders: Math.floor(Math.random() * 30) + 10,
+    revenue: 0,
+    orders: 0,
   }));
 
 const orderStatusData = [
-  { name: 'Delivered', value: 45 },
-  { name: 'Shipped', value: 20 },
-  { name: 'Processing', value: 15 },
-  { name: 'Pending', value: 12 },
-  { name: 'Cancelled', value: 8 },
+  { name: 'Delivered', value: 0 },
+  { name: 'Shipped', value: 0 },
+  { name: 'Processing', value: 0 },
+  { name: 'Pending', value: 0 },
+  { name: 'Cancelled', value: 0 },
 ];
 
-const topProducts = [
-  { name: 'Pro Training Tee', sales: 234, revenue: 11700 },
-  { name: 'Elite Running Shorts', sales: 187, revenue: 11220 },
-  { name: 'Performance Hoodie', sales: 143, revenue: 12870 },
-  { name: 'Compression Leggings', sales: 126, revenue: 10080 },
-  { name: 'Sport Cap', sales: 98, revenue: 2940 },
-];
+const topProducts: { name: string; sales: number; revenue: number }[] = [];
 
 const statCards = [
-  { title: 'Total Revenue', value: '$128,450', change: '+12.5%', up: true, icon: DollarSign, color: '#f97316' },
-  { title: 'Total Orders', value: '2,847', change: '+8.2%', up: true, icon: ShoppingCart, color: '#3b82f6' },
-  { title: 'Total Users', value: '15,234', change: '+23.1%', up: true, icon: Users, color: '#10b981' },
-  { title: 'Active Products', value: '247', change: '-3.4%', up: false, icon: Package, color: '#8b5cf6' },
+  { title: 'Total Revenue', value: formatPrice(0), change: '0%', up: false, icon: DollarSign, color: '#f97316' },
+  { title: 'Total Orders', value: '0', change: '0%', up: false, icon: ShoppingCart, color: '#3b82f6' },
+  { title: 'Total Users', value: '0', change: '0%', up: false, icon: Users, color: '#10b981' },
+  { title: 'Active Products', value: '0', change: '0%', up: false, icon: Package, color: '#8b5cf6' },
 ];
 
 /* ── 3D Icon ── */

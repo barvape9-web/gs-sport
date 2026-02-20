@@ -62,32 +62,26 @@ const generateMockRevenue = (days: number): ChartDataPoint[] =>
       month: 'short',
       day: 'numeric',
     }),
-    revenue: Math.floor(Math.random() * 4000) + 800,
-    orders: Math.floor(Math.random() * 35) + 5,
+    revenue: 0,
+    orders: 0,
   }));
 
 const mockStatusData: StatusDataPoint[] = [
-  { name: 'Delivered', value: 45 },
-  { name: 'Shipped', value: 20 },
-  { name: 'Processing', value: 15 },
-  { name: 'Pending', value: 12 },
-  { name: 'Cancelled', value: 8 },
+  { name: 'Delivered', value: 0 },
+  { name: 'Shipped', value: 0 },
+  { name: 'Processing', value: 0 },
+  { name: 'Pending', value: 0 },
+  { name: 'Cancelled', value: 0 },
 ];
 
 const mockStats: AnalyticsStats = {
-  totalOrders: 2847,
-  totalRevenue: 128450,
-  totalUsers: 15234,
-  totalProducts: 247,
+  totalOrders: 0,
+  totalRevenue: 0,
+  totalUsers: 0,
+  totalProducts: 0,
 };
 
-const topProducts = [
-  { name: 'Pro Training Tee', sales: 234, revenue: 11700 },
-  { name: 'Elite Running Shorts', sales: 187, revenue: 11220 },
-  { name: 'Performance Hoodie', sales: 143, revenue: 12870 },
-  { name: 'Compression Leggings', sales: 126, revenue: 10080 },
-  { name: 'Sport Cap', sales: 98, revenue: 2940 },
-];
+const topProducts: { name: string; sales: number; revenue: number }[] = [];
 
 type Period = '7d' | '30d' | '90d';
 
@@ -135,31 +129,31 @@ export default function AdminAnalyticsPage() {
     {
       title: 'Total Revenue',
       value: formatPrice(stats.totalRevenue),
-      change: '+12.5%',
-      up: true,
+      change: '0%',
+      up: false,
       icon: DollarSign,
       color: '#f97316',
     },
     {
       title: 'Total Orders',
       value: stats.totalOrders.toLocaleString(),
-      change: '+8.2%',
-      up: true,
+      change: '0%',
+      up: false,
       icon: ShoppingCart,
       color: '#3b82f6',
     },
     {
       title: 'New Users',
       value: stats.totalUsers.toLocaleString(),
-      change: '+23.1%',
-      up: true,
+      change: '0%',
+      up: false,
       icon: Users,
       color: '#10b981',
     },
     {
       title: 'Active Products',
       value: stats.totalProducts.toLocaleString(),
-      change: '-3.4%',
+      change: '0%',
       up: false,
       icon: Package,
       color: '#8b5cf6',
