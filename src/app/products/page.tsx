@@ -4,7 +4,7 @@ import { Suspense, useMemo } from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
-import { SlidersHorizontal, X, ChevronDown } from 'lucide-react';
+import { SlidersHorizontal, X, ChevronDown, Sparkles, TrendingUp, ArrowUpDown, ArrowDown01, ArrowUp01 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ProductCard from '@/components/products/ProductCard';
@@ -101,6 +101,7 @@ function ProductsPageInner() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
+  const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [filters, setFilters] = useState<IProductFilters>({
     gender: (searchParams.get('gender') as IProductFilters['gender']) || undefined,
     sortBy: (searchParams.get('sort') as IProductFilters['sortBy']) || 'newest',
@@ -252,22 +253,120 @@ function ProductsPageInner() {
 
               {/* Sort */}
               <div className="relative shrink-0">
-                <select
-                  value={filters.sortBy}
-                  onChange={(e) =>
-                    setFilters((f) => ({ ...f, sortBy: e.target.value as IProductFilters['sortBy'] }))
-                  }
-                  className="input-glass pl-2.5 sm:pl-4 pr-7 sm:pr-10 py-1.5 sm:py-2.5 rounded-full text-[10px] sm:text-sm appearance-none cursor-pointer max-w-[130px] sm:max-w-none"
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setShowSortDropdown(!showSortDropdown)}
+                  className="flex items-center gap-1.5 sm:gap-2 pl-2.5 sm:pl-4 pr-7 sm:pr-10 py-1.5 sm:py-2.5 rounded-full text-[10px] sm:text-sm cursor-pointer max-w-[140px] sm:max-w-none transition-all duration-200"
+                  style={{
+                    background: showSortDropdown
+                      ? `linear-gradient(135deg, ${theme.accent}20, ${theme.accent}10)`
+                      : 'rgba(255,255,255,0.05)',
+                    border: showSortDropdown
+                      ? `1px solid ${theme.accent}40`
+                      : '1px solid rgba(255,255,255,0.1)',
+                    color: showSortDropdown ? theme.accent : 'rgba(255,255,255,0.7)',
+                  }}
                 >
-                  <option value="newest">{t('products.newest')}</option>
-                  <option value="popularity">{t('products.mostPopular')}</option>
-                  <option value="price_asc">{t('products.priceLowHigh')}</option>
-                  <option value="price_desc">{t('products.priceHighLow')}</option>
-                </select>
-                <ChevronDown
-                  size={12}
-                  className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none"
-                />
+                  <ArrowUpDown size={12} className="shrink-0" />
+                  <span className="truncate">
+                    {[
+                      { value: 'newest', label: t('products.newest') },
+                      { value: 'popularity', label: t('products.mostPopular') },
+                      { value: 'price_asc', label: t('products.priceLowHigh') },
+                      { value: 'price_desc', label: t('products.priceHighLow') },
+                    ].find(o => o.value === filters.sortBy)?.label || t('products.newest')}
+                  </span>
+                </motion.button>
+                <motion.div
+                  className="absolute right-2 sm:right-3 top-1/2 pointer-events-none"
+                  animate={{ rotate: showSortDropdown ? 180 : 0 }}
+                  style={{ y: '-50%' }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown size={12} className="text-white/40" />
+                </motion.div>
+
+                {/* Custom dropdown */}
+                <AnimatePresence>
+                  {showSortDropdown && (
+                    <>
+                      <div className="fixed inset-0 z-40" onClick={() => setShowSortDropdown(false)} />
+                      <motion.div
+                        initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="absolute right-0 top-full mt-2 z-50 w-56 overflow-hidden rounded-2xl"
+                        style={{
+                          background: 'rgba(15,15,15,0.95)',
+                          backdropFilter: 'blur(20px)',
+                          border: `1px solid ${theme.accent}25`,
+                          boxShadow: `0 20px 60px rgba(0,0,0,0.5), 0 0 30px ${theme.accent}10`,
+                        }}
+                      >
+                        <div className="p-1.5">
+                          {[
+                            { value: 'newest', label: t('products.newest'), icon: Sparkles, color: '#f97316' },
+                            { value: 'popularity', label: t('products.mostPopular'), icon: TrendingUp, color: '#22c55e' },
+                            { value: 'price_asc', label: t('products.priceLowHigh'), icon: ArrowUp01, color: '#3b82f6' },
+                            { value: 'price_desc', label: t('products.priceHighLow'), icon: ArrowDown01, color: '#a855f7' },
+                          ].map(({ value, label, icon: SortIcon, color }, index) => {
+                            const isActive = filters.sortBy === value;
+                            return (
+                              <motion.button
+                                key={value}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                                onClick={() => {
+                                  setFilters((f) => ({ ...f, sortBy: value as IProductFilters['sortBy'] }));
+                                  setShowSortDropdown(false);
+                                }}
+                                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-200 group/sort"
+                                style={{
+                                  background: isActive ? `${color}15` : 'transparent',
+                                  border: isActive ? `1px solid ${color}25` : '1px solid transparent',
+                                }}
+                                whileHover={{ x: 3, backgroundColor: `${color}10` }}
+                              >
+                                <motion.div
+                                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                                  style={{
+                                    background: isActive ? `${color}20` : 'rgba(255,255,255,0.05)',
+                                    boxShadow: isActive ? `0 2px 10px ${color}20` : 'none',
+                                    border: `1px solid ${isActive ? color + '30' : 'rgba(255,255,255,0.08)'}`,
+                                  }}
+                                  whileHover={{
+                                    scale: 1.1,
+                                    rotateY: 15,
+                                    boxShadow: `0 4px 16px ${color}30`,
+                                  }}
+                                  transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                                >
+                                  <SortIcon size={14} style={{ color: isActive ? color : 'rgba(255,255,255,0.4)' }} />
+                                </motion.div>
+                                <span
+                                  className="text-xs font-medium flex-1"
+                                  style={{ color: isActive ? color : 'rgba(255,255,255,0.6)' }}
+                                >
+                                  {label}
+                                </span>
+                                {isActive && (
+                                  <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    className="w-1.5 h-1.5 rounded-full shrink-0"
+                                    style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}` }}
+                                  />
+                                )}
+                              </motion.button>
+                            );
+                          })}
+                        </div>
+                      </motion.div>
+                    </>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 
