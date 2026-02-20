@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Palette, Monitor, Moon, Sun, RotateCcw, Check } from 'lucide-react';
+import { Palette, Monitor, Moon, Sun, RotateCcw, Check, Loader2 } from 'lucide-react';
 import { useThemeStore } from '@/store/themeStore';
 import toast from 'react-hot-toast';
 
@@ -36,28 +36,42 @@ function ColorPicker({ label, value, onChange }: { label: string; value: string;
 }
 
 export default function AdminThemePage() {
-  const { theme, updatePrimaryColor, updateSecondaryColor, updateAccentColor, toggleDarkMode } = useThemeStore();
+  const { theme, updatePrimaryColor, updateSecondaryColor, updateAccentColor, toggleDarkMode, saveGlobalTheme } = useThemeStore();
   const { primaryColor, secondaryColor, accentColor, isDarkMode } = theme;
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const applyPreset = (preset: (typeof PRESET_THEMES)[0]) => {
     updatePrimaryColor(preset.primary);
     updateSecondaryColor(preset.secondary);
     updateAccentColor(preset.accent);
-    toast.success(`Applied "${preset.name}" theme`);
+    toast.success(`Applied "${preset.name}" theme — click Save to apply globally`);
   };
 
-  const handleSave = () => {
-    setSaved(true);
-    toast.success('Theme settings saved!');
-    setTimeout(() => setSaved(false), 2000);
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      await saveGlobalTheme();
+      setSaved(true);
+      toast.success('Theme saved globally for all users!');
+      setTimeout(() => setSaved(false), 2000);
+    } catch {
+      toast.error('Failed to save theme. Are you logged in as admin?');
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     updatePrimaryColor('#f97316');
     updateSecondaryColor('#10b981');
     updateAccentColor('#8b5cf6');
-    toast.success('Theme reset to defaults');
+    try {
+      await saveGlobalTheme();
+      toast.success('Theme reset to defaults globally');
+    } catch {
+      toast.error('Failed to save reset. Changes are local only.');
+    }
   };
 
   return (
@@ -188,10 +202,11 @@ export default function AdminThemePage() {
           whileHover={{ scale: 1.02, boxShadow: '0 0 30px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
           whileTap={{ scale: 0.98 }}
           onClick={handleSave}
-          className="btn-primary px-6 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 flex-1 justify-center text-white"
+          disabled={saving}
+          className="btn-primary px-6 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 flex-1 justify-center text-white disabled:opacity-50"
         >
-          {saved ? <Check size={16} /> : null}
-          {saved ? 'Saved!' : 'Save Changes'}
+          {saving ? <Loader2 size={16} className="animate-spin" /> : saved ? <Check size={16} /> : null}
+          {saving ? 'Saving...' : saved ? 'Saved Globally!' : 'Save Changes'}
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.02 }}

@@ -4,11 +4,14 @@ import { useEffect } from 'react';
 import { useThemeStore } from '@/store/themeStore';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const { applyTheme } = useThemeStore();
+  const { fetchGlobalTheme, applyTheme } = useThemeStore();
 
   useEffect(() => {
+    // Apply default immediately to prevent flash
     applyTheme();
-  }, [applyTheme]);
+    // Then fetch the global theme from the database
+    fetchGlobalTheme();
+  }, [fetchGlobalTheme, applyTheme]);
 
   return <>{children}</>;
 }
