@@ -175,7 +175,7 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
           {/* ── Main content ───────────────────────────────────── */}
           <div className="relative z-10 flex flex-col items-center">
 
-            {/* ── welcome.jpg logo (GS + MADE IN GEORGIA) ── */}
+            {/* ── gs.jpg — top logo ── */}
             <motion.div
               initial={{ scale: 0.7, opacity: 0, rotateX: 12 }}
               animate={
@@ -217,11 +217,10 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                 style={{ backgroundColor: 'rgba(249,115,22,0.06)' }}
               />
 
-              {/* The logo image */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/welcome.jpg"
-                alt="GS Sport — Made in Georgia"
+                src="/gs.jpg"
+                alt="GS Logo"
                 className="relative z-10 w-[260px] sm:w-[340px] md:w-[400px] h-auto select-none"
                 style={{
                   filter: 'drop-shadow(0 0 25px rgba(249,115,22,0.15))',
@@ -290,12 +289,31 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
               Sport
             </motion.h1>
 
+            {/* ── logo1.jpg — below GS • Sport ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={stage >= 2 ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.35, ease: 'easeOut' as const }}
+              className="mt-4"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo1.jpg"
+                alt="GS Sport Logo"
+                className="w-[140px] sm:w-[180px] md:w-[220px] h-auto select-none"
+                style={{
+                  filter: 'drop-shadow(0 0 15px rgba(249,115,22,0.1))',
+                }}
+                draggable={false}
+              />
+            </motion.div>
+
             {/* ── Cinematic progress bar ── */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={stage >= 2 ? { opacity: 1 } : {}}
               transition={{ delay: 0.4, duration: 0.4 }}
-              className="mt-12 w-56"
+              className="mt-8 w-56"
             >
               <div className="h-[2px] rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
                 <motion.div
