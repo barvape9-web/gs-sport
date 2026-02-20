@@ -2,14 +2,8 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Instagram, Twitter, Youtube, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useTranslation } from '@/lib/useTranslation';
-
-const socialLinks = [
-  { icon: Instagram, href: '#', label: 'Instagram' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Youtube, href: '#', label: 'YouTube' },
-];
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -102,28 +96,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+        <div className="flex items-center justify-center pt-8" style={{ borderTop: '1px solid var(--border-subtle)' }}>
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
             © {new Date().getFullYear()} GS • Sport. {t('footer.allRights')}
           </p>
-
-          <div className="flex items-center gap-4">
-            {socialLinks.map(({ icon: Icon, href, label }) => (
-              <motion.a
-                key={label}
-                href={href}
-                whileHover={{ scale: 1.2 }}
-                aria-label={label}
-                className="transition-colors"
-                style={{ color: 'var(--text-muted)' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '')}
-              >
-                <Icon size={18} />
-              </motion.a>
-            ))}
-          </div>
-
         </div>
       </div>
     </footer>
