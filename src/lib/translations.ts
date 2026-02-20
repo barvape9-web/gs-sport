@@ -33,6 +33,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'hero.happyCustomers': 'კმაყოფილი მომხმარებელი',
     'hero.premiumProducts': 'პრემიუმ პროდუქტი',
     'hero.averageRating': 'საშუალო რეიტინგი',
+    'hero.madeInGeorgia': 'დამზადებულია საქართველოში',
     'hero.scroll': 'გადაახვიე',
 
     // ── Category Showcase ──
@@ -356,6 +357,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'hero.happyCustomers': 'Happy Customers',
     'hero.premiumProducts': 'Premium Products',
     'hero.averageRating': 'Average Rating',
+    'hero.madeInGeorgia': 'Made in Georgia',
     'hero.scroll': 'Scroll',
 
     // ── Category Showcase ──
@@ -679,6 +681,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'hero.happyCustomers': 'Довольных клиентов',
     'hero.premiumProducts': 'Премиум товаров',
     'hero.averageRating': 'Средний рейтинг',
+    'hero.madeInGeorgia': 'Сделано в Грузии',
     'hero.scroll': 'Листать',
 
     // ── Category Showcase ──
