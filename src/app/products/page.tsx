@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
@@ -12,6 +12,52 @@ import ProductFilters from '@/components/products/ProductFilters';
 import { Product, ProductFilters as IProductFilters } from '@/types';
 import axios from 'axios';
 import { useTranslation } from '@/lib/useTranslation';
+
+/* ── Gender-based color themes ── */
+const genderThemes = {
+  MEN: {
+    accent: '#f97316',        // orange
+    accentLight: 'rgba(249,115,22,0.15)',
+    accentMid: 'rgba(249,115,22,0.08)',
+    accentFaint: 'rgba(249,115,22,0.04)',
+    glow: 'rgba(249,115,22,0.12)',
+    glowStrong: 'rgba(249,115,22,0.2)',
+    border: 'rgba(249,115,22,0.15)',
+    badgeBg: 'rgba(249,115,22,0.12)',
+    gradientFrom: '#f97316',
+    gradientTo: '#fb923c',
+    tagBg: 'rgba(249,115,22,0.1)',
+    tagBorder: 'rgba(249,115,22,0.2)',
+  },
+  WOMEN: {
+    accent: '#ec4899',        // pink
+    accentLight: 'rgba(236,72,153,0.15)',
+    accentMid: 'rgba(236,72,153,0.08)',
+    accentFaint: 'rgba(236,72,153,0.04)',
+    glow: 'rgba(236,72,153,0.12)',
+    glowStrong: 'rgba(236,72,153,0.2)',
+    border: 'rgba(236,72,153,0.15)',
+    badgeBg: 'rgba(236,72,153,0.12)',
+    gradientFrom: '#ec4899',
+    gradientTo: '#f472b6',
+    tagBg: 'rgba(236,72,153,0.1)',
+    tagBorder: 'rgba(236,72,153,0.2)',
+  },
+  DEFAULT: {
+    accent: '#f97316',
+    accentLight: 'rgba(249,115,22,0.15)',
+    accentMid: 'rgba(249,115,22,0.08)',
+    accentFaint: 'rgba(249,115,22,0.04)',
+    glow: 'rgba(249,115,22,0.12)',
+    glowStrong: 'rgba(249,115,22,0.2)',
+    border: 'rgba(249,115,22,0.15)',
+    badgeBg: 'rgba(249,115,22,0.12)',
+    gradientFrom: '#f97316',
+    gradientTo: '#fb923c',
+    tagBg: 'rgba(249,115,22,0.1)',
+    tagBorder: 'rgba(249,115,22,0.2)',
+  },
+} as const;
 
 const MOCK_PRODUCTS: Product[] = Array.from({ length: 24 }, (_, i) => ({
   id: `prod-${i}`,
@@ -60,6 +106,12 @@ function ProductsPageInner() {
     sortBy: (searchParams.get('sort') as IProductFilters['sortBy']) || 'newest',
   });
 
+  const theme = useMemo(() => {
+    if (filters.gender === 'WOMEN') return genderThemes.WOMEN;
+    if (filters.gender === 'MEN') return genderThemes.MEN;
+    return genderThemes.DEFAULT;
+  }, [filters.gender]);
+
   const fetchProducts = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -99,26 +151,79 @@ function ProductsPageInner() {
     <main>
       <Navbar />
       <div className="min-h-screen pt-24" style={{ backgroundColor: 'var(--bg-primary)' }}>
-        {/* Header */}
+        {/* Header — gender-themed */}
         <div className="relative py-16 overflow-hidden border-b border-white/5">
           <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,90vw)] h-[min(300px,50vw)] rounded-full blur-[80px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 5%, transparent)' }} />
+
+          {/* Animated glow blob — color changes with gender */}
+          <motion.div
+            key={filters.gender || 'all'}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,90vw)] h-[min(300px,50vw)] rounded-full blur-[80px] pointer-events-none"
+            style={{ backgroundColor: theme.glow }}
+          />
+
+          {/* Side accent glows for gender */}
+          {filters.gender && (
+            <>
+              <motion.div
+                key={`glow-l-${filters.gender}`}
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: [0.3, 0.5, 0.3], x: 0 }}
+                transition={{ opacity: { duration: 3, repeat: Infinity, ease: 'easeInOut' }, x: { duration: 0.6 } }}
+                className="absolute -left-20 top-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full blur-[80px] pointer-events-none"
+                style={{ backgroundColor: theme.glowStrong }}
+              />
+              <motion.div
+                key={`glow-r-${filters.gender}`}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: [0.2, 0.4, 0.2], x: 0 }}
+                transition={{ opacity: { duration: 4, repeat: Infinity, ease: 'easeInOut' }, x: { duration: 0.6 } }}
+                className="absolute -right-20 top-1/2 -translate-y-1/2 w-[160px] h-[160px] rounded-full blur-[80px] pointer-events-none"
+                style={{ backgroundColor: theme.glowStrong }}
+              />
+            </>
+          )}
+
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--color-primary)' }}>
-                {filters.gender ? t(`products.${filters.gender.toLowerCase()}Collection`) : t('products.allProducts')}
-              </p>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-3 sm:mb-4" style={{ color: 'var(--text-primary)' }}>
-                {filters.gender === 'MEN' ? (
-                  <>{t('products.mensCollectionTitle')} <span className="gradient-text">{t('products.collection')}</span></>
-                ) : filters.gender === 'WOMEN' ? (
-                  <>{t('products.womensCollectionTitle')} <span className="gradient-text">{t('products.collection')}</span></>
-                ) : (
-                  <>{t('products.ourCollection')} <span className="gradient-text">{t('products.collection')}</span></>
-                )}
-              </h1>
-              <p className="text-base sm:text-lg" style={{ color: 'var(--text-muted)' }}>{products.length} {t('products.productsFound')}</p>
-            </motion.div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={filters.gender || 'all'}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4 }}
+              >
+                <motion.p
+                  className="text-sm font-bold uppercase tracking-widest mb-3"
+                  style={{ color: theme.accent }}
+                >
+                  {filters.gender ? t(`products.${filters.gender.toLowerCase()}Collection`) : t('products.allProducts')}
+                </motion.p>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-3 sm:mb-4" style={{ color: 'var(--text-primary)' }}>
+                  {filters.gender === 'MEN' ? (
+                    <>{t('products.mensCollectionTitle')} <span style={{ background: `linear-gradient(135deg, ${theme.gradientFrom}, ${theme.gradientTo})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{t('products.collection')}</span></>
+                  ) : filters.gender === 'WOMEN' ? (
+                    <>{t('products.womensCollectionTitle')} <span style={{ background: `linear-gradient(135deg, ${theme.gradientFrom}, ${theme.gradientTo})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{t('products.collection')}</span></>
+                  ) : (
+                    <>{t('products.ourCollection')} <span className="gradient-text">{t('products.collection')}</span></>
+                  )}
+                </h1>
+
+                {/* Animated accent line */}
+                <motion.div
+                  className="mx-auto h-0.5 rounded-full mb-4"
+                  initial={{ width: 0 }}
+                  animate={{ width: 80 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  style={{ background: `linear-gradient(90deg, transparent, ${theme.accent}, transparent)` }}
+                />
+
+                <p className="text-base sm:text-lg" style={{ color: 'var(--text-muted)' }}>{products.length} {t('products.productsFound')}</p>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
 
@@ -132,12 +237,12 @@ function ProductsPageInner() {
               className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm font-semibold transition-all shrink-0 ${
                 showFilters ? 'text-white' : 'glass text-white/70 hover:text-white'
               }`}
-              style={showFilters ? { backgroundColor: 'var(--color-primary)' } : undefined}
+              style={showFilters ? { backgroundColor: theme.accent } : undefined}
             >
               <SlidersHorizontal size={16} />
               {t('products.filters')}
               {activeFilterCount > 0 && (
-                <span className="w-5 h-5 bg-white rounded-full text-xs font-bold flex items-center justify-center" style={{ color: 'var(--color-primary)' }}>
+                <span className="w-5 h-5 bg-white rounded-full text-xs font-bold flex items-center justify-center" style={{ color: theme.accent }}>
                   {activeFilterCount}
                 </span>
               )}
@@ -146,20 +251,30 @@ function ProductsPageInner() {
             {/* Active filters */}
             <div className="flex items-center gap-2 flex-wrap flex-1 min-w-0 overflow-hidden">
               {filters.gender && (
-                <span className="flex items-center gap-1 px-3 py-1 glass rounded-full text-xs text-white/70 shrink-0">
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex items-center gap-1 px-3 py-1 rounded-full text-xs text-white/90 shrink-0"
+                  style={{ backgroundColor: theme.tagBg, border: `1px solid ${theme.tagBorder}` }}
+                >
                   {filters.gender}
                   <button onClick={() => setFilters((f) => ({ ...f, gender: undefined }))}>
-                    <X size={12} className="hover:text-white" style={{ '--hover-color': 'var(--color-primary)' } as React.CSSProperties} />
+                    <X size={12} className="hover:text-white" />
                   </button>
-                </span>
+                </motion.span>
               )}
               {filters.category && (
-                <span className="flex items-center gap-1 px-3 py-1 glass rounded-full text-xs text-white/70 shrink-0">
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex items-center gap-1 px-3 py-1 rounded-full text-xs text-white/90 shrink-0"
+                  style={{ backgroundColor: theme.tagBg, border: `1px solid ${theme.tagBorder}` }}
+                >
                   {filters.category.replace('_', ' ')}
                   <button onClick={() => setFilters((f) => ({ ...f, category: undefined }))}>
-                    <X size={12} className="hover:text-white" style={{ '--hover-color': 'var(--color-primary)' } as React.CSSProperties} />
+                    <X size={12} className="hover:text-white" />
                   </button>
-                </span>
+                </motion.span>
               )}
             </div>
 
@@ -247,7 +362,7 @@ function ProductsPageInner() {
                     <button
                       onClick={() => setFilters({ sortBy: 'newest' })}
                       className="mt-4 text-sm hover:underline"
-                      style={{ color: 'var(--color-primary)' }}
+                      style={{ color: theme.accent }}
                     >
                       {t('products.clearAllFilters')}
                     </button>
