@@ -124,12 +124,12 @@ function ProductsPageInner() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {/* Controls */}
-          <div className="flex items-center justify-between mb-6 sm:mb-8 gap-3 sm:gap-4">
+          <div className="flex flex-wrap items-center justify-between mb-6 sm:mb-8 gap-2 sm:gap-4">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+              className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm font-semibold transition-all shrink-0 ${
                 showFilters ? 'text-white' : 'glass text-white/70 hover:text-white'
               }`}
               style={showFilters ? { backgroundColor: 'var(--color-primary)' } : undefined}
@@ -144,9 +144,9 @@ function ProductsPageInner() {
             </motion.button>
 
             {/* Active filters */}
-            <div className="flex items-center gap-2 flex-wrap flex-1">
+            <div className="flex items-center gap-2 flex-wrap flex-1 min-w-0 overflow-hidden">
               {filters.gender && (
-                <span className="flex items-center gap-1 px-3 py-1 glass rounded-full text-xs text-white/70">
+                <span className="flex items-center gap-1 px-3 py-1 glass rounded-full text-xs text-white/70 shrink-0">
                   {filters.gender}
                   <button onClick={() => setFilters((f) => ({ ...f, gender: undefined }))}>
                     <X size={12} className="hover:text-white" style={{ '--hover-color': 'var(--color-primary)' } as React.CSSProperties} />
@@ -154,7 +154,7 @@ function ProductsPageInner() {
                 </span>
               )}
               {filters.category && (
-                <span className="flex items-center gap-1 px-3 py-1 glass rounded-full text-xs text-white/70">
+                <span className="flex items-center gap-1 px-3 py-1 glass rounded-full text-xs text-white/70 shrink-0">
                   {filters.category.replace('_', ' ')}
                   <button onClick={() => setFilters((f) => ({ ...f, category: undefined }))}>
                     <X size={12} className="hover:text-white" style={{ '--hover-color': 'var(--color-primary)' } as React.CSSProperties} />
@@ -164,13 +164,13 @@ function ProductsPageInner() {
             </div>
 
             {/* Sort */}
-            <div className="relative">
+            <div className="relative shrink-0">
               <select
                 value={filters.sortBy}
                 onChange={(e) =>
                   setFilters((f) => ({ ...f, sortBy: e.target.value as IProductFilters['sortBy'] }))
                 }
-                className="input-glass pl-4 pr-10 py-2.5 rounded-full text-sm appearance-none cursor-pointer"
+                className="input-glass pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm appearance-none cursor-pointer max-w-[140px] sm:max-w-none truncate"
               >
                 <option value="newest">{t('products.newest')}</option>
                 <option value="popularity">{t('products.mostPopular')}</option>
