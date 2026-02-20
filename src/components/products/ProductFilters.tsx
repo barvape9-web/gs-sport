@@ -42,21 +42,28 @@ export default function ProductFilters({ filters, onFiltersChange, onClose }: Pr
 
   const clearAll = () => onFiltersChange({ sortBy: filters.sortBy });
 
+  const hasActiveFilters = !!(filters.gender || filters.category || filters.minPrice || filters.maxPrice);
+
   return (
     <div className="glass-card p-5 space-y-7 sticky top-28">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="font-bold" style={{ color: 'var(--text-primary)' }}>{t('products.filters')}</h3>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={clearAll}
-          className="text-xs flex items-center gap-1"
-          style={{ color: 'var(--color-primary)' }}
-        >
-          <X size={12} />
-          {t('products.clearAll')}
-        </motion.button>
+        {hasActiveFilters && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={clearAll}
+            className="text-xs flex items-center gap-1"
+            style={{ color: 'var(--color-primary)' }}
+          >
+            <X size={12} />
+            {t('products.clearAll')}
+          </motion.button>
+        )}
       </div>
 
       {/* Gender */}
