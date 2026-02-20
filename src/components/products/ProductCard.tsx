@@ -42,13 +42,14 @@ export default function ProductCard({ product }: ProductCardProps) {
     <motion.div
       whileHover={{ y: -6, scale: 1.03 }}
       transition={{ duration: 0.3 }}
-      className="product-card group cursor-pointer overflow-hidden rounded-xl bg-zinc-900/70 border border-white/5 shadow-lg hover:shadow-2xl transition-all duration-300 h-full"
+      className="product-card group cursor-pointer overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 h-full"
+      style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
       <Link href={`/products/${product.id}`} className="block h-full">
         {/* Image container */}
-        <div className="relative aspect-[3/4] overflow-hidden rounded-t-xl bg-gradient-to-br from-zinc-900 via-zinc-900 to-black">
+        <div className="relative aspect-[3/4] overflow-hidden rounded-t-xl" style={{ backgroundColor: 'var(--bg-inset)' }}>
           {product.images?.[0] ? (
             <Image
               src={product.images[0]}
@@ -62,7 +63,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)' }}>
                   <ShoppingBag size={24} style={{ color: 'var(--color-primary)' }} />
                 </div>
-                <p className="text-xs text-white/30">No image</p>
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>No image</p>
               </div>
             </div>
           )}
@@ -105,13 +106,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }}
             transition={{ duration: 0.2 }}
-            className="absolute bottom-3 left-3 right-3 flex gap-2"
+            className="absolute bottom-2 left-2 right-2 sm:bottom-3 sm:left-3 sm:right-3 flex gap-2"
           >
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleAddToCart}
-              className="flex-1 btn-primary py-2.5 rounded-lg text-xs font-semibold uppercase tracking-widest text-white flex items-center justify-center gap-2 transition-all duration-300"
+              className="flex-1 btn-primary py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-white flex items-center justify-center gap-1 sm:gap-2 transition-all duration-300"
             >
               <ShoppingBag size={14} />
               Add to Cart
@@ -119,7 +120,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 glass rounded-lg flex items-center justify-center"
+              className="w-8 h-8 sm:w-10 sm:h-10 glass rounded-lg flex items-center justify-center"
             >
               <Eye size={14} className="text-white/70" />
             </motion.button>
@@ -127,13 +128,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Info */}
-        <div className="p-5">
-          <div className="flex items-start justify-between gap-2">
+        <div className="p-3 sm:p-4 lg:p-5">
+          <div className="flex items-start justify-between gap-1 sm:gap-2">
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] text-white/40 font-medium uppercase tracking-wider mb-1">
+              <p className="text-[9px] sm:text-[10px] font-medium uppercase tracking-wider mb-0.5 sm:mb-1" style={{ color: 'var(--text-muted)' }}>
                 {getCategoryLabel(product.category)}
               </p>
-              <h3 className="text-sm font-extrabold uppercase tracking-wide text-white leading-tight line-clamp-2 transition-colors duration-300" style={{ '--hover-c': 'var(--color-primary)' } as React.CSSProperties}
+              <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-wide leading-tight line-clamp-2 transition-colors duration-300" style={{ color: 'var(--text-primary)', '--hover-c': 'var(--color-primary)' } as React.CSSProperties}
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
                 onMouseLeave={(e) => (e.currentTarget.style.color = '')}
               >
@@ -157,7 +158,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Rating */}
-          <div className="flex items-center gap-1 mt-2">
+          <div className="flex items-center gap-0.5 sm:gap-1 mt-1.5 sm:mt-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
                 key={star}
@@ -166,16 +167,16 @@ export default function ProductCard({ product }: ProductCardProps) {
                 style={star <= 4 ? { fill: 'var(--color-primary)', stroke: 'var(--color-primary)' } : undefined}
               />
             ))}
-            <span className="text-[10px] text-white/30 ml-1">({product.popularity})</span>
+            <span className="text-[9px] sm:text-[10px] ml-1" style={{ color: 'var(--text-muted)' }}>({product.popularity})</span>
           </div>
 
           {/* Price */}
-          <div className="flex items-center gap-2 mt-3">
-            <span className="text-lg font-black" style={{ color: 'var(--color-primary)' }}>
+          <div className="flex items-center gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+            <span className="text-base sm:text-lg font-black" style={{ color: 'var(--color-primary)' }}>
               {formatPrice(product.price)}
             </span>
             {product.originalPrice && (
-              <span className="text-sm text-white/30 line-through">
+              <span className="text-xs sm:text-sm line-through" style={{ color: 'var(--text-muted)' }}>
                 {formatPrice(product.originalPrice)}
               </span>
             )}
@@ -183,17 +184,18 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Sizes preview */}
           {product.sizes && product.sizes.length > 0 && (
-            <div className="flex gap-1 mt-3">
+            <div className="flex gap-1 mt-2 sm:mt-3">
               {product.sizes.slice(0, 4).map((size) => (
                 <span
                   key={size}
-                  className="px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-widest border border-white/10 rounded-md text-white/40"
+                  className="px-1.5 sm:px-2 py-0.5 text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest rounded-md"
+                  style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-muted)' }}
                 >
                   {size}
                 </span>
               ))}
               {product.sizes.length > 4 && (
-                <span className="text-[9px] text-white/30 self-center">+{product.sizes.length - 4}</span>
+                <span className="text-[8px] sm:text-[9px] self-center" style={{ color: 'var(--text-muted)' }}>+{product.sizes.length - 4}</span>
               )}
             </div>
           )}

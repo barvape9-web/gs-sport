@@ -44,7 +44,7 @@ export default function DashboardPage() {
         <Navbar />
         <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
           <div className="text-center">
-            <p className="text-white/60 mb-4">Please sign in to view your dashboard</p>
+            <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>Please sign in to view your dashboard</p>
             <Link href="/login">
               <button className="btn-primary px-6 py-2.5 rounded-full text-white font-semibold">
                 Sign In
@@ -74,10 +74,10 @@ export default function DashboardPage() {
               {user.name?.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h1 className="text-xl sm:text-3xl font-black text-white">
+              <h1 className="text-xl sm:text-3xl font-black" style={{ color: 'var(--text-primary)' }}>
                 Welcome, <span className="gradient-text">{user.name}</span>
               </h1>
-              <p className="text-white/40 mt-1">{user.email}</p>
+              <p className="mt-1" style={{ color: 'var(--text-muted)' }}>{user.email}</p>
               <span className="inline-flex items-center gap-1 mt-2 px-2.5 py-0.5 rounded-full text-xs font-bold" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)', color: 'var(--color-primary)', border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)' } as React.CSSProperties}>
                 <Star size={10} className="fill-current" />
                 {user.role === 'ADMIN' ? 'Admin' : 'Member'}
@@ -139,7 +139,7 @@ export default function DashboardPage() {
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-4"
                 >
-                  <h2 className="text-xl font-bold text-white mb-6">Order History</h2>
+                  <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>Order History</h2>
 
                   {isLoadingOrders ? (
                     <div className="space-y-3">

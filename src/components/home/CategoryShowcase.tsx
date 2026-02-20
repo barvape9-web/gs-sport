@@ -32,10 +32,10 @@ const categories = [
 
 export default function CategoryShowcase() {
   return (
-    <section className="py-12 sm:py-24 bg-[#060606] relative overflow-hidden isolate">
+    <section className="py-12 sm:py-20 lg:py-24 relative overflow-hidden isolate" style={{ backgroundColor: 'var(--bg-secondary)' }}>
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -46,7 +46,7 @@ export default function CategoryShowcase() {
           <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.3em] mb-3 sm:mb-4" style={{ color: 'var(--color-primary)' }}>
             Shop by Category
           </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black" style={{ color: 'var(--text-primary)' }}>
             Find Your <span className="gradient-text">Style</span>
           </h2>
         </motion.div>
@@ -60,7 +60,7 @@ export default function CategoryShowcase() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: i * 0.1 }}
-              className="group relative overflow-hidden rounded-2xl cursor-pointer min-h-[350px] sm:min-h-[450px] md:min-h-[500px]"
+              className="group relative overflow-hidden rounded-xl sm:rounded-2xl cursor-pointer min-h-[300px] sm:min-h-[400px] md:min-h-[480px]"
             >
               {/* Background Image */}
               <div className="absolute inset-0">
@@ -89,7 +89,7 @@ export default function CategoryShowcase() {
               />
 
               {/* Content */}
-              <div className="relative z-10 p-6 sm:p-10 h-full flex flex-col justify-between min-h-[350px] sm:min-h-[450px] md:min-h-[500px]">
+              <div className="relative z-10 p-5 sm:p-8 md:p-10 h-full flex flex-col justify-between min-h-[300px] sm:min-h-[400px] md:min-h-[480px]">
                 <div>
                   <div
                     className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-6 border"
@@ -102,8 +102,8 @@ export default function CategoryShowcase() {
                     {cat.gender === 'MEN' ? "Men's" : "Women's"}
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-3">{cat.title}</h3>
-                  <p className="text-base sm:text-lg font-semibold mb-4" style={{ color: cat.accent }}>
+                  <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white mb-2 sm:mb-3">{cat.title}</h3>
+                  <p className="text-sm sm:text-base md:text-lg font-semibold mb-3 sm:mb-4" style={{ color: cat.accent }}>
                     {cat.subtitle}
                   </p>
                   <p className="text-white/50 text-sm leading-relaxed max-w-xs">
@@ -113,7 +113,7 @@ export default function CategoryShowcase() {
 
                 {/* Filter tags */}
                 <div>
-                  <div className="flex flex-wrap gap-2 mb-8">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-6 sm:mb-8">
                     {cat.filters.map((filter) => (
                       <span
                         key={filter}
@@ -128,7 +128,7 @@ export default function CategoryShowcase() {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white group-hover:gap-4 transition-all duration-300"
+                      className="flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-white group-hover:gap-3 sm:group-hover:gap-4 transition-all duration-300 text-sm sm:text-base"
                       style={{
                         background: `linear-gradient(135deg, ${cat.accent}, ${cat.accent}99)`,
                         boxShadow: `0 0 30px ${cat.accent}33`,

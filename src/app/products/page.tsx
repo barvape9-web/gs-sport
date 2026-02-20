@@ -106,7 +106,7 @@ function ProductsPageInner() {
               <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--color-primary)' }}>
                 {filters.gender ? `${filters.gender}'s Collection` : 'All Products'}
               </p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-3 sm:mb-4" style={{ color: 'var(--text-primary)' }}>
                 {filters.gender === 'MEN' ? (
                   <>Men&apos;s <span className="gradient-text">Collection</span></>
                 ) : filters.gender === 'WOMEN' ? (
@@ -115,14 +115,14 @@ function ProductsPageInner() {
                   <>Our <span className="gradient-text">Collection</span></>
                 )}
               </h1>
-              <p className="text-white/40 text-lg">{products.length} products found</p>
+              <p className="text-base sm:text-lg" style={{ color: 'var(--text-muted)' }}>{products.length} products found</p>
             </motion.div>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {/* Controls */}
-          <div className="flex items-center justify-between mb-8 gap-4">
+          <div className="flex items-center justify-between mb-6 sm:mb-8 gap-3 sm:gap-4">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -206,10 +206,10 @@ function ProductsPageInner() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4"
+                    className="grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3 sm:gap-4"
                   >
                     {Array.from({ length: 12 }).map((_, i) => (
-                      <div key={i} className="glass-card aspect-[3/4] shimmer rounded-2xl" />
+                      <div key={i} className="glass-card aspect-[3/4] shimmer rounded-xl" />
                     ))}
                   </motion.div>
                 ) : products.length === 0 ? (
@@ -222,8 +222,8 @@ function ProductsPageInner() {
                     <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4">
                       <SlidersHorizontal size={32} className="text-white/20" />
                     </div>
-                    <h3 className="text-white/60 font-semibold mb-2">No products found</h3>
-                    <p className="text-white/30 text-sm">Try adjusting your filters</p>
+                    <h3 className="font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>No products found</h3>
+                    <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Try adjusting your filters</p>
                     <button
                       onClick={() => setFilters({ sortBy: 'newest' })}
                       className="mt-4 text-sm hover:underline"
@@ -237,7 +237,7 @@ function ProductsPageInner() {
                     key="products"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4"
+                    className="grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3 sm:gap-4"
                   >
                     {products.map((product, i) => (
                       <motion.div

@@ -75,15 +75,15 @@ export default function RegisterPage() {
         >
           <Link href="/" className="mb-10">
             <span className="text-3xl font-black">
-              <span className="text-white">GS</span>
+              <span style={{ color: 'var(--text-primary)' }}>GS</span>
               <span style={{ color: 'var(--color-primary)' }}> •</span>
-              <span className="text-white"> Sport</span>
+              <span style={{ color: 'var(--text-primary)' }}> Sport</span>
             </span>
           </Link>
-          <h2 className="text-4xl font-black text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl font-black mb-4" style={{ color: 'var(--text-primary)' }}>
             Join the <span className="gradient-text">Elite</span>
           </h2>
-          <p className="text-white/50 text-lg mb-10 leading-relaxed">
+          <p className="text-base sm:text-lg mb-10 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
             Create your GS • Sport account and unlock an exclusive athletic experience.
           </p>
           <div className="space-y-4">
@@ -98,7 +98,7 @@ export default function RegisterPage() {
                 <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)' }}>
                   <Check size={12} style={{ color: 'var(--color-primary)' }} />
                 </div>
-                <span className="text-white/60 text-sm">{benefit}</span>
+                <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{benefit}</span>
               </motion.div>
             ))}
           </div>
@@ -114,18 +114,18 @@ export default function RegisterPage() {
             <div className="lg:hidden text-center mb-8">
               <Link href="/">
                 <span className="text-2xl font-black">
-                  <span className="text-white">GS</span>
+                  <span style={{ color: 'var(--text-primary)' }}>GS</span>
                   <span style={{ color: 'var(--color-primary)' }}> •</span>
-                  <span className="text-white"> Sport</span>
+                  <span style={{ color: 'var(--text-primary)' }}> Sport</span>
                 </span>
               </Link>
             </div>
-            <h1 className="text-2xl font-bold text-white mb-1">Create Account</h1>
-            <p className="text-white/40 text-sm mb-8">Fill in your details to get started</p>
+            <h1 className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Create Account</h1>
+            <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>Fill in your details to get started</p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-2">Full Name</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Full Name</label>
                 <input
                   {...register('name')}
                   placeholder="John Doe"
@@ -137,7 +137,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-2">Email</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Email</label>
                 <input
                   {...register('email')}
                   type="email"
@@ -150,7 +150,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-2">Password</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Password</label>
                 <div className="relative">
                   <input
                     {...register('password')}
@@ -172,7 +172,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-2">Confirm Password</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Confirm Password</label>
                 <input
                   {...register('confirmPassword')}
                   type="password"
@@ -202,7 +202,7 @@ export default function RegisterPage() {
               </motion.button>
             </form>
 
-            <p className="text-center text-sm text-white/40 mt-6">
+            <p className="text-center text-sm mt-6" style={{ color: 'var(--text-muted)' }}>
               Already have an account?{' '}
               <Link href="/login" className="font-semibold" style={{ color: 'var(--color-primary)' }}>
                 Sign in

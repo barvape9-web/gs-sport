@@ -75,22 +75,22 @@ export default function LoginPage() {
           <div className="text-center mb-8">
             <Link href="/">
               <span className="text-3xl font-black uppercase tracking-tight">
-                <span className="text-white">GS</span>
+                <span style={{ color: 'var(--text-primary)' }}>GS</span>
                 <span style={{ color: 'var(--color-primary)' }}> •</span>
-                <span className="text-white"> Sport</span>
+                <span style={{ color: 'var(--text-primary)' }}> Sport</span>
               </span>
             </Link>
-            <h1 className="text-2xl font-extrabold uppercase tracking-wide text-white mt-4">
+            <h1 className="text-2xl font-extrabold uppercase tracking-wide mt-4" style={{ color: 'var(--text-primary)' }}>
               Welcome back
             </h1>
-            <p className="text-white/40 text-sm mt-1">Sign in to continue</p>
+            <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Sign in to continue</p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Email */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">
+              <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-secondary)' }}>
                 Email
               </label>
               <input
@@ -107,7 +107,7 @@ export default function LoginPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest text-white/60 mb-2">
+              <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-secondary)' }}>
                 Password
               </label>
               <div className="relative">
@@ -167,8 +167,8 @@ export default function LoginPage() {
             </div>
 
             {/* Demo accounts */}
-            <div className="glass rounded-lg p-4 text-xs text-white/40 space-y-1 border border-white/10">
-              <p className="font-semibold uppercase tracking-widest text-white/60 mb-2">
+            <div className="glass rounded-lg p-4 text-xs space-y-1" style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-muted)' }}>
+              <p className="font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-secondary)' }}>
                 Demo Accounts
               </p>
               <p>Admin: admin@gs-sport.com / admin123</p>
@@ -177,7 +177,7 @@ export default function LoginPage() {
           </form>
 
           {/* Sign up link */}
-          <p className="text-center text-sm text-white/40 mt-6">
+          <p className="text-center text-sm mt-6" style={{ color: 'var(--text-muted)' }}>
             Don&apos;t have an account?{' '}
             <Link href="/register" className="font-semibold" style={{ color: 'var(--color-primary)' }}>
               Create one

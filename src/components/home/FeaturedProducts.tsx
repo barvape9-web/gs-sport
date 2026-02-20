@@ -34,14 +34,14 @@ export default function FeaturedProducts() {
       : products.filter((p) => p.gender === activeFilter);
 
   return (
-    <section className="py-12 sm:py-24 bg-[#0a0a0a] relative overflow-hidden isolate">
+    <section className="py-12 sm:py-20 lg:py-24 relative overflow-hidden isolate" style={{ backgroundColor: 'var(--bg-primary)' }}>
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute top-0 right-0 w-[min(500px,90vw)] h-[min(500px,90vw)] rounded-full blur-[120px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 8%, transparent)' }} />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12 gap-4 sm:gap-6">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -52,7 +52,7 @@ export default function FeaturedProducts() {
               <TrendingUp size={16} />
               Featured Collection
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black" style={{ color: 'var(--text-primary)' }}>
               Best <span className="gradient-text">Sellers</span>
             </h2>
           </motion.div>
@@ -91,10 +91,10 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch"
+              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 items-stretch"
             >
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="glass-card aspect-[3/4] shimmer rounded-2xl" />
+                <div key={i} className="glass-card aspect-[3/4] shimmer rounded-xl sm:rounded-2xl" />
               ))}
             </motion.div>
           ) : (
@@ -103,7 +103,7 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch"
+              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 items-stretch"
             >
               {filteredProducts.map((product, i) => (
                 <motion.div

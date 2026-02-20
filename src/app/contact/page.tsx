@@ -40,16 +40,16 @@ export default function ContactPage() {
               <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--color-primary)' }}>
                 Get In Touch
               </p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4" style={{ color: 'var(--text-primary)' }}>
                 Contact <span className="gradient-text">Us</span>
               </h1>
-              <p className="text-white/40 text-lg">We&apos;re here to help. Reach out anytime.</p>
+              <p className="text-lg" style={{ color: 'var(--text-muted)' }}>We&apos;re here to help. Reach out anytime.</p>
             </motion.div>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-10">
             {/* Contact info */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -57,8 +57,8 @@ export default function ContactPage() {
               className="lg:col-span-2 space-y-4"
             >
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">Let&apos;s connect</h2>
-                <p className="text-white/40 text-sm leading-relaxed">
+                <h2 className="text-xl sm:text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Let&apos;s connect</h2>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
                   Have a question about an order, sizing, or just want to say hello? We&apos;d love to hear
                   from you.
                 </p>
@@ -79,10 +79,10 @@ export default function ContactPage() {
                     <Icon size={18} style={{ color }} />
                   </div>
                   <div>
-                    <p className="text-xs text-white/40 font-medium uppercase tracking-wider">
+                    <p className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
                       {label}
                     </p>
-                    <p className="text-sm text-white/80 mt-0.5">{value}</p>
+                    <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>{value}</p>
                   </div>
                 </motion.div>
               ))}
@@ -100,14 +100,14 @@ export default function ContactPage() {
                     <MessageCircle size={18} style={{ color: 'var(--color-primary)' }} />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-white">Live Chat</p>
+                    <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Live Chat</p>
                     <p className="text-xs text-green-400 flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                       Online now
                     </p>
                   </div>
                 </div>
-                <p className="text-xs text-white/40">Average response time: under 2 minutes</p>
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Average response time: under 2 minutes</p>
               </motion.div>
             </motion.div>
 
@@ -118,12 +118,12 @@ export default function ContactPage() {
               transition={{ delay: 0.2 }}
               className="lg:col-span-3"
             >
-              <div className="glass-card p-8">
-                <h3 className="text-xl font-bold text-white mb-6">Send a Message</h3>
+              <div className="glass-card p-5 sm:p-8">
+                <h3 className="text-lg sm:text-xl font-bold mb-5 sm:mb-6" style={{ color: 'var(--text-primary)' }}>Send a Message</h3>
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-white/60 mb-2">Name</label>
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Name</label>
                       <input
                         value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -133,7 +133,7 @@ export default function ContactPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-white/60 mb-2">Email</label>
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Email</label>
                       <input
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -146,7 +146,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white/60 mb-2">Subject</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Subject</label>
                     <input
                       value={form.subject}
                       onChange={(e) => setForm({ ...form, subject: e.target.value })}
@@ -157,7 +157,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white/60 mb-2">Message</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Message</label>
                     <textarea
                       value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}

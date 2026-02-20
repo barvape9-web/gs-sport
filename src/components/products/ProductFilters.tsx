@@ -42,7 +42,7 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
     <div className="glass-card p-5 space-y-7 sticky top-28">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="font-bold text-white">Filters</h3>
+        <h3 className="font-bold" style={{ color: 'var(--text-primary)' }}>Filters</h3>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -57,7 +57,7 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
 
       {/* Gender */}
       <div>
-        <p className="text-xs text-white/40 font-bold uppercase tracking-widest mb-3">Gender</p>
+        <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--text-muted)' }}>Gender</p>
         <div className="space-y-1">
           {genders.map(({ value, label }) => (
             <motion.button
@@ -67,13 +67,13 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
               className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
                 filters.gender === value
                   ? 'border'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                  : ''
               }`}
               style={filters.gender === value ? {
                 backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)',
                 color: 'var(--color-primary)',
                 borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)',
-              } : undefined}
+              } : { color: 'var(--text-secondary)' }}
             >
               {label}
               {filters.gender === value && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />}
@@ -84,7 +84,7 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
 
       {/* Categories */}
       <div>
-        <p className="text-xs text-white/40 font-bold uppercase tracking-widest mb-3">Category</p>
+        <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--text-muted)' }}>Category</p>
         <div className="space-y-1">
           {categories.map(({ value, label }) => (
             <motion.button
@@ -94,13 +94,13 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
               className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
                 filters.category === value
                   ? 'border'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                  : ''
               }`}
               style={filters.category === value ? {
                 backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)',
                 color: 'var(--color-primary)',
                 borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)',
-              } : undefined}
+              } : { color: 'var(--text-secondary)' }}
             >
               {label}
               {filters.category === value && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />}
@@ -111,7 +111,7 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
 
       {/* Price range */}
       <div>
-        <p className="text-xs text-white/40 font-bold uppercase tracking-widest mb-3">Price Range</p>
+        <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--text-muted)' }}>Price Range</p>
         <div className="space-y-1">
           {priceRanges.map((range) => {
             const isActive = filters.minPrice === range.min && filters.maxPrice === range.max;
@@ -129,13 +129,13 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
                   isActive
                     ? 'border'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    : ''
                 }`}
                 style={isActive ? {
                   backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)',
                   color: 'var(--color-primary)',
                   borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)',
-                } : undefined}
+                } : { color: 'var(--text-secondary)' }}
               >
                 {range.label}
                 {isActive && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />}

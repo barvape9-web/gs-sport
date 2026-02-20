@@ -88,15 +88,15 @@ export default function ProductDetailPage() {
     <>
       <Navbar />
       <CartDrawer />
-      <main className="min-h-screen pt-20 pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="min-h-screen pt-20 pb-20" style={{ backgroundColor: 'var(--bg-primary)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-xs text-white/30 mb-8">
-            <Link href="/" className="hover:text-white/60 transition-colors">Home</Link>
+          <nav className="flex items-center gap-2 text-xs mb-6 sm:mb-8" style={{ color: 'var(--text-muted)' }}>
+            <Link href="/" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>Home</Link>
             <ChevronRight size={12} />
-            <Link href="/products" className="hover:text-white/60 transition-colors">Products</Link>
+            <Link href="/products" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>Products</Link>
             <ChevronRight size={12} />
-            <span className="text-white/60 truncate max-w-[200px]">{product.name}</span>
+            <span className="truncate max-w-[200px]" style={{ color: 'var(--text-secondary)' }}>{product.name}</span>
           </nav>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
@@ -106,7 +106,7 @@ export default function ProductDetailPage() {
                 key={activeImg}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="relative aspect-square rounded-2xl overflow-hidden glass border border-white/5"
+                className="relative aspect-square rounded-2xl overflow-hidden glass" style={{ border: '1px solid var(--card-border)' }}
               >
                 <img
                   src={product.images?.[activeImg] || placeholderImages[activeImg] || placeholderImages[0]}
@@ -123,12 +123,11 @@ export default function ProductDetailPage() {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setWishlist(!wishlist)}
-                  className="absolute top-4 right-4 p-2.5 rounded-xl glass border border-white/10"
+                  className="absolute top-4 right-4 p-2.5 rounded-xl glass" style={{ border: '1px solid var(--border-subtle)' }}
                 >
                   <Heart
                     size={18}
-                    className={wishlist ? '' : 'text-white/50'}
-                    style={wishlist ? { fill: 'var(--color-primary)', color: 'var(--color-primary)' } : undefined}
+                    style={wishlist ? { fill: 'var(--color-primary)', color: 'var(--color-primary)' } : { color: 'var(--text-muted)' }}
                   />
                 </motion.button>
               </motion.div>
@@ -140,10 +139,8 @@ export default function ProductDetailPage() {
                     key={i}
                     whileHover={{ scale: 1.05 }}
                     onClick={() => setActiveImg(i)}
-                    className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
-                      activeImg === i ? '' : 'border-white/10 hover:border-white/20'
-                    }`}
-                    style={activeImg === i ? { borderColor: 'var(--color-primary)' } : undefined}
+                    className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 transition-all`}
+                    style={{ borderColor: activeImg === i ? 'var(--color-primary)' : 'var(--border-subtle)' }}
                   >
                     <img
                       src={product.images?.[i] || placeholderImages[i]}
@@ -168,11 +165,11 @@ export default function ProductDetailPage() {
                   }`}>
                     {product.gender}
                   </span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/5 text-white/40 border border-white/10">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: 'color-mix(in srgb, var(--text-muted) 10%, transparent)', color: 'var(--text-muted)', border: '1px solid var(--border-subtle)' }}>
                     {product.category?.replace('_', ' ')}
                   </span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{product.name}</h1>
+                <h1 className="text-2xl sm:text-3xl font-black leading-tight" style={{ color: 'var(--text-primary)' }}>{product.name}</h1>
                 {product.rating && (
                   <div className="flex items-center gap-2 mt-3">
                     <div className="flex">
@@ -180,21 +177,20 @@ export default function ProductDetailPage() {
                         <Star
                           key={i}
                           size={14}
-                          className={i < Math.floor(product.rating!) ? '' : 'text-white/20'}
-                          style={i < Math.floor(product.rating!) ? { fill: 'var(--color-primary)', color: 'var(--color-primary)' } : undefined}
+                          style={i < Math.floor(product.rating!) ? { fill: 'var(--color-primary)', color: 'var(--color-primary)' } : { color: 'var(--border-subtle)' }}
                         />
                       ))}
                     </div>
-                    <span className="text-sm text-white/50">{product.rating} ({product.reviewCount} reviews)</span>
+                    <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{product.rating} ({product.reviewCount} reviews)</span>
                   </div>
                 )}
               </div>
 
               {/* Price */}
               <div className="flex items-end gap-3">
-                <span className="text-3xl font-black text-white">{formatPrice(product.price)}</span>
+                <span className="text-3xl font-black" style={{ color: 'var(--text-primary)' }}>{formatPrice(product.price)}</span>
                 {product.originalPrice && (
-                  <span className="text-lg text-white/30 line-through mb-0.5">{formatPrice(product.originalPrice)}</span>
+                  <span className="text-lg line-through mb-0.5" style={{ color: 'var(--text-muted)' }}>{formatPrice(product.originalPrice)}</span>
                 )}
                 {discount > 0 && (
                   <span className="text-sm font-bold mb-0.5" style={{ color: 'var(--color-primary)' }}>Save {formatPrice(product.originalPrice! - product.price)}</span>
@@ -202,13 +198,13 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Description */}
-              <p className="text-sm text-white/50 leading-relaxed">{product.description}</p>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{product.description}</p>
 
               {/* Colors */}
               {product.colors && product.colors.length > 0 && (
                 <div>
-                  <p className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">
-                    Color {selectedColor && <span className="normal-case text-white/60">selected</span>}
+                  <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
+                    Color {selectedColor && <span className="normal-case" style={{ color: 'var(--text-secondary)' }}>selected</span>}
                   </p>
                   <div className="flex gap-3">
                     {product.colors.map((color) => (
@@ -218,9 +214,9 @@ export default function ProductDetailPage() {
                         whileTap={{ scale: 0.9 }}
                         onClick={() => setSelectedColor(color)}
                         className={`w-8 h-8 rounded-full border-2 transition-all ${
-                          selectedColor === color ? 'border-white scale-110' : 'border-transparent'
+                          selectedColor === color ? 'scale-110' : 'border-transparent'
                         }`}
-                        style={{ background: color }}
+                        style={selectedColor === color ? { background: color, borderColor: 'var(--text-primary)' } : { background: color }}
                       />
                     ))}
                   </div>
@@ -230,7 +226,7 @@ export default function ProductDetailPage() {
               {/* Sizes */}
               {product.sizes && product.sizes.length > 0 && (
                 <div>
-                  <p className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">Size</p>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>Size</p>
                   <div className="flex flex-wrap gap-2">
                     {product.sizes.map((size) => (
                       <motion.button
@@ -238,12 +234,8 @@ export default function ProductDetailPage() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setSelectedSize(size)}
-                        className={`px-4 py-2 text-sm font-bold rounded-xl border transition-all ${
-                          selectedSize === size
-                            ? ''
-                            : 'border-white/10 text-white/50 hover:border-white/20 hover:text-white/70'
-                        }`}
-                        style={selectedSize === size ? { borderColor: 'var(--color-primary)', backgroundColor: 'color-mix(in srgb, var(--color-primary) 10%, transparent)', color: 'var(--color-primary)' } : undefined}
+                        className={`px-4 py-2 text-sm font-bold rounded-xl border transition-all`}
+                        style={selectedSize === size ? { borderColor: 'var(--color-primary)', backgroundColor: 'color-mix(in srgb, var(--color-primary) 10%, transparent)', color: 'var(--color-primary)' } : { borderColor: 'var(--border-subtle)', color: 'var(--text-muted)' }}
                       >
                         {size}
                       </motion.button>
@@ -254,24 +246,26 @@ export default function ProductDetailPage() {
 
               {/* Quantity */}
               <div>
-                <p className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">Quantity</p>
+                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>Quantity</p>
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center glass border border-white/10 rounded-xl overflow-hidden">
+                  <div className="flex items-center glass rounded-xl overflow-hidden" style={{ border: '1px solid var(--border-subtle)' }}>
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-4 py-3 text-white/50 hover:text-white hover:bg-white/5 transition-all"
+                      className="px-4 py-3 transition-all"
+                      style={{ color: 'var(--text-muted)' }}
                     >
                       -
                     </button>
-                    <span className="px-4 py-3 text-sm font-bold text-white w-12 text-center">{quantity}</span>
+                    <span className="px-4 py-3 text-sm font-bold w-12 text-center" style={{ color: 'var(--text-primary)' }}>{quantity}</span>
                     <button
                       onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                      className="px-4 py-3 text-white/50 hover:text-white hover:bg-white/5 transition-all"
+                      className="px-4 py-3 transition-all"
+                      style={{ color: 'var(--text-muted)' }}
                     >
                       +
                     </button>
                   </div>
-                  <span className="text-xs text-white/30">{product.stock} in stock</span>
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{product.stock} in stock</span>
                 </div>
               </div>
 
@@ -306,10 +300,10 @@ export default function ProductDetailPage() {
                   { icon: Shield, text: 'Guaranteed', sub: '100% authentic' },
                   { icon: RotateCcw, text: 'Easy Returns', sub: '30-day policy' },
                 ].map(({ icon: Icon, text, sub }) => (
-                  <div key={text} className="glass p-3 rounded-xl border border-white/5 text-center">
+                  <div key={text} className="glass p-3 rounded-xl text-center" style={{ border: '1px solid var(--card-border)' }}>
                     <Icon size={16} className="mx-auto mb-1.5" style={{ color: 'var(--color-primary)' }} />
-                    <p className="text-[10px] font-bold text-white/60">{text}</p>
-                    <p className="text-[9px] text-white/30">{sub}</p>
+                    <p className="text-[10px] font-bold" style={{ color: 'var(--text-secondary)' }}>{text}</p>
+                    <p className="text-[9px]" style={{ color: 'var(--text-muted)' }}>{sub}</p>
                   </div>
                 ))}
               </div>

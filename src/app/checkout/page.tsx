@@ -81,11 +81,11 @@ export default function CheckoutPage() {
     return (
       <>
         <Navbar />
-        <main className="min-h-screen pt-20 flex items-center justify-center">
+        <main className="min-h-screen pt-20 flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
           <div className="text-center">
-            <ShoppingBag size={48} className="text-white/20 mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-white mb-2">Your cart is empty</h2>
-            <p className="text-white/40 mb-6">Add some products before checking out</p>
+            <ShoppingBag size={48} className="mx-auto mb-4" style={{ color: 'var(--text-muted)' }} />
+            <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Your cart is empty</h2>
+            <p className="mb-6" style={{ color: 'var(--text-muted)' }}>Add some products before checking out</p>
             <Link href="/products" className="btn-primary px-6 py-3 rounded-xl font-bold">
               Shop Now
             </Link>
@@ -99,7 +99,7 @@ export default function CheckoutPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-20 pb-20">
+      <main className="min-h-screen pt-20 pb-20" style={{ backgroundColor: 'var(--bg-primary)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-xs text-white/30 mb-8">
@@ -144,8 +144,8 @@ export default function CheckoutPage() {
                 >
                   <CheckCircle size={40} className="text-green-400" />
                 </motion.div>
-                <h2 className="text-3xl font-black text-white mb-3">Order Confirmed!</h2>
-                <p className="text-white/50 mb-2">Thank you for shopping with GS • Sport</p>
+                <h2 className="text-3xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>Order Confirmed!</h2>
+                <p className="mb-2" style={{ color: 'var(--text-muted)' }}>Thank you for shopping with GS • Sport</p>
                 <p className="text-sm text-white/30 mb-8">Order ID: <span className="font-mono" style={{ color: 'var(--color-primary)' }}>#{orderId}</span></p>
                 <div className="flex gap-3 justify-center">
                   <Link href="/dashboard" className="btn-primary px-6 py-3 rounded-xl font-bold">

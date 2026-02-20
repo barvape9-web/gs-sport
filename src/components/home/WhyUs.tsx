@@ -8,7 +8,7 @@ const features = [
     icon: Zap,
     title: 'High Performance',
     description: 'Every product engineered for maximum performance and durability.',
-    color: '#f97316',
+    color: 'var(--color-primary)',
   },
   {
     icon: Shield,
@@ -44,33 +44,33 @@ const features = [
 
 export default function WhyUs() {
   return (
-    <section className="py-12 sm:py-24 bg-[#0a0a0a] relative overflow-hidden isolate">
+    <section className="py-12 sm:py-20 lg:py-24 relative overflow-hidden isolate" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
       {/* Decorative orb */}
       <div className="absolute bottom-0 left-0 w-[min(600px,90vw)] h-[min(600px,90vw)] rounded-full blur-[120px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 8%, transparent)' }} />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-16"
         >
           <p className="text-sm font-bold uppercase tracking-[0.3em] mb-4" style={{ color: 'var(--color-primary)' }}>
             Why GS • Sport
           </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-3 sm:mb-4" style={{ color: 'var(--text-primary)' }}>
             The <span className="gradient-text">Standard</span> of Excellence
           </h2>
-          <p className="text-white/40 text-base sm:text-lg max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto" style={{ color: 'var(--text-muted)' }}>
             We don&apos;t just make sportswear. We engineer excellence into every thread.
           </p>
         </motion.div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
           {features.map((feature, i) => (
             <motion.div
               key={feature.title}
@@ -79,7 +79,7 @@ export default function WhyUs() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
               whileHover={{ y: -5, scale: 1.01 }}
-              className="glass-card p-7 group cursor-default"
+              className="glass-card p-5 sm:p-7 group cursor-default"
             >
               {/* Icon */}
               <div
@@ -90,14 +90,14 @@ export default function WhyUs() {
               </div>
 
               {/* Content */}
-              <h3 className="font-bold text-white text-lg mb-2 transition-colors"
-                style={{ '--hover-c': 'var(--color-primary)' } as React.CSSProperties}
+              <h3 className="font-bold text-base sm:text-lg mb-2 transition-colors"
+                style={{ color: 'var(--text-primary)', '--hover-c': 'var(--color-primary)' } as React.CSSProperties}
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
                 onMouseLeave={(e) => (e.currentTarget.style.color = '')}
               >
                 {feature.title}
               </h3>
-              <p className="text-white/50 text-sm leading-relaxed">{feature.description}</p>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{feature.description}</p>
 
               {/* Bottom accent line */}
               <motion.div
@@ -117,13 +117,13 @@ export default function WhyUs() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-10 sm:mt-16 glass-card p-6 sm:p-10 text-center relative overflow-hidden"
+          className="mt-8 sm:mt-16 glass-card p-5 sm:p-8 md:p-10 text-center relative overflow-hidden"
         >
           <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(to right, color-mix(in srgb, var(--color-primary) 5%, transparent), transparent, color-mix(in srgb, var(--color-primary) 5%, transparent))' }} />
-          <h3 className="text-3xl font-black text-white mb-3">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
             Ready to elevate your game?
           </h3>
-          <p className="text-white/50 mb-8">
+          <p className="mb-6 sm:mb-8" style={{ color: 'var(--text-muted)' }}>
             Join 50,000+ athletes who trust GS • Sport for peak performance.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

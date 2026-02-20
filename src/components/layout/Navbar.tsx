@@ -127,7 +127,7 @@ export default function Navbar() {
                           <Link
                             key={sub.href}
                             href={sub.href}
-                            className="block px-4 py-3 text-xs font-semibold uppercase tracking-widest rounded-lg transition-all duration-300"
+                            className="block px-4 py-3 text-xs font-semibold uppercase tracking-widest rounded-lg transition-all duration-300 hover:bg-white/5"
                             style={{ color: 'var(--text-secondary)' }}
                           >
                             {sub.label}
