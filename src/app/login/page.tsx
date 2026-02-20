@@ -7,11 +7,21 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Eye, EyeOff, LogIn, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, LogIn, Loader2, Shield, Lock, Fingerprint, Sparkles, KeyRound, ShieldCheck } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useTranslation } from '@/lib/useTranslation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+
+/* ── floating 3D icon config ── */
+const floatingIcons = [
+  { Icon: Shield,      size: 28, x: '8%',  y: '18%', delay: 0,   dur: 6,   rx: 15, ry: 20  },
+  { Icon: Lock,        size: 24, x: '85%', y: '22%', delay: 0.8, dur: 7,   rx: -10, ry: 25 },
+  { Icon: Fingerprint, size: 32, x: '12%', y: '72%', delay: 1.5, dur: 8,   rx: 20, ry: -15 },
+  { Icon: Sparkles,    size: 22, x: '88%', y: '68%', delay: 0.4, dur: 5.5, rx: -15, ry: 20 },
+  { Icon: KeyRound,    size: 26, x: '6%',  y: '45%', delay: 2,   dur: 7.5, rx: 10, ry: -20 },
+  { Icon: ShieldCheck, size: 24, x: '92%', y: '45%', delay: 1.2, dur: 6.5, rx: -20, ry: 15 },
+];
 
 const schema = z.object({
   email: z.string().email('Invalid email address'),
@@ -65,14 +75,88 @@ export default function LoginPage() {
         />
       ))}
 
+      {/* 3D Floating Icons */}
+      {floatingIcons.map(({ Icon, size, x, y, delay, dur, rx, ry }, i) => (
+        <motion.div
+          key={i}
+          className="absolute pointer-events-none hidden sm:block"
+          style={{ left: x, top: y, perspective: 600 }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{
+            opacity: [0, 0.5, 0.3, 0.5, 0],
+            scale: [0.8, 1, 0.9, 1, 0.8],
+            y: [0, -12, 0, 12, 0],
+            rotateX: [0, rx, 0, -rx, 0],
+            rotateY: [0, ry, 0, -ry, 0],
+          }}
+          transition={{
+            duration: dur,
+            delay,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        >
+          <div
+            className="relative p-2.5 rounded-xl"
+            style={{
+              background: 'linear-gradient(135deg, rgba(249,115,22,0.12), rgba(249,115,22,0.04))',
+              border: '1px solid rgba(249,115,22,0.1)',
+              boxShadow: '0 0 20px rgba(249,115,22,0.08)',
+              backdropFilter: 'blur(8px)',
+            }}
+          >
+            <Icon size={size} style={{ color: 'rgba(249,115,22,0.5)' }} strokeWidth={1.5} />
+          </div>
+        </motion.div>
+      ))}
+
+      {/* Mobile: only 2 small icons */}
+      {floatingIcons.slice(0, 2).map(({ Icon, x, y, delay, dur, rx, ry }, i) => (
+        <motion.div
+          key={`m-${i}`}
+          className="absolute pointer-events-none sm:hidden"
+          style={{ left: i === 0 ? '5%' : '82%', top: i === 0 ? '15%' : '75%', perspective: 400 }}
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: [0, 0.4, 0.25, 0.4, 0],
+            y: [0, -8, 0, 8, 0],
+            rotateX: [0, rx * 0.6, 0, -rx * 0.6, 0],
+            rotateY: [0, ry * 0.6, 0, -ry * 0.6, 0],
+          }}
+          transition={{ duration: dur, delay, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <div
+            className="p-2 rounded-lg"
+            style={{
+              background: 'linear-gradient(135deg, rgba(249,115,22,0.1), rgba(249,115,22,0.03))',
+              border: '1px solid rgba(249,115,22,0.08)',
+              boxShadow: '0 0 14px rgba(249,115,22,0.06)',
+            }}
+          >
+            <Icon size={18} style={{ color: 'rgba(249,115,22,0.4)' }} strokeWidth={1.5} />
+          </div>
+        </motion.div>
+      ))}
+
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6 }}
         className="w-full max-w-md relative"
       >
+        {/* Card glow */}
+        <motion.div
+          className="absolute -inset-3 rounded-3xl pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(249,115,22,0.08) 0%, transparent 70%)',
+            filter: 'blur(20px)',
+          }}
+          animate={{ opacity: [0.5, 0.8, 0.5] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        />
+
         {/* Card */}
-        <div className="glass-card p-8 sm:p-10 border border-white/10">
+        <div className="glass-card p-8 sm:p-10 border border-white/10 relative">
           {/* Logo */}
           <div className="text-center mb-8">
             <Link href="/">

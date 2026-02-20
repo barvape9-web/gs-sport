@@ -7,11 +7,21 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Eye, EyeOff, UserPlus, Loader2, Check } from 'lucide-react';
+import { Eye, EyeOff, UserPlus, Loader2, Check, Sparkles, Star, Zap, Crown, Heart, Award } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useTranslation } from '@/lib/useTranslation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+
+/* ── floating 3D icon config ── */
+const floatingIcons = [
+  { Icon: Sparkles, size: 26, x: '5%',  y: '12%', delay: 0,   dur: 6.5, rx: 15, ry: -20 },
+  { Icon: Star,     size: 22, x: '48%', y: '8%',  delay: 1,   dur: 7,   rx: -12, ry: 18 },
+  { Icon: Zap,      size: 28, x: '93%', y: '15%', delay: 0.5, dur: 5.5, rx: 18, ry: 22 },
+  { Icon: Crown,    size: 24, x: '4%',  y: '80%', delay: 1.8, dur: 8,   rx: -20, ry: 15 },
+  { Icon: Heart,    size: 20, x: '50%', y: '88%', delay: 0.3, dur: 6,   rx: 14, ry: -18 },
+  { Icon: Award,    size: 26, x: '94%', y: '78%', delay: 1.4, dur: 7.5, rx: -16, ry: 20 },
+];
 
 const schema = z
   .object({
@@ -67,7 +77,65 @@ export default function RegisterPage() {
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute top-1/4 right-0 w-[min(500px,80vw)] h-[min(500px,80vw)] rounded-full blur-[100px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 5%, transparent)' }} />
 
-      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* 3D Floating Icons — desktop */}
+      {floatingIcons.map(({ Icon, size, x, y, delay, dur, rx, ry }, i) => (
+        <motion.div
+          key={i}
+          className="absolute pointer-events-none hidden sm:block"
+          style={{ left: x, top: y, perspective: 600 }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{
+            opacity: [0, 0.45, 0.25, 0.45, 0],
+            scale: [0.8, 1, 0.9, 1, 0.8],
+            y: [0, -14, 0, 14, 0],
+            rotateX: [0, rx, 0, -rx, 0],
+            rotateY: [0, ry, 0, -ry, 0],
+          }}
+          transition={{ duration: dur, delay, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <div
+            className="p-2.5 rounded-xl"
+            style={{
+              background: 'linear-gradient(135deg, rgba(249,115,22,0.12), rgba(249,115,22,0.04))',
+              border: '1px solid rgba(249,115,22,0.1)',
+              boxShadow: '0 0 20px rgba(249,115,22,0.08)',
+              backdropFilter: 'blur(8px)',
+            }}
+          >
+            <Icon size={size} style={{ color: 'rgba(249,115,22,0.5)' }} strokeWidth={1.5} />
+          </div>
+        </motion.div>
+      ))}
+
+      {/* Mobile: 2 small icons */}
+      {floatingIcons.slice(0, 2).map(({ Icon, delay, dur, rx, ry }, i) => (
+        <motion.div
+          key={`m-${i}`}
+          className="absolute pointer-events-none sm:hidden"
+          style={{ left: i === 0 ? '6%' : '84%', top: i === 0 ? '10%' : '82%', perspective: 400 }}
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: [0, 0.35, 0.2, 0.35, 0],
+            y: [0, -8, 0, 8, 0],
+            rotateX: [0, rx * 0.5, 0, -rx * 0.5, 0],
+            rotateY: [0, ry * 0.5, 0, -ry * 0.5, 0],
+          }}
+          transition={{ duration: dur, delay, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <div
+            className="p-1.5 rounded-lg"
+            style={{
+              background: 'linear-gradient(135deg, rgba(249,115,22,0.1), rgba(249,115,22,0.03))',
+              border: '1px solid rgba(249,115,22,0.08)',
+              boxShadow: '0 0 14px rgba(249,115,22,0.06)',
+            }}
+          >
+            <Icon size={16} style={{ color: 'rgba(249,115,22,0.4)' }} strokeWidth={1.5} />
+          </div>
+        </motion.div>
+      ))}
+
+      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
         {/* Left - Benefits */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
@@ -111,8 +179,20 @@ export default function RegisterPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
+          className="relative"
         >
-          <div className="glass-card p-8 sm:p-10">
+          {/* Form card glow */}
+          <motion.div
+            className="absolute -inset-3 rounded-3xl pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse at center, rgba(249,115,22,0.07) 0%, transparent 70%)',
+              filter: 'blur(18px)',
+            }}
+            animate={{ opacity: [0.4, 0.7, 0.4] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+          />
+
+          <div className="glass-card p-8 sm:p-10 relative">
             <div className="lg:hidden text-center mb-8">
               <Link href="/">
                 <span className="text-2xl font-black">
