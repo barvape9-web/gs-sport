@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Instagram, Twitter, Youtube, Mail, Phone, ArrowRight } from 'lucide-react';
+import { Instagram, Twitter, Youtube, ArrowRight } from 'lucide-react';
 import { useTranslation } from '@/lib/useTranslation';
 
 const socialLinks = [
@@ -40,9 +40,9 @@ export default function Footer() {
       <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full pointer-events-none" style={{ backgroundImage: 'linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 30%, transparent), transparent, transparent)' }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
         {/* Top section */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 mb-20">
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-6">
@@ -101,19 +101,6 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Contact info */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-          {[
-            { icon: Mail, text: 'sardlishviligiorgi0@gmail.com', href: 'mailto:sardlishviligiorgi0@gmail.com' },
-            { icon: Phone, text: '+995 557781251', href: 'tel:+995557781251' },
-          ].map(({ icon: Icon, text, href }) => (
-            <a key={text} href={href} className="flex items-center gap-3 glass-card px-4 py-3 hover:scale-[1.02] transition-transform cursor-pointer">
-              <Icon size={16} style={{ color: 'var(--color-primary)' }} />
-              <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{text}</span>
-            </a>
-          ))}
-        </div>
-
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8" style={{ borderTop: '1px solid var(--border-subtle)' }}>
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -137,10 +124,6 @@ export default function Footer() {
             ))}
           </div>
 
-          <div className="flex gap-4 text-xs" style={{ color: 'var(--text-muted)' }}>
-            <Link href="/privacy" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}>{t('footer.privacy')}</Link>
-            <Link href="/terms" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}>{t('footer.terms')}</Link>
-          </div>
         </div>
       </div>
     </footer>
