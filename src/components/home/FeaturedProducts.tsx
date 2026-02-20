@@ -34,12 +34,12 @@ export default function FeaturedProducts() {
       : products.filter((p) => p.gender === activeFilter);
 
   return (
-    <section className="py-12 sm:py-24 bg-[#0a0a0a] relative overflow-hidden">
+    <section className="py-12 sm:py-24 bg-[#0a0a0a] relative overflow-hidden isolate">
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute top-0 right-0 w-[min(500px,90vw)] h-[min(500px,90vw)] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-6">
           <motion.div
@@ -62,7 +62,7 @@ export default function FeaturedProducts() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex gap-2"
+            className="flex flex-wrap gap-2"
           >
             {(['ALL', 'MEN', 'WOMEN'] as const).map((filter) => (
               <motion.button
@@ -90,7 +90,7 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch"
             >
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="glass-card aspect-[3/4] shimmer rounded-2xl" />
@@ -102,7 +102,7 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch"
             >
               {filteredProducts.map((product, i) => (
                 <motion.div
@@ -110,6 +110,7 @@ export default function FeaturedProducts() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05, duration: 0.5 }}
+                  className="h-full"
                 >
                   <ProductCard product={product} />
                 </motion.div>

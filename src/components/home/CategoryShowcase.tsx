@@ -32,10 +32,10 @@ const categories = [
 
 export default function CategoryShowcase() {
   return (
-    <section className="py-12 sm:py-24 bg-[#060606] relative overflow-hidden">
+    <section className="py-12 sm:py-24 bg-[#060606] relative overflow-hidden isolate">
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

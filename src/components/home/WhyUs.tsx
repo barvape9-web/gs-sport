@@ -44,13 +44,13 @@ const features = [
 
 export default function WhyUs() {
   return (
-    <section className="py-12 sm:py-24 bg-[#0a0a0a] relative overflow-hidden">
+    <section className="py-12 sm:py-24 bg-[#0a0a0a] relative overflow-hidden isolate">
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
       {/* Decorative orb */}
       <div className="absolute bottom-0 left-0 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

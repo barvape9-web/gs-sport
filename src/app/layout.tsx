@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.variable} antialiased bg-zinc-950 text-white min-h-screen overflow-x-hidden`}
+        className={`${inter.variable} antialiased bg-zinc-950 text-white min-h-screen w-full overflow-x-clip`}
       >
         <Providers>
           {children}

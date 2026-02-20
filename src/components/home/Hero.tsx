@@ -26,7 +26,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-zinc-950"
+      className="relative min-h-[80vh] flex items-center justify-center overflow-hidden isolate bg-zinc-950"
     >
       {/* 3D Background */}
       <div className="absolute inset-0 z-0">
@@ -34,10 +34,10 @@ export default function Hero() {
       </div>
 
       {/* Grid overlay */}
-      <div className="absolute inset-0 grid-bg z-0 opacity-60" />
+      <div className="absolute inset-0 grid-bg z-0 opacity-40" />
 
       {/* Dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70 z-0 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/55 z-0 pointer-events-none" />
 
       {/* Gradient radial — stronger glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(900px,90vw)] h-[min(900px,90vw)] rounded-full bg-[#f97316]/10 blur-[150px] pointer-events-none z-0" />
@@ -46,7 +46,7 @@ export default function Hero() {
 
       <motion.div
         style={{ y, opacity }}
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center"
+        className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16 text-center"
       >
         {/* Badge */}
         <motion.div

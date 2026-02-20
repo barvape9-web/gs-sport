@@ -42,11 +42,11 @@ export default function ProductCard({ product }: ProductCardProps) {
     <motion.div
       whileHover={{ y: -6, scale: 1.03 }}
       transition={{ duration: 0.3 }}
-      className="product-card group cursor-pointer overflow-hidden rounded-xl bg-zinc-900/70 border border-white/5 shadow-lg hover:shadow-2xl transition-all duration-300"
+      className="product-card group cursor-pointer overflow-hidden rounded-xl bg-zinc-900/70 border border-white/5 shadow-lg hover:shadow-2xl transition-all duration-300 h-full"
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      <Link href={`/products/${product.id}`}>
+      <Link href={`/products/${product.id}`} className="block h-full">
         {/* Image container */}
         <div className="relative aspect-[3/4] overflow-hidden rounded-t-xl bg-gradient-to-br from-zinc-900 via-zinc-900 to-black">
           {product.images?.[0] ? (
