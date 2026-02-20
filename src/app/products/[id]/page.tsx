@@ -13,6 +13,7 @@ import axios from 'axios';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CartDrawer from '@/components/cart/CartDrawer';
+import ReviewSection from '@/components/products/ReviewSection';
 import { useTranslation } from '@/lib/useTranslation';
 
 const MOCK_PRODUCT: Product = {
@@ -439,6 +440,9 @@ export default function ProductDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* Reviews Section */}
+        <ReviewSection productId={id as string} />
       </main>
       <Footer />
     </>

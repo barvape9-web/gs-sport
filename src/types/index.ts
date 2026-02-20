@@ -79,6 +79,17 @@ export interface CartItem {
   color?: string;
 }
 
+export interface Review {
+  id: string;
+  userId: string;
+  user?: { id: string; name: string; avatar?: string };
+  productId: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface SiteTheme {
   id: string;
   primaryColor: string;

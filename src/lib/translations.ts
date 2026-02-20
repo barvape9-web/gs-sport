@@ -187,6 +187,22 @@ const translations: Record<Locale, Record<string, string>> = {
     'productDetail.noImage': 'სურათი არ არის',
     'productDetail.hot': 'HOT',
 
+    // ── Reviews ──
+    'reviews.title': 'მიმოხილვები',
+    'reviews.reviewsCount': 'მიმოხილვა',
+    'reviews.writeReview': 'დაწერე მიმოხილვა',
+    'reviews.yourRating': 'შენი შეფასება',
+    'reviews.commentPlaceholder': 'გაგვიზიარე შენი გამოცდილება ამ პროდუქტით...',
+    'reviews.submit': 'გაგზავნა',
+    'reviews.submitting': 'იგზავნება...',
+    'reviews.submitted': 'მიმოხილვა წარმატებით დაემატა!',
+    'reviews.submitError': 'მიმოხილვის გაგზავნა ვერ მოხერხდა',
+    'reviews.selectRating': 'გთხოვთ აირჩიოთ შეფასება',
+    'reviews.commentTooShort': 'კომენტარი უნდა იყოს მინიმუმ 3 სიმბოლო',
+    'reviews.alreadyReviewed': 'თქვენ უკვე დაწერეთ მიმოხილვა ამ პროდუქტზე',
+    'reviews.purchaseRequired': 'მიმოხილვის დასატოვებლად საჭიროა ამ პროდუქტის შეძენა',
+    'reviews.noReviews': 'ჯერ არ არის მიმოხილვები. იყავით პირველი!',
+
     // ── Cart ──
     'cart.yourCart': 'შენი კალათა',
     'cart.empty': 'კალათა ცარიელია',
@@ -494,6 +510,22 @@ const translations: Record<Locale, Record<string, string>> = {
     'productDetail.noImage': 'No image',
     'productDetail.hot': 'HOT',
 
+    // ── Reviews ──
+    'reviews.title': 'Reviews',
+    'reviews.reviewsCount': 'reviews',
+    'reviews.writeReview': 'Write a Review',
+    'reviews.yourRating': 'Your rating',
+    'reviews.commentPlaceholder': 'Share your experience with this product...',
+    'reviews.submit': 'Submit Review',
+    'reviews.submitting': 'Submitting...',
+    'reviews.submitted': 'Review submitted successfully!',
+    'reviews.submitError': 'Failed to submit review',
+    'reviews.selectRating': 'Please select a rating',
+    'reviews.commentTooShort': 'Comment must be at least 3 characters',
+    'reviews.alreadyReviewed': 'You have already reviewed this product',
+    'reviews.purchaseRequired': 'You need to purchase this product to leave a review',
+    'reviews.noReviews': 'No reviews yet. Be the first!',
+
     // ── Cart ──
     'cart.yourCart': 'Your Cart',
     'cart.empty': 'Your cart is empty',
@@ -800,6 +832,22 @@ const translations: Record<Locale, Record<string, string>> = {
     'productDetail.returnPolicy': '30 дней',
     'productDetail.noImage': 'Нет фото',
     'productDetail.hot': 'ХИТ',
+
+    // ── Reviews ──
+    'reviews.title': 'Отзывы',
+    'reviews.reviewsCount': 'отзывов',
+    'reviews.writeReview': 'Написать отзыв',
+    'reviews.yourRating': 'Ваша оценка',
+    'reviews.commentPlaceholder': 'Поделитесь своим опытом с этим товаром...',
+    'reviews.submit': 'Отправить отзыв',
+    'reviews.submitting': 'Отправка...',
+    'reviews.submitted': 'Отзыв успешно отправлен!',
+    'reviews.submitError': 'Не удалось отправить отзыв',
+    'reviews.selectRating': 'Пожалуйста, выберите оценку',
+    'reviews.commentTooShort': 'Комментарий должен быть не менее 3 символов',
+    'reviews.alreadyReviewed': 'Вы уже оставили отзыв на этот товар',
+    'reviews.purchaseRequired': 'Для отзыва необходимо приобрести этот товар',
+    'reviews.noReviews': 'Пока нет отзывов. Будьте первым!',
 
     // ── Cart ──
     'cart.yourCart': 'Корзина',

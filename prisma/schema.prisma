@@ -50,6 +50,7 @@ model User {
   orders       Order[]
   savedProducts SavedProduct[]
   cart         CartItem[]
+  reviews      Review[]
   conversations ChatConversation[]
   chatMessages  ChatMessage[]
 
@@ -78,6 +79,7 @@ model Product {
   orderItems   OrderItem[]
   savedByUsers SavedProduct[]
   cartItems    CartItem[]
+  reviews      Review[]
 
   @@map("products")
 }
@@ -177,6 +179,21 @@ model ChatMessage {
   createdAt      DateTime         @default(now())
 
   @@map("chat_messages")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId])
+  @@map("reviews")
 }
 
 model ActiveSession {
