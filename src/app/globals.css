@@ -643,6 +643,98 @@
   }
 }
 
+/* ── Mobile-Specific Styles ──────────────────────────────────────── */
+@media (max-width: 639px) {
+  /* ── General Mobile Polish ── */
+  body {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Prevent horizontal overflow on all pages */
+  main, .min-h-screen {
+    overflow-x: hidden;
+  }
+
+  /* ── Glass cards — reduce padding on small screens ── */
+  .glass-card {
+    border-radius: 14px;
+    padding: 0.75rem;
+  }
+
+  /* ── Product grid — ensure 2-col fills properly ── */
+  .product-card {
+    border-radius: 12px;
+  }
+
+  .product-card .aspect-\[3\/4\] {
+    border-radius: 12px 12px 0 0;
+  }
+
+  /* ── Buttons — bigger touch targets ── */
+  .btn-primary {
+    min-height: 44px;
+    font-size: 0.875rem;
+  }
+
+  /* ── Input fields — comfortable mobile size ── */
+  .input-glass {
+    min-height: 44px;
+    font-size: 16px !important; /* prevent iOS zoom on focus */
+  }
+
+  /* ── Navbar spacing ── */
+  nav, .pt-24 {
+    scroll-margin-top: 4rem;
+  }
+
+  /* ── Admin table horizontal scroll smoothness ── */
+  .admin-chart-card {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── Contact page — reduce card padding ── */
+  .glass-card p {
+    word-break: break-word;
+  }
+
+  /* ── Checkout form — stack gracefully ── */
+  .grid.grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── Scrollbar — hide on mobile for cleaner look ── */
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
+
+/* ── Small phones (< 380px) ── */
+@media (max-width: 379px) {
+  .glass-card {
+    padding: 0.625rem;
+    border-radius: 12px;
+  }
+
+  .btn-primary {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 0.8125rem;
+  }
+
+  h1 {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* ── Tablet / Medium screens ── */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .input-glass {
+    font-size: 16px !important; /* prevent iOS zoom */
+  }
+}
+
 /* ── Keyframes (top-level, not layer-dependent) ──────────────────── */
 @keyframes shimmer {
   0% { background-position: -1000px 0; }

@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { ChevronRight, CreditCard, Truck, CheckCircle, Lock, ShoppingBag } from 'lucide-react';
+import { ChevronRight, Banknote, Truck, CheckCircle, Lock, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
@@ -247,32 +247,27 @@ export default function CheckoutPage() {
                       <motion.div key="payment" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
                         <div className="glass-card p-6 space-y-5">
                           <div className="flex items-center gap-2 mb-2">
-                            <CreditCard size={18} style={{ color: 'var(--color-primary)' }} />
+                            <Banknote size={18} style={{ color: 'var(--color-primary)' }} />
                             <h2 className="text-lg font-black text-white">Payment</h2>
                           </div>
 
-                          <div className="glass rounded-xl p-4 flex items-center gap-3" style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)' }}>
-                            <Lock size={16} className="shrink-0" style={{ color: 'var(--color-primary)' }} />
-                            <p className="text-xs text-white/50">
-                              This is a demo store. No real payment will be processed. Click "Place Order" to complete your demo order.
-                            </p>
-                          </div>
-
-                          {/* Mock card fields */}
-                          <div className="space-y-4 opacity-60 pointer-events-none">
-                            <div>
-                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">Card Number</label>
-                              <input value="4242 4242 4242 4242" readOnly className="w-full input-glass px-4 py-3 rounded-xl text-sm" />
+                          {/* Cash on Delivery */}
+                          <div className="glass rounded-2xl p-5 space-y-4" style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 25%, transparent)' }}>
+                            <div className="flex items-center gap-3">
+                              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)', border: '1px solid color-mix(in srgb, var(--color-primary) 25%, transparent)' }}>
+                                <Banknote size={22} style={{ color: 'var(--color-primary)' }} />
+                              </div>
+                              <div>
+                                <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Cash on Delivery</p>
+                                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Pay with cash when your order arrives</p>
+                              </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">Expiry</label>
-                                <input value="12/28" readOnly className="w-full input-glass px-4 py-3 rounded-xl text-sm" />
-                              </div>
-                              <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">CVV</label>
-                                <input value="•••" readOnly className="w-full input-glass px-4 py-3 rounded-xl text-sm" />
-                              </div>
+
+                            <div className="flex items-start gap-2 rounded-xl p-3" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 5%, transparent)' }}>
+                              <Lock size={14} className="shrink-0 mt-0.5" style={{ color: 'var(--color-primary)' }} />
+                              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                                No online payment required. Pay the courier in cash when you receive your order. Please have the exact amount ready.
+                              </p>
                             </div>
                           </div>
 
@@ -294,7 +289,7 @@ export default function CheckoutPage() {
                                 <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                               ) : (
                                 <>
-                                  <Lock size={16} />
+                                  <Banknote size={16} />
                                   Place Order • {formatPrice(total)}
                                 </>
                               )}

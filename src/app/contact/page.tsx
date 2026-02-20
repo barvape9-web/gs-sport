@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation';
 const contactInfo = [
   { icon: Mail, label: 'Email', value: 'sardlishviligiorgi0@gmail.com', color: 'var(--color-primary)' },
   { icon: Phone, label: 'Phone', value: '+995 557781251', color: '#3b82f6' },
-  { icon: Instagram, label: 'Instagram', value: '@_g_s_s_p_o_r_t_', color: '#e1306c', href: 'https://www.instagram.com/_g_s_s_p_o_r_t_/' },
+  { icon: Instagram, label: 'Instagram', value: '@_g_s_s_p_o_r_t_', color: '#e1306c', href: 'https://www.instagram.com/_g_s_s_p_o_r_t_/', extraGap: true },
   { icon: Clock, label: 'Support Hours', value: '24/7 Online Support', color: '#8b5cf6' },
 ];
 
@@ -165,14 +165,14 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              {contactInfo.map(({ icon: Icon, label, value, color, href }, i) => {
+              {contactInfo.map(({ icon: Icon, label, value, color, href, extraGap }, i) => {
                 const content = (
                   <motion.div
                     key={label}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`glass-card p-4 flex items-start gap-4 ${href ? 'cursor-pointer hover:scale-[1.02] transition-transform' : ''}`}
+                    className={`glass-card p-4 flex items-start gap-4 ${href ? 'cursor-pointer hover:scale-[1.02] transition-transform' : ''} ${extraGap ? 'mb-4' : ''}`}
                   >
                     <div
                       className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"

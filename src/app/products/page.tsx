@@ -182,18 +182,36 @@ function ProductsPageInner() {
             </div>
           </div>
 
-          <div className="flex gap-4 sm:gap-8">
-            {/* Filters Sidebar */}
+          <div className="flex gap-4 sm:gap-8 relative">
+            {/* Filters Sidebar — overlay on mobile, inline on desktop */}
             <AnimatePresence>
               {showFilters && (
-                <motion.div
-                  initial={{ opacity: 0, x: -20, width: 0 }}
-                  animate={{ opacity: 1, x: 0, width: 'min(280px, 80vw)' }}
-                  exit={{ opacity: 0, x: -20, width: 0 }}
-                  className="flex-shrink-0 overflow-hidden"
-                >
-                  <ProductFilters filters={filters} onFiltersChange={setFilters} />
-                </motion.div>
+                <>
+                  {/* Mobile backdrop */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setShowFilters(false)}
+                    className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, x: -20, width: 0 }}
+                    animate={{ opacity: 1, x: 0, width: 'min(280px, 80vw)' }}
+                    exit={{ opacity: 0, x: -20, width: 0 }}
+                    className="fixed left-0 top-0 bottom-0 z-50 pt-24 pb-6 px-3 overflow-y-auto lg:relative lg:z-auto lg:pt-0 lg:pb-0 lg:px-0 flex-shrink-0"
+                    style={{ backgroundColor: 'var(--bg-primary)' }}
+                  >
+                    {/* Close button — mobile only */}
+                    <button
+                      onClick={() => setShowFilters(false)}
+                      className="absolute top-20 right-3 z-10 p-2 rounded-full glass lg:hidden"
+                    >
+                      <X size={16} style={{ color: 'var(--text-muted)' }} />
+                    </button>
+                    <ProductFilters filters={filters} onFiltersChange={setFilters} />
+                  </motion.div>
+                </>
               )}
             </AnimatePresence>
 
