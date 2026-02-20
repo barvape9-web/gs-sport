@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { ChevronRight, Banknote, Truck, CheckCircle, Lock, ShoppingBag } from 'lucide-react';
+import { ChevronRight, Banknote, Truck, CheckCircle, Lock, ShoppingBag, Copy, Check, Landmark, CreditCard } from 'lucide-react';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
@@ -40,6 +40,14 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [orderId, setOrderId] = useState<string>('');
   const { t } = useTranslation();
+  const [copiedIban, setCopiedIban] = useState<string | null>(null);
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIban(text);
+    toast.success('IBAN დაკოპირებულია!');
+    setTimeout(() => setCopiedIban(null), 2000);
+  };
 
   const { register, handleSubmit, getValues, formState: { errors } } = useForm<AddressForm>({
     resolver: zodResolver(addressSchema),
@@ -242,21 +250,82 @@ export default function CheckoutPage() {
                             <h2 className="text-lg font-black text-white">{t('checkout.payment')}</h2>
                           </div>
 
+                          {/* Bank Transfer */}
+                          <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 30%, transparent)' }}>
+                            {/* Header */}
+                            <div className="px-5 py-4 flex items-center gap-3" style={{ background: 'linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 12%, transparent), color-mix(in srgb, var(--color-primary) 5%, transparent))' }}>
+                              <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, #000))', boxShadow: '0 4px 15px color-mix(in srgb, var(--color-primary) 30%, transparent)' }}>
+                                <Landmark size={20} className="text-white" />
+                              </div>
+                              <div>
+                                <p className="text-sm font-black" style={{ color: 'var(--text-primary)' }}>საბანკო გადარიცხვა</p>
+                                <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>გადარიცხეთ ქვემოთ მოცემულ ანგარიშზე</p>
+                              </div>
+                            </div>
+
+                            <div className="px-5 py-4 space-y-3" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 3%, var(--bg-secondary))' }}>
+                              {/* BOG */}
+                              <div className="glass rounded-xl p-3.5 flex items-center gap-3 group cursor-pointer hover:scale-[1.01] transition-transform" onClick={() => copyToClipboard('GE89BG0000000580619674')} style={{ border: '1px solid color-mix(in srgb, #f97316 20%, transparent)' }}>
+                                <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: '#f97316', boxShadow: '0 2px 10px rgba(249,115,22,0.25)' }}>
+                                  <CreditCard size={16} className="text-white" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#f97316' }}>BOG Bank</p>
+                                  <p className="text-xs font-mono font-semibold text-white/80 truncate">GE89BG0000000580619674</p>
+                                </div>
+                                <motion.div whileTap={{ scale: 0.85 }} className="p-1.5 rounded-lg shrink-0" style={{ backgroundColor: 'color-mix(in srgb, #f97316 10%, transparent)' }}>
+                                  {copiedIban === 'GE89BG0000000580619674' ? <Check size={14} className="text-green-400" /> : <Copy size={14} style={{ color: '#f97316' }} />}
+                                </motion.div>
+                              </div>
+
+                              {/* TBC */}
+                              <div className="glass rounded-xl p-3.5 flex items-center gap-3 group cursor-pointer hover:scale-[1.01] transition-transform" onClick={() => copyToClipboard('GE80TB7099445061600037')} style={{ border: '1px solid color-mix(in srgb, #3b82f6 20%, transparent)' }}>
+                                <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: '#3b82f6', boxShadow: '0 2px 10px rgba(59,130,246,0.25)' }}>
+                                  <CreditCard size={16} className="text-white" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#3b82f6' }}>TBC Bank</p>
+                                  <p className="text-xs font-mono font-semibold text-white/80 truncate">GE80TB7099445061600037</p>
+                                </div>
+                                <motion.div whileTap={{ scale: 0.85 }} className="p-1.5 rounded-lg shrink-0" style={{ backgroundColor: 'color-mix(in srgb, #3b82f6 10%, transparent)' }}>
+                                  {copiedIban === 'GE80TB7099445061600037' ? <Check size={14} className="text-green-400" /> : <Copy size={14} style={{ color: '#3b82f6' }} />}
+                                </motion.div>
+                              </div>
+
+                              {/* Recipient */}
+                              <div className="rounded-xl p-3 space-y-1.5" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 6%, transparent)', border: '1px solid color-mix(in srgb, var(--color-primary) 12%, transparent)' }}>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />
+                                  <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>მიმღები</p>
+                                </div>
+                                <p className="text-sm font-bold pl-3.5" style={{ color: 'var(--text-primary)' }}>გიორგი სარდლიშვილი</p>
+                              </div>
+
+                              {/* Purpose Note */}
+                              <div className="flex items-start gap-2 rounded-xl p-3" style={{ backgroundColor: 'color-mix(in srgb, #10b981 8%, transparent)', border: '1px solid color-mix(in srgb, #10b981 15%, transparent)' }}>
+                                <Lock size={13} className="shrink-0 mt-0.5 text-emerald-400" />
+                                <p className="text-[11px] text-emerald-300/80 leading-relaxed">
+                                  დანიშნულებაში ჩაწერეთ <span className="font-bold text-emerald-300">ნივთის სახელი</span> და <span className="font-bold text-emerald-300">პროფილის სახელი</span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
                           {/* Cash on Delivery */}
-                          <div className="glass rounded-2xl p-5 space-y-4" style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 25%, transparent)' }}>
+                          <div className="glass rounded-2xl p-5 space-y-4" style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 15%, transparent)' }}>
                             <div className="flex items-center gap-3">
-                              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)', border: '1px solid color-mix(in srgb, var(--color-primary) 25%, transparent)' }}>
-                                <Banknote size={22} style={{ color: 'var(--color-primary)' }} />
+                              <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)' }}>
+                                <Banknote size={20} style={{ color: 'var(--color-primary)' }} />
                               </div>
                               <div>
                                 <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{t('checkout.cashOnDelivery')}</p>
-                                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('checkout.payWithCash')}</p>
+                                <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{t('checkout.payWithCash')}</p>
                               </div>
                             </div>
 
                             <div className="flex items-start gap-2 rounded-xl p-3" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 5%, transparent)' }}>
-                              <Lock size={14} className="shrink-0 mt-0.5" style={{ color: 'var(--color-primary)' }} />
-                              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                              <Lock size={13} className="shrink-0 mt-0.5" style={{ color: 'var(--color-primary)' }} />
+                              <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
                                 {t('checkout.noOnlinePayment')}
                               </p>
                             </div>
