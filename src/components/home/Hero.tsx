@@ -220,7 +220,7 @@ export default function Hero() {
         </div>
 
         {/* Slide indicators + nav arrows */}
-        <div className="flex items-center justify-center gap-4 mt-8">
+        <div className="flex items-center justify-center gap-4 mt-8 mb-14 sm:mb-16">
           <button
             onClick={() => { prev(); resetTimer(); }}
             className="w-8 h-8 rounded-full glass flex items-center justify-center transition-all hover:scale-110"
@@ -269,7 +269,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex"
+          className="absolute bottom-3 left-1/2 -translate-x-1/2 hidden sm:flex"
         >
           <div className="flex flex-col items-center gap-2">
             <span className="text-xs uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{t('hero.scroll')}</span>
