@@ -2,8 +2,8 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Mail, Phone, Send, MessageCircle, Clock, Loader2,
-  Headphones, Plus, ArrowLeft, Check, CheckCheck, Instagram,
+  Send, MessageCircle, Loader2,
+  Headphones, Plus, ArrowLeft, Check, CheckCheck,
 } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Navbar from '@/components/layout/Navbar';
@@ -20,12 +20,7 @@ export default function ContactPage() {
   const router = useRouter();
   const { t } = useTranslation();
 
-  const contactInfo = [
-    { icon: Mail, label: t('contact.email'), value: 'sardlishviligiorgi0@gmail.com', color: 'var(--color-primary)', href: 'mailto:sardlishviligiorgi0@gmail.com' },
-    { icon: Phone, label: t('contact.phone'), value: '+995 557781251', color: '#3b82f6', href: 'tel:+995557781251' },
-    { icon: Instagram, label: t('contact.instagram'), value: '@_g_s_s_p_o_r_t_', color: '#e1306c', href: 'https://www.instagram.com/_g_s_s_p_o_r_t_/', extraGap: true },
-    { icon: Clock, label: t('contact.supportHours'), value: t('contact.onlineSupport'), color: '#8b5cf6' },
-  ];
+
   const [conversations, setConversations] = useState<(ChatConversation & { unreadCount: number })[]>([]);
   const [activeConv, setActiveConv] = useState<ChatConversation | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -166,39 +161,6 @@ export default function ContactPage() {
                   {t('contact.connectDesc')}
                 </p>
               </div>
-
-              {contactInfo.map(({ icon: Icon, label, value, color, href, extraGap }, i) => {
-                const content = (
-                  <motion.div
-                    key={label}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className={`glass-card p-4 flex items-start gap-4 ${href ? 'cursor-pointer hover:scale-[1.02] transition-transform' : ''} ${extraGap ? 'mb-4' : ''}`}
-                  >
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{
-                        backgroundColor: `color-mix(in srgb, ${color} 15%, transparent)`,
-                        border: `1px solid color-mix(in srgb, ${color} 20%, transparent)`,
-                        boxShadow: `0 4px 15px color-mix(in srgb, ${color} 10%, transparent), 0 8px 25px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.1)`,
-                        borderRadius: '12px',
-                      }}
-                    >
-                      <Icon size={18} style={{ color }} />
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{label}</p>
-                      <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>{value}</p>
-                    </div>
-                  </motion.div>
-                );
-                return href ? (
-                  <a key={label} href={href} target="_blank" rel="noopener noreferrer">{content}</a>
-                ) : (
-                  <div key={label}>{content}</div>
-                );
-              })}
 
               {/* Live Chat Status Card */}
               <motion.div
