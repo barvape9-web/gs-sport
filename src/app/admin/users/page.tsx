@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Shield, User, Trash2, Filter, ChevronDown, Loader2 } from 'lucide-react';
+import { Search, Shield, User, Users, Trash2, Filter, ChevronDown, Loader2 } from 'lucide-react';
 import { User as UserType } from '@/types';
 import { formatDate } from '@/lib/utils';
 import toast from 'react-hot-toast';
@@ -70,20 +70,32 @@ export default function AdminUsersPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-black text-white">Users</h1>
-          <p className="text-white/40 text-sm">{users.length} registered users</p>
+      <div className="admin-page-header flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div
+            className="icon-3d w-11 h-11"
+            style={{
+              background: 'linear-gradient(135deg, #8b5cf625, #8b5cf610)',
+              border: '1px solid #8b5cf620',
+              boxShadow: '0 4px 15px rgba(139,92,246,0.15), 0 8px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+            }}
+          >
+            <Users size={18} style={{ color: '#8b5cf6', filter: 'drop-shadow(0 2px 4px rgba(139,92,246,0.4))' }} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-black text-white">Users</h1>
+            <p className="text-white/35 text-sm">{users.length} registered users</p>
+          </div>
         </div>
         <div className="flex gap-3">
-          <div className="glass px-4 py-2 rounded-xl text-center border border-white/5">
-            <p className="text-lg font-black text-white">{users.filter((u) => u.role === 'ADMIN').length}</p>
-            <p className="text-[10px] text-white/30 uppercase tracking-wider">Admins</p>
-          </div>
-          <div className="glass px-4 py-2 rounded-xl text-center border border-white/5">
-            <p className="text-lg font-black text-white">{users.filter((u) => u.role === 'USER').length}</p>
-            <p className="text-[10px] text-white/30 uppercase tracking-wider">Users</p>
-          </div>
+          <motion.div whileHover={{ y: -2 }} className="admin-stat-card !p-3 text-center" style={{ '--card-glow': 'rgba(249,115,22,0.1)' } as React.CSSProperties}>
+            <p className="text-lg font-black text-[#f97316]">{users.filter((u) => u.role === 'ADMIN').length}</p>
+            <p className="text-[10px] text-white/25 uppercase tracking-wider font-bold">Admins</p>
+          </motion.div>
+          <motion.div whileHover={{ y: -2 }} className="admin-stat-card !p-3 text-center" style={{ '--card-glow': 'rgba(59,130,246,0.1)' } as React.CSSProperties}>
+            <p className="text-lg font-black text-blue-400">{users.filter((u) => u.role === 'USER').length}</p>
+            <p className="text-[10px] text-white/25 uppercase tracking-wider font-bold">Users</p>
+          </motion.div>
         </div>
       </div>
 
@@ -120,7 +132,7 @@ export default function AdminUsersPage() {
       )}
 
       {/* Users Table */}
-      <div className="glass-card overflow-hidden">
+      <div className="admin-chart-card overflow-hidden">
         <div className="overflow-x-auto">
         <table className="admin-table">
           <thead>
@@ -141,10 +153,10 @@ export default function AdminUsersPage() {
                 <td>
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black text-white shrink-0"
-                      style={{ background: colors[idx % colors.length] + '33', border: `1px solid ${colors[idx % colors.length]}40` }}
+                      className="icon-3d w-9 h-9 shrink-0"
+                      style={{ background: `linear-gradient(135deg, ${colors[idx % colors.length]}25, ${colors[idx % colors.length]}10)`, border: `1px solid ${colors[idx % colors.length]}20` }}
                     >
-                      <span style={{ color: colors[idx % colors.length] }}>{initials(user.name)}</span>
+                      <span className="text-xs font-black" style={{ color: colors[idx % colors.length] }}>{initials(user.name)}</span>
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-white">{user.name || 'Unknown'}</p>

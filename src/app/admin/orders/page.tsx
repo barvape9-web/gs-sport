@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, ChevronDown, Eye, Edit, Loader2, Check } from 'lucide-react';
+import { Search, Filter, ChevronDown, Eye, Edit, Loader2, Check, ShoppingCart } from 'lucide-react';
 import { Order, OrderStatus } from '@/types';
 import { formatPrice, formatDate, getOrderStatusColor } from '@/lib/utils';
 import toast from 'react-hot-toast';
@@ -161,10 +161,22 @@ export default function AdminOrdersPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-black text-white">Orders</h1>
-          <p className="text-white/40 text-sm">{orders.length} total orders</p>
+      <div className="admin-page-header flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div
+            className="icon-3d w-11 h-11"
+            style={{
+              background: 'linear-gradient(135deg, #10b98125, #10b98110)',
+              border: '1px solid #10b98120',
+              boxShadow: '0 4px 15px rgba(16,185,129,0.15), 0 8px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+            }}
+          >
+            <ShoppingCart size={18} style={{ color: '#10b981', filter: 'drop-shadow(0 2px 4px rgba(16,185,129,0.4))' }} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-black text-white">Orders</h1>
+            <p className="text-white/35 text-sm">{orders.length} total orders</p>
+          </div>
         </div>
       </div>
 
@@ -176,7 +188,7 @@ export default function AdminOrdersPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by order ID, customer name, email..."
-            className="w-full input-glass pl-10 pr-4 py-3 rounded-xl text-sm"
+            className="w-full input-glass pl-10 pr-4 py-3 rounded-2xl text-sm"
           />
         </div>
         <div className="relative">
@@ -184,7 +196,7 @@ export default function AdminOrdersPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as OrderStatus | 'ALL')}
-            className="input-glass pl-9 pr-10 py-3 rounded-xl text-sm appearance-none cursor-pointer min-w-40"
+            className="input-glass pl-9 pr-10 py-3 rounded-2xl text-sm appearance-none cursor-pointer min-w-40"
           >
             <option value="ALL">All Statuses</option>
             {ALL_STATUSES.map((s) => (
@@ -203,26 +215,43 @@ export default function AdminOrdersPage() {
 
       {/* Summary stats */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-        {(['ALL', ...ALL_STATUSES] as const).map((status) => {
+        {(['ALL', ...ALL_STATUSES] as const).map((status, i) => {
           const count = status === 'ALL' ? orders.length : orders.filter((o) => o.status === status).length;
+          const statusColors: Record<string, string> = {
+            ALL: '#f97316', PENDING: '#eab308', PROCESSING: '#3b82f6',
+            SHIPPED: '#8b5cf6', DELIVERED: '#10b981', CANCELLED: '#ef4444',
+          };
+          const color = statusColors[status] || '#f97316';
+          const selected = statusFilter === status;
           return (
             <motion.button
               key={status}
-              whileHover={{ y: -2 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => setStatusFilter(status as OrderStatus | 'ALL')}
-              className={`glass-card p-3 text-center transition-all ${
-                statusFilter === status ? 'border-[#f97316]/40 bg-[#f97316]/5' : ''
-              }`}
+              className="admin-stat-card text-center"
+              style={{
+                '--card-glow': `${color}15`,
+                borderColor: selected ? `${color}40` : undefined,
+                background: selected
+                  ? `linear-gradient(135deg, ${color}10, ${color}05)`
+                  : undefined,
+              } as React.CSSProperties}
             >
-              <p className="text-xl font-black text-white">{count}</p>
-              <p className="text-[10px] text-white/40 mt-0.5 uppercase tracking-wider font-medium">{status}</p>
+              <p className="text-2xl font-black text-white">{count}</p>
+              <p className="text-[10px] mt-1 uppercase tracking-wider font-bold" style={{ color: selected ? color : 'rgba(255,255,255,0.35)' }}>
+                {status}
+              </p>
             </motion.button>
           );
         })}
       </div>
 
       {/* Orders Table */}
-      <div className="glass-card overflow-hidden">
+      <div className="admin-chart-card overflow-hidden">
         <div className="overflow-x-auto">
         <table className="admin-table">
           <thead>
@@ -236,11 +265,12 @@ export default function AdminOrdersPage() {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((order) => (
+            {filtered.map((order, i) => (
               <motion.tr
                 key={order.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.03 }}
               >
                 <td>
                   <span className="text-sm font-mono font-bold text-white">
@@ -249,10 +279,10 @@ export default function AdminOrdersPage() {
                 </td>
                 <td className="hidden md:table-cell">
                   <p className="text-xs text-white/70">{order.user?.name}</p>
-                  <p className="text-[10px] text-white/30">{order.user?.email}</p>
+                  <p className="text-[10px] text-white/25">{order.user?.email}</p>
                 </td>
                 <td className="hidden lg:table-cell">
-                  <span className="text-xs text-white/50">{formatDate(order.createdAt)}</span>
+                  <span className="text-xs text-white/40">{formatDate(order.createdAt)}</span>
                 </td>
                 <td>
                   <span className="text-sm font-bold text-[#f97316]">{formatPrice(order.total)}</span>
@@ -265,16 +295,18 @@ export default function AdminOrdersPage() {
                   />
                 </td>
                 <td>
-                  <div className="flex items-center justify-end gap-2">
+                  <div className="flex items-center justify-end gap-1.5">
                     <motion.button
                       whileHover={{ scale: 1.1 }}
-                      className="p-2 text-white/30 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+                      whileTap={{ scale: 0.9 }}
+                      className="p-2 text-white/25 hover:text-white hover:bg-white/5 rounded-xl transition-all"
                     >
                       <Eye size={14} />
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.1 }}
-                      className="p-2 text-white/30 hover:text-[#f97316] hover:bg-[#f97316]/10 rounded-lg transition-all"
+                      whileTap={{ scale: 0.9 }}
+                      className="p-2 text-white/25 hover:text-[#f97316] hover:bg-[#f97316]/10 rounded-xl transition-all"
                     >
                       <Edit size={14} />
                     </motion.button>
@@ -287,7 +319,8 @@ export default function AdminOrdersPage() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="py-16 text-center text-white/30">
+          <div className="py-16 text-center text-white/25">
+            <ShoppingCart size={32} className="mx-auto mb-3 opacity-30" />
             <p>No orders found</p>
           </div>
         )}

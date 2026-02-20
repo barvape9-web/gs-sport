@@ -62,15 +62,29 @@ export default function AdminThemePage() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div>
-        <h1 className="text-2xl font-black text-white">Theme Customization</h1>
-        <p className="text-white/40 text-sm">Customize the visual appearance of GS • Sport store</p>
+      <div className="admin-page-header flex items-center gap-3">
+        <div
+          className="icon-3d w-11 h-11"
+          style={{
+            background: 'linear-gradient(135deg, #06b6d425, #06b6d410)',
+            border: '1px solid #06b6d420',
+            boxShadow: '0 4px 15px rgba(6,182,212,0.15), 0 8px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+          }}
+        >
+          <Palette size={18} style={{ color: '#06b6d4', filter: 'drop-shadow(0 2px 4px rgba(6,182,212,0.4))' }} />
+        </div>
+        <div>
+          <h1 className="text-2xl font-black text-white">Theme Customization</h1>
+          <p className="text-white/35 text-sm">Customize the visual appearance of GS • Sport store</p>
+        </div>
       </div>
 
       {/* Preset Themes */}
-      <div className="glass-card p-6 space-y-4">
+      <div className="admin-chart-card p-6 space-y-4">
         <div className="flex items-center gap-2">
-          <Palette size={16} className="text-[#f97316]" />
+          <div className="icon-3d w-7 h-7" style={{ background: 'linear-gradient(135deg, #f9731618, #f9731608)', border: '1px solid #f9731612' }}>
+            <Palette size={12} style={{ color: '#f97316' }} />
+          </div>
           <h2 className="text-sm font-bold text-white uppercase tracking-wider">Preset Themes</h2>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -80,7 +94,7 @@ export default function AdminThemePage() {
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => applyPreset(preset)}
-              className="glass p-3 rounded-xl border border-white/5 hover:border-white/10 transition-all text-left group"
+              className="admin-stat-card !p-3 !rounded-xl text-left group"
             >
               <div className="flex gap-2 mb-2">
                 {[preset.primary, preset.secondary, preset.accent].map((c, i) => (
@@ -94,9 +108,11 @@ export default function AdminThemePage() {
       </div>
 
       {/* Custom Colors */}
-      <div className="glass-card p-6 space-y-5">
+      <div className="admin-chart-card p-6 space-y-5">
         <div className="flex items-center gap-2">
-          <Palette size={16} className="text-[#f97316]" />
+          <div className="icon-3d w-7 h-7" style={{ background: 'linear-gradient(135deg, #10b98118, #10b98108)', border: '1px solid #10b98112' }}>
+            <Palette size={12} style={{ color: '#10b981' }} />
+          </div>
           <h2 className="text-sm font-bold text-white uppercase tracking-wider">Custom Colors</h2>
         </div>
         <ColorPicker label="Primary Color" value={primaryColor} onChange={updatePrimaryColor} />
@@ -107,7 +123,7 @@ export default function AdminThemePage() {
       </div>
 
       {/* Color Preview */}
-      <div className="glass-card p-6 space-y-4">
+      <div className="admin-chart-card p-6 space-y-4">
         <h2 className="text-sm font-bold text-white uppercase tracking-wider">Live Preview</h2>
         <div className="grid grid-cols-3 gap-3">
           {[
@@ -137,7 +153,7 @@ export default function AdminThemePage() {
       </div>
 
       {/* Dark Mode */}
-      <div className="glass-card p-6">
+      <div className="admin-chart-card p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-white/5">
@@ -168,10 +184,10 @@ export default function AdminThemePage() {
       {/* Actions */}
       <div className="flex gap-3">
         <motion.button
-          whileHover={{ scale: 1.02 }}
+          whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(249,115,22,0.3)' }}
           whileTap={{ scale: 0.98 }}
           onClick={handleSave}
-          className="btn-primary px-6 py-3 rounded-xl text-sm font-bold flex items-center gap-2 flex-1 justify-center"
+          className="btn-primary px-6 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 flex-1 justify-center"
         >
           {saved ? <Check size={16} /> : null}
           {saved ? 'Saved!' : 'Save Changes'}
@@ -180,7 +196,7 @@ export default function AdminThemePage() {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleReset}
-          className="glass px-6 py-3 rounded-xl text-sm font-bold text-white/60 hover:text-white border border-white/10 hover:border-white/20 transition-all flex items-center gap-2"
+          className="glass px-6 py-3 rounded-2xl text-sm font-bold text-white/50 hover:text-white border border-white/10 hover:border-white/20 transition-all flex items-center gap-2"
         >
           <RotateCcw size={14} />
           Reset
