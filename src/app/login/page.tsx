@@ -158,24 +158,6 @@ export default function LoginPage() {
               )}
             </motion.button>
 
-            {/* Divider */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10" />
-              </div>
-              <div className="relative flex justify-center text-xs">
-                <span className="px-4 bg-transparent text-white/30">{t('login.or')}</span>
-              </div>
-            </div>
-
-            {/* Demo accounts */}
-            <div className="glass rounded-lg p-4 text-xs space-y-1" style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-muted)' }}>
-              <p className="font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-secondary)' }}>
-                {t('login.demoAccounts')}
-              </p>
-              <p>Admin: admin@gs-sport.com / admin123</p>
-              <p>User: user@gs-sport.com / user123</p>
-            </div>
           </form>
 
           {/* Sign up link */}
