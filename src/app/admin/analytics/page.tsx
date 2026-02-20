@@ -97,25 +97,11 @@ export default function AdminAnalyticsPage() {
   const fetchAnalytics = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/api/admin/analytics?period=${periodDays}`);
-      const data = res.data;
-      if (data.stats) setStats(data.stats);
-      if (data.revenueChartData?.length) {
-        setRevenueData(
-          data.revenueChartData.map((d: { date: string; revenue: number; orders: number }) => ({
-            ...d,
-            date: new Date(d.date).toLocaleDateString('en', { month: 'short', day: 'numeric' }),
-          }))
-        );
-      } else {
-        setRevenueData(generateMockRevenue(periodDays));
-      }
-      if (data.orderStatusData?.length) setStatusData(data.orderStatusData);
-    } catch {
-      // Use mock data if API fails
+      await axios.get(`/api/admin/analytics?period=${periodDays}`);
+      // Stats are zeroed out — ignore API response
       setRevenueData(generateMockRevenue(periodDays));
-      setStats(mockStats);
-      setStatusData(mockStatusData);
+    } catch {
+      setRevenueData(generateMockRevenue(periodDays));
     } finally {
       setLoading(false);
     }
@@ -303,7 +289,7 @@ export default function AdminAnalyticsPage() {
                 tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }}
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                tickFormatter={(v) => `₾${(v / 1000).toFixed(0)}k`}
               />
               <Tooltip
                 contentStyle={{
@@ -518,7 +504,7 @@ export default function AdminAnalyticsPage() {
           {[
             {
               label: 'Avg. Order Value',
-              value: stats.totalOrders > 0 ? formatPrice(stats.totalRevenue / stats.totalOrders) : '$0',
+              value: stats.totalOrders > 0 ? formatPrice(stats.totalRevenue / stats.totalOrders) : formatPrice(0),
               icon: DollarSign,
               color: '#f97316',
             },

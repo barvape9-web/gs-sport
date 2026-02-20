@@ -195,7 +195,7 @@ export default function AdminDashboard() {
                 tick={{ fill: 'rgba(255,255,255,0.25)', fontSize: 10 }}
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                tickFormatter={(v) => `₾${(v / 1000).toFixed(0)}k`}
               />
               <Tooltip
                 contentStyle={{
