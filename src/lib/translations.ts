@@ -283,6 +283,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'dashboard.marketingEmailsDesc': 'მიიღე ფასდაკლებები და აქციები',
     'dashboard.signInRequired': 'პანელის სანახავად გთხოვთ შეხვიდეთ ანგარიშში',
     'dashboard.adminPanel': 'ადმინ პანელი',
+    'dashboard.delivered': 'მიტანილი',
 
     // ── Contact ──
     'contact.getInTouch': 'დაგვიკავშირდი',
@@ -606,6 +607,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'dashboard.marketingEmailsDesc': 'Receive deals and promotions',
     'dashboard.signInRequired': 'Please sign in to view your dashboard',
     'dashboard.adminPanel': 'Admin Panel',
+    'dashboard.delivered': 'Delivered',
 
     // ── Contact ──
     'contact.getInTouch': 'Get In Touch',
@@ -928,6 +930,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'dashboard.marketingEmails': 'Маркетинговые письма',
     'dashboard.marketingEmailsDesc': 'Получать акции и предложения',
     'dashboard.signInRequired': 'Войдите для просмотра панели управления',
+    'dashboard.delivered': 'Доставлено',
     'dashboard.adminPanel': 'Админ панель',
 
     // ── Contact ──
