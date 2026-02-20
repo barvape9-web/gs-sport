@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plus,
@@ -36,7 +36,7 @@ const MOCK_PRODUCTS: Product[] = Array.from({ length: 10 }, (_, i) => ({
   updatedAt: new Date().toISOString(),
 }));
 
-interface FormData {
+interface ProductFormData {
   name: string;
   description: string;
   price: string;
@@ -49,7 +49,7 @@ interface FormData {
   colors: string;
 }
 
-const defaultForm: FormData = {
+const defaultForm: ProductFormData = {
   name: '',
   description: '',
   price: '',
@@ -67,8 +67,13 @@ export default function AdminProductsPage() {
   const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [form, setForm] = useState<FormData>(defaultForm);
+  const [form, setForm] = useState<ProductFormData>(defaultForm);
   const [isLoading, setIsLoading] = useState(false);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -91,6 +96,9 @@ export default function AdminProductsPage() {
   const openCreate = () => {
     setEditingProduct(null);
     setForm(defaultForm);
+    setImageFiles([]);
+    setImagePreviews([]);
+    setExistingImages([]);
     setIsModalOpen(true);
   };
 
@@ -108,25 +116,85 @@ export default function AdminProductsPage() {
       sizes: product.sizes.join(','),
       colors: product.colors.join(','),
     });
+    setImageFiles([]);
+    setImagePreviews([]);
+    setExistingImages(product.images || []);
     setIsModalOpen(true);
   };
 
+  /* ── Image helpers ─────────────────────────────────────────── */
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    const maxSize = 5 * 1024 * 1024;
+    for (const file of files) {
+      if (!validTypes.includes(file.type)) {
+        toast.error(`Invalid type: ${file.name}. Use JPG, PNG, or WebP.`);
+        return;
+      }
+      if (file.size > maxSize) {
+        toast.error(`${file.name} exceeds 5 MB limit.`);
+        return;
+      }
+    }
+    setImageFiles((prev) => [...prev, ...files]);
+    setImagePreviews((prev) => [...prev, ...files.map((f) => URL.createObjectURL(f))]);
+    e.target.value = '';
+  };
+
+  const removeExistingImage = (idx: number) =>
+    setExistingImages((prev) => prev.filter((_, i) => i !== idx));
+
+  const removeNewImage = (idx: number) => {
+    setImagePreviews((prev) => {
+      URL.revokeObjectURL(prev[idx]);
+      return prev.filter((_, i) => i !== idx);
+    });
+    setImageFiles((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  /* ── Save (with image upload) ──────────────────────────────── */
+
   const handleSave = async () => {
+    if (!form.name.trim()) { toast.error('Product name is required'); return; }
+    if (!form.price || parseFloat(form.price) <= 0) { toast.error('Valid price is required'); return; }
+
     setIsLoading(true);
     try {
+      let uploadedUrls: string[] = [];
+      if (imageFiles.length > 0) {
+        setIsUploading(true);
+        for (const file of imageFiles) {
+          const fd = new FormData();
+          fd.append('image', file);
+          const res = await axios.post('/api/upload', fd);
+          uploadedUrls.push(res.data.url);
+        }
+        setIsUploading(false);
+      }
+
+      const allImages = [...existingImages, ...uploadedUrls];
+
       const payload = {
-        ...form,
+        name: form.name,
+        description: form.description,
         price: parseFloat(form.price),
         originalPrice: form.originalPrice ? parseFloat(form.originalPrice) : undefined,
-        stock: parseInt(form.stock),
-        sizes: form.sizes.split(',').map((s) => s.trim()),
-        colors: form.colors.split(',').map((c) => c.trim()),
+        stock: parseInt(form.stock) || 0,
+        sizes: form.sizes.split(',').map((s) => s.trim()).filter(Boolean),
+        colors: form.colors.split(',').map((c) => c.trim()).filter(Boolean),
+        gender: form.gender,
+        category: form.category,
+        isFeatured: form.isFeatured,
+        images: allImages,
       };
 
       if (editingProduct) {
-        await axios.put(`/api/products/${editingProduct.id}`, payload);
+        const res = await axios.put(`/api/products/${editingProduct.id}`, payload);
         setProducts((prev) =>
-          prev.map((p) => (p.id === editingProduct.id ? { ...p, ...payload } : p))
+          prev.map((p) => (p.id === editingProduct.id ? res.data : p))
         );
         toast.success('Product updated!');
       } else {
@@ -135,24 +203,10 @@ export default function AdminProductsPage() {
         toast.success('Product created!');
       }
       setIsModalOpen(false);
-    } catch {
-      // Optimistic update for demo
-      if (editingProduct) {
-        const price = parseFloat(form.price);
-        const stock = parseInt(form.stock);
-        const originalPrice = form.originalPrice ? parseFloat(form.originalPrice) : undefined;
-        const sizes = form.sizes.split(',').map((s: string) => s.trim());
-        const colors = form.colors.split(',').map((c: string) => c.trim());
-        setProducts((prev) =>
-          prev.map((p) =>
-            p.id === editingProduct.id
-              ? { ...p, name: form.name, description: form.description, price, stock, originalPrice, sizes, colors, isFeatured: form.isFeatured, gender: form.gender as import('@/types').Gender, category: form.category as import('@/types').Category }
-              : p
-          )
-        );
-      }
-      toast.success(editingProduct ? 'Product updated!' : 'Product created!');
-      setIsModalOpen(false);
+    } catch (err: unknown) {
+      const msg = axios.isAxiosError(err) ? err.response?.data?.error : 'Something went wrong';
+      toast.error(msg || 'Failed to save product');
+      setIsUploading(false);
     } finally {
       setIsLoading(false);
     }
@@ -235,9 +289,16 @@ export default function AdminProductsPage() {
               >
                 <td>
                   <div className="flex items-center gap-3">
-                    <div className="icon-3d w-10 h-10 shrink-0" style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05))', border: '1px solid rgba(59,130,246,0.12)' }}>
-                      <Package size={14} className="text-blue-400" />
-                    </div>
+                    {product.images?.[0] ? (
+                      <div className="w-10 h-10 shrink-0 rounded-xl overflow-hidden border border-white/10">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={product.images[0]} alt="" className="w-full h-full object-cover" />
+                      </div>
+                    ) : (
+                      <div className="icon-3d w-10 h-10 shrink-0" style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05))', border: '1px solid rgba(59,130,246,0.12)' }}>
+                        <Package size={14} className="text-blue-400" />
+                      </div>
+                    )}
                     <div className="min-w-0">
                       <p className="text-sm font-semibold truncate max-w-[160px]" style={{ color: 'var(--text-primary)' }}>
                         {product.name}
@@ -462,9 +523,60 @@ export default function AdminProductsPage() {
 
                   <div className="sm:col-span-2">
                     <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Product Images</label>
-                    <div className="border-2 border-dashed border-white/10 rounded-xl p-8 text-center hover:border-[#f97316]/30 transition-colors cursor-pointer">
+
+                    {/* Image previews (existing + new) */}
+                    {(existingImages.length > 0 || imagePreviews.length > 0) && (
+                      <div className="flex flex-wrap gap-3 mb-3">
+                        {existingImages.map((url, i) => (
+                          <div key={`e-${i}`} className="relative w-20 h-20 rounded-xl overflow-hidden border border-white/10 group">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={url} alt="" className="w-full h-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => removeExistingImage(i)}
+                              className="absolute top-1 right-1 w-5 h-5 bg-red-500/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X size={10} className="text-white" />
+                            </button>
+                          </div>
+                        ))}
+                        {imagePreviews.map((url, i) => (
+                          <div key={`n-${i}`} className="relative w-20 h-20 rounded-xl overflow-hidden border border-[#f97316]/30 group">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={url} alt="" className="w-full h-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => removeNewImage(i)}
+                              className="absolute top-1 right-1 w-5 h-5 bg-red-500/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X size={10} className="text-white" />
+                            </button>
+                            <div className="absolute bottom-0 inset-x-0 bg-[#f97316]/80 text-[8px] text-white text-center py-0.5 font-bold">NEW</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* File input (hidden) */}
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleImageSelect}
+                      className="hidden"
+                    />
+                    <div
+                      onClick={() => fileInputRef.current?.click()}
+                      className="border-2 border-dashed border-white/10 rounded-xl p-6 text-center hover:border-[#f97316]/30 transition-colors cursor-pointer active:bg-white/[0.02]"
+                    >
                       <Upload size={24} className="text-white/20 mx-auto mb-2" />
-                      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Click to upload product images</p>
+                      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                        Click to upload images (JPG, PNG, WebP — max 5 MB)
+                      </p>
+                      <p className="text-[10px] mt-1 text-white/20">
+                        Supports phone gallery &amp; camera
+                      </p>
                     </div>
                   </div>
 
@@ -491,7 +603,7 @@ export default function AdminProductsPage() {
                     className="flex-1 btn-primary py-3 rounded-xl font-bold text-white flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-                    {editingProduct ? 'Update' : 'Create'} Product
+                    {isUploading ? 'Uploading images…' : `${editingProduct ? 'Update' : 'Create'} Product`}
                   </motion.button>
                   <button
                     onClick={() => setIsModalOpen(false)}
