@@ -21,6 +21,7 @@ const navLinks = [
       { label: 'Best Sellers', href: '/products?sort=popularity' },
     ],
   },
+  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
 
