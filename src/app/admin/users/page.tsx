@@ -120,25 +120,25 @@ export default function AdminUsersPage() {
       )}
 
       {/* Users Table */}
-      <div className="glass-card overflow-x-auto">
-        <table className="w-full">
+      <div className="glass-card overflow-hidden">
+        <div className="overflow-x-auto">
+        <table className="admin-table">
           <thead>
-            <tr className="border-b border-white/5">
-              <th className="text-left px-6 py-4 text-xs text-white/40 font-bold uppercase tracking-wider">User</th>
-              <th className="text-left px-4 py-4 text-xs text-white/40 font-bold uppercase tracking-wider hidden md:table-cell">Joined</th>
-              <th className="text-left px-4 py-4 text-xs text-white/40 font-bold uppercase tracking-wider">Role</th>
-              <th className="text-right px-4 py-4 text-xs text-white/40 font-bold uppercase tracking-wider">Actions</th>
+            <tr>
+              <th>User</th>
+              <th className="hidden md:table-cell">Joined</th>
+              <th>Role</th>
+              <th className="text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody>
             {filtered.map((user, idx) => (
               <motion.tr
                 key={user.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="hover:bg-white/5 transition-colors"
               >
-                <td className="px-6 py-4">
+                <td>
                   <div className="flex items-center gap-3">
                     <div
                       className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black text-white shrink-0"
@@ -152,10 +152,10 @@ export default function AdminUsersPage() {
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-4 hidden md:table-cell">
+                <td className="hidden md:table-cell">
                   <span className="text-xs text-white/40">{formatDate(user.createdAt)}</span>
                 </td>
-                <td className="px-4 py-4">
+                <td>
                   <span
                     className={`px-2.5 py-1 text-[10px] font-bold rounded-full ${
                       user.role === 'ADMIN'
@@ -176,7 +176,7 @@ export default function AdminUsersPage() {
                     )}
                   </span>
                 </td>
-                <td className="px-4 py-4">
+                <td>
                   <div className="flex items-center justify-end gap-2">
                     <motion.button
                       whileHover={{ scale: 1.05 }}
@@ -199,6 +199,7 @@ export default function AdminUsersPage() {
             ))}
           </tbody>
         </table>
+        </div>
         {filtered.length === 0 && (
           <div className="py-16 text-center text-white/30">
             <p>No users found</p>

@@ -160,6 +160,90 @@
       linear-gradient(135deg, #f97316, #7c3aed, #f97316) border-box;
     animation: rotate-gradient 4s linear infinite;
   }
+
+  /* === Admin Panel Styles === */
+
+  /* Admin sidebar */
+  .admin-sidebar {
+    background: rgba(8, 8, 8, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Admin top-bar */
+  .admin-topbar {
+    background: rgba(8, 8, 8, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Admin table */
+  .admin-table {
+    width: 100%;
+  }
+
+  .admin-table thead th {
+    text-align: left;
+    padding: 0.875rem 1rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.35);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    white-space: nowrap;
+  }
+
+  .admin-table tbody td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    vertical-align: middle;
+  }
+
+  .admin-table tbody tr {
+    transition: background-color 0.15s ease;
+  }
+
+  .admin-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+
+  /* Admin modal */
+  .admin-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* Form label */
+  .label-style {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 0.375rem;
+  }
+
+  /* Admin stat card */
+  .admin-stat-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 1.25rem;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .admin-stat-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+  }
 }
 
 /* ── Utility Layer ───────────────────────────────────────────────────

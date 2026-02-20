@@ -41,7 +41,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-[#050505] flex">
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full z-40 w-64 glass-dark border-r border-white/5 flex flex-col transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full z-40 w-64 admin-sidebar flex flex-col transition-transform duration-300 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
@@ -115,7 +115,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main content */}
       <div className="flex-1 lg:ml-64 min-w-0">
         {/* Top bar */}
-        <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 h-16 glass-dark border-b border-white/5">
+        <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 h-16 admin-topbar">
           <button
             className="lg:hidden text-white/60 hover:text-white"
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -135,7 +135,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         {/* Page content */}
-        <main className="p-3 sm:p-6 overflow-x-hidden">{children}</main>
+        <main className="p-4 sm:p-6 lg:p-8 overflow-x-hidden">{children}</main>
       </div>
     </div>
   );

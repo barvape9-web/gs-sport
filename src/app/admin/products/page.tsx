@@ -354,7 +354,7 @@ export default function AdminProductsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="sm:col-span-2">
-                    <label className="label-style">Product Name</label>
+                    <label className="text-xs text-white/50 font-medium mb-1.5 block">Product Name</label>
                     <input
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
