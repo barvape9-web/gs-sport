@@ -142,8 +142,8 @@ export default function Hero() {
                   {t('hero.subtitle')}
                 </p>
 
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-10 sm:mb-14">
+                {/* CTA Button */}
+                <div className="flex justify-center items-center mb-10 sm:mb-14">
                   <Link href="/products">
                     <motion.button
                       whileTap={{ scale: 0.95 }}
@@ -151,19 +151,6 @@ export default function Hero() {
             >
               {t('hero.shopCollection')}
               <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
-            </motion.button>
-          </Link>
-
-          <Link href="/products?gender=WOMEN">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base font-semibold uppercase tracking-widest glass transition-all duration-300"
-              style={{ borderColor: 'transparent', color: 'var(--text-primary)' }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-primary) 30%, transparent)')}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'transparent')}
-            >
-              {t('hero.womensCollection')}
             </motion.button>
           </Link>
                 </div>
