@@ -55,7 +55,7 @@ const orderSchema = z.object({
     line2: z.string().optional(),
     city: z.string(),
     state: z.string(),
-    postalCode: z.string(),
+    postalCode: z.string().optional().default(''),
     country: z.string(),
     phone: z.string().optional(),
   }),

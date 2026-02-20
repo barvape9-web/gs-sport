@@ -25,7 +25,6 @@ const addressSchema = z.object({
   line2: z.string().optional(),
   city: z.string().min(2, 'City required'),
   state: z.string().min(2, 'State required'),
-  postalCode: z.string().min(3, 'Postal code required'),
   country: z.string().min(2, 'Country required'),
 });
 
@@ -48,7 +47,7 @@ export default function CheckoutPage() {
   });
 
   const subtotal = getTotalPrice();
-  const shipping = subtotal > 75 ? 0 : 5.99;
+  const shipping = subtotal > 55 ? 0 : 8.99;
   const total = subtotal + shipping;
 
   const onAddressSubmit = () => setStep('payment');
@@ -65,7 +64,7 @@ export default function CheckoutPage() {
           color: item.color,
           price: item.product.price,
         })),
-        address: { ...address, postalCode: address.postalCode, line2: address.line2 || '' },
+        address: { ...address, postalCode: '', line2: address.line2 || '' },
         subtotal,
         shipping,
         total,
@@ -202,21 +201,16 @@ export default function CheckoutPage() {
                               <input {...register('line2')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="Apartment, suite, etc." />
                             </div>
 
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
                                 <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.city')}</label>
-                                <input {...register('city')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="New York" />
+                                <input {...register('city')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="თბილისი" />
                                 {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city.message}</p>}
                               </div>
                               <div>
                                 <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.state')}</label>
-                                <input {...register('state')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="NY" />
+                                <input {...register('state')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="თბილისი" />
                                 {errors.state && <p className="text-red-400 text-xs mt-1">{errors.state.message}</p>}
-                              </div>
-                              <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.postalCode')}</label>
-                                <input {...register('postalCode')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="10001" />
-                                {errors.postalCode && <p className="text-red-400 text-xs mt-1">{errors.postalCode.message}</p>}
                               </div>
                             </div>
 
@@ -339,9 +333,9 @@ export default function CheckoutPage() {
                       </div>
                     </div>
 
-                    {subtotal < 75 && (
+                    {subtotal < 55 && (
                       <p className="text-[10px] text-center text-white/30">
-                        {t('checkout.freeShippingHint', { amount: formatPrice(75 - subtotal) })}
+                        {t('checkout.freeShippingHint', { amount: formatPrice(55 - subtotal) })}
                       </p>
                     )}
                   </div>
