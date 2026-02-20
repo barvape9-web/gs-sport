@@ -63,6 +63,7 @@ model Product {
   price         Float
   originalPrice Float?
   images        String[]
+  videos        String[]
   gender        Gender
   category      Category
   sizes         String[]

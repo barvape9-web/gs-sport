@@ -21,6 +21,7 @@ const updateSchema = z.object({
   price: z.number().positive().optional(),
   originalPrice: z.number().positive().nullable().optional(),
   images: z.array(z.string()).optional(),
+  videos: z.array(z.string()).optional(),
   category: z.enum(['UPPER_WEAR', 'LOWER_WEAR', 'WINTER_WEAR', 'SUMMER_WEAR', 'ACCESSORIES']).optional(),
   gender: z.enum(['MEN', 'WOMEN', 'UNISEX']).optional(),
   sizes: z.array(z.string()).optional(),

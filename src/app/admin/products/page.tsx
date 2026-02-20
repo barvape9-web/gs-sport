@@ -12,6 +12,7 @@ import {
   Save,
   Package,
   Loader2,
+  Video,
 } from 'lucide-react';
 import { Product, Gender, Category } from '@/types';
 import { formatPrice, getCategoryLabel } from '@/lib/utils';
@@ -75,6 +76,11 @@ export default function AdminProductsPage() {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [videoFiles, setVideoFiles] = useState<File[]>([]);
+  const [videoPreviews, setVideoPreviews] = useState<string[]>([]);
+  const [existingVideos, setExistingVideos] = useState<string[]>([]);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -99,6 +105,9 @@ export default function AdminProductsPage() {
     setImageFiles([]);
     setImagePreviews([]);
     setExistingImages([]);
+    setVideoFiles([]);
+    setVideoPreviews([]);
+    setExistingVideos([]);
     setIsModalOpen(true);
   };
 
@@ -119,6 +128,9 @@ export default function AdminProductsPage() {
     setImageFiles([]);
     setImagePreviews([]);
     setExistingImages(product.images || []);
+    setVideoFiles([]);
+    setVideoPreviews([]);
+    setExistingVideos(product.videos || []);
     setIsModalOpen(true);
   };
 
@@ -155,6 +167,39 @@ export default function AdminProductsPage() {
     setImageFiles((prev) => prev.filter((_, i) => i !== idx));
   };
 
+  /* ── Video helpers ─────────────────────────────────────────── */
+
+  const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    const validTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo'];
+    const maxSize = 50 * 1024 * 1024;
+    for (const file of files) {
+      if (!validTypes.includes(file.type)) {
+        toast.error(`Invalid type: ${file.name}. Use MP4, WebM, MOV, or AVI.`);
+        return;
+      }
+      if (file.size > maxSize) {
+        toast.error(`${file.name} exceeds 50 MB limit.`);
+        return;
+      }
+    }
+    setVideoFiles((prev) => [...prev, ...files]);
+    setVideoPreviews((prev) => [...prev, ...files.map((f) => URL.createObjectURL(f))]);
+    e.target.value = '';
+  };
+
+  const removeExistingVideo = (idx: number) =>
+    setExistingVideos((prev) => prev.filter((_, i) => i !== idx));
+
+  const removeNewVideo = (idx: number) => {
+    setVideoPreviews((prev) => {
+      URL.revokeObjectURL(prev[idx]);
+      return prev.filter((_, i) => i !== idx);
+    });
+    setVideoFiles((prev) => prev.filter((_, i) => i !== idx));
+  };
+
   /* ── Save (with image upload) ──────────────────────────────── */
 
   const handleSave = async () => {
@@ -183,7 +228,28 @@ export default function AdminProductsPage() {
         setIsUploading(false);
       }
 
+      /* ── Upload videos (graceful — skip if fails) ── */
+      let uploadedVideoUrls: string[] = [];
+      if (videoFiles.length > 0) {
+        setIsUploading(true);
+        for (const file of videoFiles) {
+          try {
+            const fd = new FormData();
+            fd.append('video', file);
+            const res = await axios.post('/api/upload-video', fd);
+            uploadedVideoUrls.push(res.data.url);
+          } catch (uploadErr: unknown) {
+            const msg = axios.isAxiosError(uploadErr)
+              ? uploadErr.response?.data?.error
+              : 'Upload failed';
+            toast.error(msg || `Failed to upload ${file.name}`);
+          }
+        }
+        setIsUploading(false);
+      }
+
       const allImages = [...existingImages, ...uploadedUrls];
+      const allVideos = [...existingVideos, ...uploadedVideoUrls];
 
       const payload: Record<string, unknown> = {
         name: form.name,
@@ -196,6 +262,7 @@ export default function AdminProductsPage() {
         category: form.category,
         isFeatured: form.isFeatured,
         images: allImages,
+        videos: allVideos,
       };
 
       // Send originalPrice as null (not undefined) so Prisma clears it
@@ -594,6 +661,64 @@ export default function AdminProductsPage() {
                     </div>
                   </div>
 
+                  {/* ── Product Videos ──────────────────────────── */}
+                  <div className="sm:col-span-2">
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Product Videos</label>
+
+                    {/* Video previews (existing + new) */}
+                    {(existingVideos.length > 0 || videoPreviews.length > 0) && (
+                      <div className="flex flex-wrap gap-3 mb-3">
+                        {existingVideos.map((url, i) => (
+                          <div key={`ev-${i}`} className="relative w-32 h-24 rounded-xl overflow-hidden border border-white/10 group">
+                            <video src={url} className="w-full h-full object-cover" muted />
+                            <button
+                              type="button"
+                              onClick={() => removeExistingVideo(i)}
+                              className="absolute top-1 right-1 w-5 h-5 bg-red-500/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X size={10} className="text-white" />
+                            </button>
+                            <div className="absolute bottom-0 inset-x-0 bg-black/60 text-[8px] text-white text-center py-0.5 font-bold flex items-center justify-center gap-1">
+                              <Video size={8} /> VIDEO
+                            </div>
+                          </div>
+                        ))}
+                        {videoPreviews.map((url, i) => (
+                          <div key={`nv-${i}`} className="relative w-32 h-24 rounded-xl overflow-hidden border border-[#f97316]/30 group">
+                            <video src={url} className="w-full h-full object-cover" muted />
+                            <button
+                              type="button"
+                              onClick={() => removeNewVideo(i)}
+                              className="absolute top-1 right-1 w-5 h-5 bg-red-500/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X size={10} className="text-white" />
+                            </button>
+                            <div className="absolute bottom-0 inset-x-0 bg-[#f97316]/80 text-[8px] text-white text-center py-0.5 font-bold">NEW</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Video file input (hidden) */}
+                    <input
+                      ref={videoInputRef}
+                      type="file"
+                      accept="video/mp4,video/webm,video/quicktime,video/x-msvideo"
+                      multiple
+                      onChange={handleVideoSelect}
+                      className="hidden"
+                    />
+                    <div
+                      onClick={() => videoInputRef.current?.click()}
+                      className="border-2 border-dashed border-white/10 rounded-xl p-6 text-center hover:border-[#f97316]/30 transition-colors cursor-pointer active:bg-white/[0.02]"
+                    >
+                      <Video size={24} className="text-white/20 mx-auto mb-2" />
+                      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                        Click to upload videos (MP4, WebM, MOV, AVI — max 50 MB)
+                      </p>
+                    </div>
+                  </div>
+
                   <div className="sm:col-span-2 flex items-center gap-3">
                     <input
                       type="checkbox"
@@ -617,7 +742,7 @@ export default function AdminProductsPage() {
                     className="flex-1 btn-primary py-3 rounded-xl font-bold text-white flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-                    {isUploading ? 'Uploading images…' : `${editingProduct ? 'Update' : 'Create'} Product`}
+                    {isUploading ? 'Uploading files…' : `${editingProduct ? 'Update' : 'Create'} Product`}
                   </motion.button>
                   <button
                     onClick={() => setIsModalOpen(false)}

@@ -20,6 +20,7 @@ export interface Product {
   price: number;
   originalPrice?: number;
   images: string[];
+  videos?: string[];
   gender: Gender;
   category: Category;
   sizes: string[];

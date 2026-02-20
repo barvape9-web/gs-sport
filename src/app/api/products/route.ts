@@ -61,6 +61,7 @@ const productSchema = z.object({
   price: z.number().positive(),
   originalPrice: z.number().positive().nullable().optional(),
   images: z.array(z.string()).optional().default([]),
+  videos: z.array(z.string()).optional().default([]),
   category: z.enum(['UPPER_WEAR', 'LOWER_WEAR', 'WINTER_WEAR', 'SUMMER_WEAR', 'ACCESSORIES']),
   gender: z.enum(['MEN', 'WOMEN', 'UNISEX']),
   sizes: z.array(z.string()).optional().default([]),

@@ -173,6 +173,23 @@ export default function ProductDetailPage() {
                   ))}
                 </div>
               )}
+
+              {/* Product Videos */}
+              {product.videos && product.videos.length > 0 && (
+                <div className="space-y-3">
+                  <h3 className="text-sm font-bold" style={{ color: 'var(--text-secondary)' }}>Product Videos</h3>
+                  {product.videos.map((videoUrl, i) => (
+                    <div key={i} className="rounded-2xl overflow-hidden glass" style={{ border: '1px solid var(--card-border)' }}>
+                      <video
+                        src={videoUrl}
+                        controls
+                        className="w-full max-h-[400px] object-contain bg-black"
+                        preload="metadata"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Product Info */}
