@@ -202,7 +202,7 @@ export default function Hero() {
                   className="mt-6 sm:mt-8 text-sm sm:text-base md:text-lg font-semibold uppercase tracking-[0.25em] text-center"
                   style={{ color: 'var(--text-secondary)' }}
                 >
-                  🇬🇪 {t('hero.madeInGeorgia')}
+                  🇬🇪 {t('hero.madeInGeorgia')} 🇬🇪
                 </motion.p>
 
                 <Link href="/products" className="mt-6">
