@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -18,21 +18,21 @@ interface ProductCardProps {
   onToggleSave?: (productId: string, saved: boolean) => void;
 }
 
-export default function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProps) {
+function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(isSaved);
   const [isHovered, setIsHovered] = useState(false);
   const { addItem, toggleCart } = useCartStore();
   const { t } = useTranslation();
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addItem(product, 1);
     toast.success(`${product.name} added to cart!`);
     toggleCart();
-  };
+  }, [product, addItem, toggleCart]);
 
-  const handleWishlist = async (e: React.MouseEvent) => {
+  const handleWishlist = useCallback(async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     try {
@@ -43,7 +43,7 @@ export default function ProductCard({ product, isSaved = false, onToggleSave }: 
     } catch {
       toast.error('Sign in to save items');
     }
-  };
+  }, [product.id, onToggleSave]);
 
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
@@ -52,9 +52,9 @@ export default function ProductCard({ product, isSaved = false, onToggleSave }: 
   return (
     <motion.div
       whileHover={{ y: -6, scale: 1.03 }}
-      transition={{ duration: 0.3 }}
-      className="product-card group cursor-pointer overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 h-full"
-      style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}
+      transition={{ duration: 0.25 }}
+      className="product-card group cursor-pointer overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-200 h-full"
+      style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)', willChange: 'transform' }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
@@ -66,7 +66,9 @@ export default function ProductCard({ product, isSaved = false, onToggleSave }: 
               src={product.images[0]}
               alt={product.name}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              sizes="(max-width: 640px) 70vw, (max-width: 1024px) 45vw, 25vw"
+              className="object-cover transition-transform duration-500 will-change-transform group-hover:scale-110"
+              loading="lazy"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
@@ -215,3 +217,5 @@ export default function ProductCard({ product, isSaved = false, onToggleSave }: 
     </motion.div>
   );
 }
+
+export default memo(ProductCard);

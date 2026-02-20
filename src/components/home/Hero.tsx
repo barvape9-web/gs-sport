@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Zap, Star, Shield } from 'lucide-react';
@@ -29,7 +29,7 @@ export default function Hero() {
     <section
       ref={ref}
       className="relative min-h-[85vh] flex items-center justify-center overflow-hidden isolate"
-      style={{ backgroundColor: 'var(--bg-primary)' }}
+      style={{ backgroundColor: 'var(--bg-primary)', contain: 'layout style' }}
     >
       {/* 3D Background */}
       <div className="absolute inset-0 z-0">
@@ -96,17 +96,11 @@ export default function Hero() {
         >
           <Link href="/products">
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 0 40px color-mix(in srgb, var(--color-primary) 35%, transparent)' }}
               whileTap={{ scale: 0.95 }}
-              className="btn-primary px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base font-semibold uppercase tracking-widest text-white flex items-center gap-2 group transition-all duration-300"
+              className="btn-primary px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base font-semibold uppercase tracking-widest text-white flex items-center gap-2 group transition-all duration-200 active:scale-95"
             >
               {t('hero.shopCollection')}
-              <motion.span
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                <ArrowRight size={20} />
-              </motion.span>
+              <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
             </motion.button>
           </Link>
 
@@ -145,16 +139,12 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex"
         >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="flex flex-col items-center gap-2"
-          >
+          <div className="flex flex-col items-center gap-2">
             <span className="text-xs uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{t('hero.scroll')}</span>
             <div className="w-px h-8" style={{ backgroundImage: 'linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 60%, transparent), transparent)' }} />
-          </motion.div>
+          </div>
         </motion.div>
       </motion.div>
     </section>

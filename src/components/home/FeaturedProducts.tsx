@@ -1,19 +1,22 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, TrendingUp } from 'lucide-react';
+import { ArrowRight, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import axios from 'axios';
 import ProductCard from '@/components/products/ProductCard';
 import { Product } from '@/types';
 import { useTranslation } from '@/lib/useTranslation';
 
-export default function FeaturedProducts() {
+function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<'ALL' | 'MEN' | 'WOMEN'>('ALL');
   const { t } = useTranslation();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -21,7 +24,6 @@ export default function FeaturedProducts() {
         const res = await axios.get('/api/products?featured=true&limit=8');
         setProducts(res.data.products || []);
       } catch {
-        // Use mock data if API not available
         setProducts(getMockProducts());
       } finally {
         setIsLoading(false);
@@ -35,8 +37,27 @@ export default function FeaturedProducts() {
       ? products
       : products.filter((p) => p.gender === activeFilter);
 
+  const updateScrollButtons = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 10);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.offsetWidth - 10);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', updateScrollButtons, { passive: true });
+    updateScrollButtons();
+    return () => el.removeEventListener('scroll', updateScrollButtons);
+  }, [updateScrollButtons, filteredProducts]);
+
+  const scrollBy = useCallback((dir: number) => {
+    scrollRef.current?.scrollBy({ left: dir * 260, behavior: 'smooth' });
+  }, []);
+
   return (
-    <section className="py-12 sm:py-20 lg:py-24 relative overflow-hidden isolate" style={{ backgroundColor: 'var(--bg-primary)' }}>
+    <section className="py-12 sm:py-20 lg:py-24 relative overflow-hidden isolate" style={{ backgroundColor: 'var(--bg-primary)', contentVisibility: 'auto', containIntrinsicSize: '0 800px' }}>
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute top-0 right-0 w-[min(500px,90vw)] h-[min(500px,90vw)] rounded-full blur-[120px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 8%, transparent)' }} />
@@ -47,7 +68,7 @@ export default function FeaturedProducts() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--color-primary)' }}>
@@ -63,7 +84,7 @@ export default function FeaturedProducts() {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
             className="flex flex-wrap gap-2"
           >
             {(['ALL', 'MEN', 'WOMEN'] as const).map((filter) => {
@@ -71,7 +92,6 @@ export default function FeaturedProducts() {
               return (
               <motion.button
                 key={filter}
-                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveFilter(filter)}
                 className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
@@ -88,7 +108,50 @@ export default function FeaturedProducts() {
           </motion.div>
         </div>
 
-        {/* Products Grid */}
+        {/* Mobile: Horizontal swipe carousel */}
+        <div className="sm:hidden relative">
+          <div
+            ref={scrollRef}
+            className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-4 px-4 pb-4"
+            style={{ WebkitOverflowScrolling: 'touch' }}
+          >
+            <AnimatePresence mode="wait">
+              {isLoading
+                ? Array.from({ length: 4 }).map((_, i) => (
+                    <div key={`skel-${i}`} className="snap-start flex-shrink-0 w-[70vw] max-w-[280px]">
+                      <div className="glass-card aspect-[3/4] shimmer rounded-xl" />
+                    </div>
+                  ))
+                : filteredProducts.map((product) => (
+                    <div key={product.id} className="snap-start flex-shrink-0 w-[70vw] max-w-[280px]">
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
+            </AnimatePresence>
+          </div>
+
+          {/* Scroll arrows */}
+          {canScrollLeft && (
+            <button
+              onClick={() => scrollBy(-1)}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full glass flex items-center justify-center"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={16} style={{ color: 'var(--text-primary)' }} />
+            </button>
+          )}
+          {canScrollRight && (
+            <button
+              onClick={() => scrollBy(1)}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full glass flex items-center justify-center"
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={16} style={{ color: 'var(--text-primary)' }} />
+            </button>
+          )}
+        </div>
+
+        {/* Desktop: Grid layout */}
         <AnimatePresence mode="wait">
           {isLoading ? (
             <motion.div
@@ -96,7 +159,7 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 items-stretch"
+              className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 items-stretch"
             >
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="glass-card aspect-[3/4] shimmer rounded-xl sm:rounded-2xl" />
@@ -108,14 +171,14 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 items-stretch"
+              className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 items-stretch"
             >
               {filteredProducts.map((product, i) => (
                 <motion.div
                   key={product.id}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05, duration: 0.5 }}
+                  transition={{ delay: i * 0.05, duration: 0.4 }}
                   className="h-full"
                 >
                   <ProductCard product={product} />
@@ -129,22 +192,16 @@ export default function FeaturedProducts() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
           className="flex justify-center mt-12"
         >
           <Link href="/products">
             <motion.button
-              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-8 py-4 btn-primary rounded-full font-semibold text-white group"
+              className="flex items-center gap-2 px-8 py-4 btn-primary rounded-full font-semibold text-white group active:scale-95"
             >
               {t('featured.viewAll')}
-              <motion.span
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                <ArrowRight size={18} />
-              </motion.span>
+              <ArrowRight size={18} />
             </motion.button>
           </Link>
         </motion.div>
@@ -152,6 +209,8 @@ export default function FeaturedProducts() {
     </section>
   );
 }
+
+export default memo(FeaturedProducts);
 
 function getMockProducts(): Product[] {
   const categories = ['UPPER_WEAR', 'LOWER_WEAR', 'ACCESSORIES'] as const;

@@ -72,6 +72,7 @@
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    text-rendering: optimizeSpeed;
   }
 
   body {
@@ -80,6 +81,11 @@
     background-color: var(--bg-primary);
     color: var(--text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Improve image rendering performance */
+  img, video {
+    content-visibility: auto;
   }
 
   /* Scrollbar */
@@ -791,5 +797,82 @@
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+/* ── Performance: Reduced Motion ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Performance: Mobile GPU & Compositing ───────────────────────── */
+@media (max-width: 639px) {
+  /* Promote swipe containers to GPU layer */
+  .snap-x {
+    will-change: scroll-position;
+    -webkit-overflow-scrolling: touch;
+    transform: translateZ(0);
+  }
+
+  /* Reduce backdrop-filter blur on mobile for better perf */
+  .glass {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glass-card {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Reduce transition durations on mobile */
+  .transition-all,
+  .transition-colors,
+  .transition-transform,
+  .transition-opacity {
+    transition-duration: 150ms !important;
+  }
+
+  /* Content-visibility for off-screen sections */
+  section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+
+  /* Simplified shadows on mobile */
+  .shadow-2xl {
+    box-shadow: 0 4px 16px var(--shadow-color) !important;
+  }
+
+  .glow-orange {
+    box-shadow: 0 0 10px color-mix(in srgb, var(--color-primary) 20%, transparent) !important;
+  }
+
+  /* Disable expensive hover effects on touch */
+  .group:hover .group-hover\:scale-110 {
+    transform: none !important;
+  }
+
+  /* Optimize grid-bg pattern on mobile */
+  .grid-bg {
+    background-size: 80px 80px;
+  }
+}
+
+/* ── Performance: Touch interaction hints ────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable hover-only animations on touch devices */
+  .product-card {
+    transform: none !important;
+  }
+
+  /* Fast tap response */
+  a, button, [role="button"] {
+    touch-action: manipulation;
+  }
 }
 
