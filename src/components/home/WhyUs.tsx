@@ -143,39 +143,7 @@ function WhyUs() {
           ))}
         </div>
 
-        {/* Bottom CTA Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          className="mt-8 sm:mt-16 glass-card p-5 sm:p-8 md:p-10 text-center relative overflow-hidden"
-        >
-          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(to right, color-mix(in srgb, var(--color-primary) 5%, transparent), transparent, color-mix(in srgb, var(--color-primary) 5%, transparent))' }} />
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
-            {t('whyUs.cta')}
-          </h3>
-          <p className="mb-6 sm:mb-8" style={{ color: 'var(--text-muted)' }}>
-            {t('whyUs.ctaDesc')}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.a
-              href="/products"
-              whileTap={{ scale: 0.95 }}
-              className="btn-primary px-8 py-4 rounded-full font-bold text-white inline-block active:scale-95"
-            >
-              {t('whyUs.shopNow')}
-            </motion.a>
-            <motion.a
-              href="/register"
-              whileTap={{ scale: 0.95 }}
-              className="glass px-8 py-4 rounded-full font-semibold text-white inline-block transition-colors active:scale-95"
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-primary) 30%, transparent)')}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = '')}
-            >
-              {t('whyUs.createAccount')}
-            </motion.a>
-          </div>
-        </motion.div>
+
       </div>
     </section>
   );
