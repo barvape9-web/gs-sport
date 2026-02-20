@@ -175,164 +175,17 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
           {/* ── Main content ───────────────────────────────────── */}
           <div className="relative z-10 flex flex-col items-center">
 
-            {/* ── GS Logo with cinematic entrance ── */}
-            <motion.div
-              initial={{ scale: 0.6, opacity: 0, rotateX: 20 }}
-              animate={
-                stage >= 1
-                  ? {
-                      scale: [1, 1.08, 1.04],
-                      opacity: 1,
-                      rotateX: 0,
-                      y: [0, -6, 0],
-                    }
-                  : {}
-              }
-              transition={{
-                scale: { duration: 2, times: [0, 0.4, 1], ease: 'easeOut' as const },
-                opacity: { duration: 0.8, ease: 'easeOut' as const },
-                rotateX: { duration: 1.2, ease: 'easeOut' as const },
-                y: { duration: 3, repeat: Infinity, ease: 'easeInOut' as const, delay: 1 },
-              }}
-              className="mb-10 relative"
-              style={{ perspective: '800px' }}
-            >
-              {/* Multi-layer glow behind logo */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={
-                  stage >= 1
-                    ? { opacity: [0, 0.7, 0.35, 0.5, 0.35], scale: [0.5, 1.1, 1] }
-                    : {}
-                }
-                transition={{ duration: 2.5, ease: 'easeOut' as const }}
-                className="absolute inset-0 -m-10 rounded-full blur-3xl"
-                style={{ backgroundColor: 'rgba(249,115,22,0.2)' }}
-              />
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={stage >= 1 ? { opacity: [0, 0.3, 0.15] } : {}}
-                transition={{ duration: 2, delay: 0.5, ease: 'easeOut' as const }}
-                className="absolute inset-0 -m-16 rounded-full blur-[60px]"
-                style={{ backgroundColor: 'rgba(249,115,22,0.1)' }}
-              />
-
-              <svg
-                width="140"
-                height="140"
-                viewBox="0 0 200 200"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="relative z-10 drop-shadow-[0_0_30px_rgba(249,115,22,0.3)]"
-              >
-                <defs>
-                  <filter id="welcomeSlashGlow">
-                    <feGaussianBlur stdDeviation="8" />
-                  </filter>
-                  <linearGradient id="welcomeSlashGrad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#f97316" />
-                    <stop offset="100%" stopColor="#fb923c" />
-                  </linearGradient>
-                </defs>
-
-                {/* G letter */}
-                <motion.text
-                  x="28"
-                  y="145"
-                  fill="white"
-                  fontSize="140"
-                  fontWeight="900"
-                  fontFamily="Inter, system-ui, sans-serif"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={stage >= 1 ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' as const }}
-                />
-                <motion.text
-                  x="28"
-                  y="145"
-                  fill="white"
-                  fontSize="140"
-                  fontWeight="900"
-                  fontFamily="Inter, system-ui, sans-serif"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={stage >= 1 ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' as const }}
-                >
-                  G
-                </motion.text>
-
-                {/* S letter */}
-                <motion.text
-                  x="100"
-                  y="155"
-                  fill="white"
-                  fontSize="130"
-                  fontWeight="900"
-                  fontFamily="Inter, system-ui, sans-serif"
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={stage >= 1 ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.7, delay: 0.4, ease: 'easeOut' as const }}
-                >
-                  S
-                </motion.text>
-
-                {/* Lightning slash – glow layer */}
-                <motion.line
-                  x1="160" y1="15" x2="40" y2="185"
-                  strokeWidth="16"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={
-                    stage >= 1
-                      ? { pathLength: 1, opacity: [0, 0.6, 0.2] }
-                      : {}
-                  }
-                  transition={{ duration: 0.8, delay: 0.05, ease: 'easeOut' as const }}
-                  stroke="url(#welcomeSlashGrad)"
-                  filter="url(#welcomeSlashGlow)"
-                />
-                {/* Lightning slash – crisp line */}
-                <motion.line
-                  x1="160" y1="15" x2="40" y2="185"
-                  stroke="white"
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={stage >= 1 ? { pathLength: 1, opacity: 1 } : {}}
-                  transition={{ duration: 0.5, delay: 0.05, ease: [0.4, 0, 0.2, 1] }}
-                />
-              </svg>
-
-              {/* Expanding pulse rings */}
-              {[0, 0.3, 0.6].map((d, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={
-                    stage >= 1
-                      ? { scale: [0.8, 1.4, 1.8], opacity: [0.5, 0.15, 0] }
-                      : {}
-                  }
-                  transition={{ duration: 1.4, delay: 0.5 + d, ease: 'easeOut' as const }}
-                  className="absolute inset-0 -m-5 rounded-full pointer-events-none"
-                  style={{
-                    border: '1px solid rgba(249,115,22,0.35)',
-                  }}
-                />
-              ))}
-            </motion.div>
-
             {/* ── PREMIUM label with accent lines ── */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
-              animate={stage >= 2 ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, ease: 'easeOut' as const }}
-              className="flex items-center justify-center gap-4 mb-3"
+              animate={stage >= 1 ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' as const }}
+              className="flex items-center justify-center gap-4 mb-6"
             >
               <motion.div
                 initial={{ width: 0 }}
-                animate={stage >= 2 ? { width: 50 } : {}}
-                transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' as const }}
+                animate={stage >= 1 ? { width: 50 } : {}}
+                transition={{ duration: 0.5, delay: 0.25, ease: 'easeOut' as const }}
                 className="h-px"
                 style={{
                   background: 'linear-gradient(to right, transparent, #f97316)',
@@ -341,11 +194,11 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
               <motion.span
                 initial={{ opacity: 0, letterSpacing: '0.6em' }}
                 animate={
-                  stage >= 2
+                  stage >= 1
                     ? { opacity: 1, letterSpacing: '0.35em' }
                     : {}
                 }
-                transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' as const }}
+                transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' as const }}
                 className="text-[11px] sm:text-xs font-bold uppercase select-none"
                 style={{ color: '#f97316' }}
               >
@@ -353,13 +206,87 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
               </motion.span>
               <motion.div
                 initial={{ width: 0 }}
-                animate={stage >= 2 ? { width: 50 } : {}}
-                transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' as const }}
+                animate={stage >= 1 ? { width: 50 } : {}}
+                transition={{ duration: 0.5, delay: 0.25, ease: 'easeOut' as const }}
                 className="h-px"
                 style={{
                   background: 'linear-gradient(to left, transparent, #f97316)',
                 }}
               />
+            </motion.div>
+
+            {/* ── welcome.jpg logo — mix-blend-mode: screen removes black bg ── */}
+            <motion.div
+              initial={{ scale: 0.7, opacity: 0, rotateX: 15 }}
+              animate={
+                stage >= 1
+                  ? {
+                      scale: [1, 1.06, 1.02],
+                      opacity: 1,
+                      rotateX: 0,
+                      y: [0, -5, 0],
+                    }
+                  : {}
+              }
+              transition={{
+                scale: { duration: 2, times: [0, 0.4, 1], ease: 'easeOut' as const },
+                opacity: { duration: 0.8, ease: 'easeOut' as const },
+                rotateX: { duration: 1.2, ease: 'easeOut' as const },
+                y: { duration: 3.5, repeat: Infinity, ease: 'easeInOut' as const, delay: 1.2 },
+              }}
+              className="relative mb-8"
+              style={{ perspective: '800px' }}
+            >
+              {/* Glow layers behind image */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={
+                  stage >= 1
+                    ? { opacity: [0, 0.6, 0.3, 0.45, 0.3], scale: [0.5, 1.1, 1] }
+                    : {}
+                }
+                transition={{ duration: 2.5, ease: 'easeOut' as const }}
+                className="absolute inset-0 -m-12 rounded-full blur-3xl"
+                style={{ backgroundColor: 'rgba(249,115,22,0.15)' }}
+              />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={stage >= 1 ? { opacity: [0, 0.25, 0.12] } : {}}
+                transition={{ duration: 2, delay: 0.5, ease: 'easeOut' as const }}
+                className="absolute inset-0 -m-20 rounded-full blur-[80px]"
+                style={{ backgroundColor: 'rgba(249,115,22,0.08)' }}
+              />
+
+              {/* The actual logo image */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/welcome.jpg"
+                alt="GS Sport"
+                className="relative z-10 w-[320px] sm:w-[420px] md:w-[500px] h-auto select-none"
+                style={{
+                  mixBlendMode: 'screen',
+                  filter: 'drop-shadow(0 0 40px rgba(249,115,22,0.2))',
+                }}
+                draggable={false}
+              />
+
+              {/* Expanding pulse rings */}
+              {[0, 0.35, 0.7].map((d, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={
+                    stage >= 1
+                      ? { scale: [0.8, 1.3, 1.6], opacity: [0.4, 0.12, 0] }
+                      : {}
+                  }
+                  transition={{ duration: 1.5, delay: 0.6 + d, ease: 'easeOut' as const }}
+                  className="absolute inset-0 -m-6 rounded-full pointer-events-none"
+                  style={{
+                    border: '1px solid rgba(249,115,22,0.3)',
+                  }}
+                />
+              ))}
             </motion.div>
 
             {/* ── GS • Sport title ── */}
@@ -370,7 +297,7 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                   ? { opacity: 1, scale: 1, y: 0 }
                   : {}
               }
-              transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' as const }}
+              transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' as const }}
               className="text-5xl sm:text-7xl font-black text-white tracking-tight select-none"
             >
               GS{' '}
@@ -384,26 +311,6 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
               </span>{' '}
               Sport
             </motion.h1>
-
-            {/* ── MADE IN GEORGIA badge ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={stage >= 3 ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, ease: 'easeOut' as const }}
-              className="mt-4 flex items-center gap-3"
-            >
-              <div
-                className="h-px w-6"
-                style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.25))' }}
-              />
-              <span className="text-[10px] sm:text-xs tracking-[0.25em] uppercase text-white/40 font-medium select-none">
-                Made in Georgia
-              </span>
-              <div
-                className="h-px w-6"
-                style={{ background: 'linear-gradient(to left, transparent, rgba(255,255,255,0.25))' }}
-              />
-            </motion.div>
 
             {/* ── Cinematic progress bar ── */}
             <motion.div
