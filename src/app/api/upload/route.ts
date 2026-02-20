@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthUserFromRequest } from '@/lib/auth';
-import { cloudinary } from '@/lib/cloudinary';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -11,21 +10,6 @@ export async function POST(request: NextRequest) {
     const authUser = await getAuthUserFromRequest(request);
     if (!authUser || authUser.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-    }
-
-    /* ── Check Cloudinary config ──────────────────────────── */
-    if (
-      !process.env.CLOUDINARY_CLOUD_NAME ||
-      !process.env.CLOUDINARY_API_KEY ||
-      !process.env.CLOUDINARY_API_SECRET
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            'Image upload not configured. Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET environment variables.',
-        },
-        { status: 500 },
-      );
     }
 
     /* ── Parse multipart form data ────────────────────────── */
@@ -52,23 +36,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    /* ── Convert to base64 data-URI for Cloudinary ────────── */
+    /* ── Convert to base64 data-URI ───────────────────────── */
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const base64 = `data:${file.type};base64,${buffer.toString('base64')}`;
 
-    /* ── Upload to Cloudinary ─────────────────────────────── */
-    const result = await cloudinary.uploader.upload(base64, {
-      folder: 'gs-sport/products',
-      resource_type: 'image',
-      transformation: [
-        { width: 1200, height: 1200, crop: 'limit', quality: 'auto', fetch_format: 'auto' },
-      ],
-    });
+    /* ── Try Cloudinary if configured, otherwise use base64 ─ */
+    const hasCloudinary =
+      process.env.CLOUDINARY_CLOUD_NAME &&
+      process.env.CLOUDINARY_API_KEY &&
+      process.env.CLOUDINARY_API_SECRET;
 
+    if (hasCloudinary) {
+      const { cloudinary } = await import('@/lib/cloudinary');
+      const result = await cloudinary.uploader.upload(base64, {
+        folder: 'gs-sport/products',
+        resource_type: 'image',
+        transformation: [
+          { width: 1200, height: 1200, crop: 'limit', quality: 'auto', fetch_format: 'auto' },
+        ],
+      });
+
+      return NextResponse.json({
+        url: result.secure_url,
+        publicId: result.public_id,
+      });
+    }
+
+    /* ── Fallback: return base64 data URI directly ────────── */
     return NextResponse.json({
-      url: result.secure_url,
-      publicId: result.public_id,
+      url: base64,
+      publicId: null,
     });
   } catch (error) {
     console.error('Upload error:', error);
