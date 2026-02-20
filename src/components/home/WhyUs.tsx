@@ -48,7 +48,7 @@ export default function WhyUs() {
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
       {/* Decorative orb */}
-      <div className="absolute bottom-0 left-0 w-[min(600px,90vw)] h-[min(600px,90vw)] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[min(600px,90vw)] h-[min(600px,90vw)] rounded-full blur-[120px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 8%, transparent)' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -58,7 +58,7 @@ export default function WhyUs() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-[#f97316] text-sm font-bold uppercase tracking-[0.3em] mb-4">
+          <p className="text-sm font-bold uppercase tracking-[0.3em] mb-4" style={{ color: 'var(--color-primary)' }}>
             Why GS • Sport
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
@@ -90,7 +90,11 @@ export default function WhyUs() {
               </div>
 
               {/* Content */}
-              <h3 className="font-bold text-white text-lg mb-2 group-hover:text-[#f97316] transition-colors">
+              <h3 className="font-bold text-white text-lg mb-2 transition-colors"
+                style={{ '--hover-c': 'var(--color-primary)' } as React.CSSProperties}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '')}
+              >
                 {feature.title}
               </h3>
               <p className="text-white/50 text-sm leading-relaxed">{feature.description}</p>
@@ -115,7 +119,7 @@ export default function WhyUs() {
           viewport={{ once: true }}
           className="mt-10 sm:mt-16 glass-card p-6 sm:p-10 text-center relative overflow-hidden"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-[#f97316]/5 via-transparent to-[#f97316]/5 pointer-events-none" />
+          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(to right, color-mix(in srgb, var(--color-primary) 5%, transparent), transparent, color-mix(in srgb, var(--color-primary) 5%, transparent))' }} />
           <h3 className="text-3xl font-black text-white mb-3">
             Ready to elevate your game?
           </h3>
@@ -135,7 +139,9 @@ export default function WhyUs() {
               href="/register"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="glass px-8 py-4 rounded-full font-semibold text-white inline-block hover:border-[#f97316]/30 transition-all"
+              className="glass px-8 py-4 rounded-full font-semibold text-white inline-block transition-all"
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-primary) 30%, transparent)')}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = '')}
             >
               Create Account
             </motion.a>

@@ -34,9 +34,9 @@ export default function CartDrawer() {
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <ShoppingBag size={20} className="text-[#f97316]" />
+                <ShoppingBag size={20} style={{ color: 'var(--color-primary)' }} />
                 <h2 className="text-lg font-bold">Your Cart</h2>
-                <span className="px-2 py-0.5 bg-[#f97316]/20 text-[#f97316] text-xs rounded-full font-semibold">
+                <span className="px-2 py-0.5 text-xs rounded-full font-semibold" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)', color: 'var(--color-primary)' }}>
                   {items.length}
                 </span>
               </div>
@@ -111,7 +111,7 @@ export default function CartDrawer() {
                               <span className="text-xs text-white/40">Color: {item.color}</span>
                             )}
                           </div>
-                          <p className="text-[#f97316] font-bold text-sm mt-1">
+                          <p className="font-bold text-sm mt-1" style={{ color: 'var(--color-primary)' }}>
                             {formatPrice(item.product.price)}
                           </p>
                         </div>

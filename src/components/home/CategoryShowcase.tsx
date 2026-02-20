@@ -43,7 +43,7 @@ export default function CategoryShowcase() {
           viewport={{ once: true }}
           className="text-center mb-8 sm:mb-16"
         >
-          <p className="text-[#f97316] text-xs sm:text-sm font-bold uppercase tracking-[0.3em] mb-3 sm:mb-4">
+          <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.3em] mb-3 sm:mb-4" style={{ color: 'var(--color-primary)' }}>
             Shop by Category
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">

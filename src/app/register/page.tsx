@@ -63,7 +63,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center relative overflow-hidden px-4 py-12">
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-      <div className="absolute top-1/4 right-0 w-[min(500px,80vw)] h-[min(500px,80vw)] bg-[#f97316]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/4 right-0 w-[min(500px,80vw)] h-[min(500px,80vw)] rounded-full blur-[100px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 5%, transparent)' }} />
 
       <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left - Benefits */}
@@ -76,7 +76,7 @@ export default function RegisterPage() {
           <Link href="/" className="mb-10">
             <span className="text-3xl font-black">
               <span className="text-white">GS</span>
-              <span className="text-[#f97316]"> •</span>
+              <span style={{ color: 'var(--color-primary)' }}> •</span>
               <span className="text-white"> Sport</span>
             </span>
           </Link>
@@ -95,8 +95,8 @@ export default function RegisterPage() {
                 transition={{ delay: 0.3 + i * 0.1 }}
                 className="flex items-center gap-3"
               >
-                <div className="w-6 h-6 rounded-full bg-[#f97316]/20 flex items-center justify-center flex-shrink-0">
-                  <Check size={12} className="text-[#f97316]" />
+                <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)' }}>
+                  <Check size={12} style={{ color: 'var(--color-primary)' }} />
                 </div>
                 <span className="text-white/60 text-sm">{benefit}</span>
               </motion.div>
@@ -115,7 +115,7 @@ export default function RegisterPage() {
               <Link href="/">
                 <span className="text-2xl font-black">
                   <span className="text-white">GS</span>
-                  <span className="text-[#f97316]"> •</span>
+                  <span style={{ color: 'var(--color-primary)' }}> •</span>
                   <span className="text-white"> Sport</span>
                 </span>
               </Link>
@@ -204,7 +204,7 @@ export default function RegisterPage() {
 
             <p className="text-center text-sm text-white/40 mt-6">
               Already have an account?{' '}
-              <Link href="/login" className="text-[#f97316] font-semibold hover:text-[#fb923c]">
+              <Link href="/login" className="font-semibold" style={{ color: 'var(--color-primary)' }}>
                 Sign in
               </Link>
             </p>

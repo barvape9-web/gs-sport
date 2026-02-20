@@ -36,7 +36,7 @@ export default function Footer() {
     <footer className="relative bg-black border-t border-white/5 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-[#f97316]/30 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full pointer-events-none" style={{ backgroundImage: 'linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 30%, transparent), transparent, transparent)' }} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
         {/* Top section */}
@@ -46,7 +46,7 @@ export default function Footer() {
             <Link href="/" className="inline-block mb-6">
               <span className="text-3xl font-black">
                 <span className="text-white">GS</span>
-                <span className="text-[#f97316]"> •</span>
+                <span style={{ color: 'var(--color-primary)' }}> •</span>
                 <span className="text-white"> Sport</span>
               </span>
             </Link>
@@ -85,7 +85,10 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/50 hover:text-[#f97316] transition-colors duration-200"
+                      className="text-sm text-white/50 hover:text-white transition-colors duration-200"
+                      style={{ '--hover-color': 'var(--color-primary)' } as React.CSSProperties}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                     >
                       {link.label}
                     </Link>
@@ -104,7 +107,7 @@ export default function Footer() {
             { icon: MapPin, text: 'New York, NY 10001' },
           ].map(({ icon: Icon, text }) => (
             <div key={text} className="flex items-center gap-3 glass-card px-4 py-3">
-              <Icon size={16} className="text-[#f97316]" />
+              <Icon size={16} style={{ color: 'var(--color-primary)' }} />
               <span className="text-sm text-white/50">{text}</span>
             </div>
           ))}
@@ -121,9 +124,11 @@ export default function Footer() {
               <motion.a
                 key={label}
                 href={href}
-                whileHover={{ scale: 1.2, color: '#f97316' }}
+                whileHover={{ scale: 1.2 }}
                 aria-label={label}
-                className="text-white/30 hover:text-[#f97316] transition-colors"
+                className="text-white/30 transition-colors"
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '')}
               >
                 <Icon size={18} />
               </motion.a>

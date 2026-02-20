@@ -115,7 +115,7 @@ export default function ProductDetailPage() {
                   onError={(e) => { (e.target as HTMLImageElement).src = placeholderImages[activeImg % 3]; }}
                 />
                 {discount > 0 && (
-                  <div className="absolute top-4 left-4 bg-[#f97316] text-white text-xs font-black px-2 py-1 rounded-lg">
+                  <div className="absolute top-4 left-4 text-white text-xs font-black px-2 py-1 rounded-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
                     -{discount}%
                   </div>
                 )}
@@ -127,7 +127,8 @@ export default function ProductDetailPage() {
                 >
                   <Heart
                     size={18}
-                    className={wishlist ? 'fill-[#f97316] text-[#f97316]' : 'text-white/50'}
+                    className={wishlist ? '' : 'text-white/50'}
+                    style={wishlist ? { fill: 'var(--color-primary)', color: 'var(--color-primary)' } : undefined}
                   />
                 </motion.button>
               </motion.div>
@@ -140,8 +141,9 @@ export default function ProductDetailPage() {
                     whileHover={{ scale: 1.05 }}
                     onClick={() => setActiveImg(i)}
                     className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
-                      activeImg === i ? 'border-[#f97316]' : 'border-white/10 hover:border-white/20'
+                      activeImg === i ? '' : 'border-white/10 hover:border-white/20'
                     }`}
+                    style={activeImg === i ? { borderColor: 'var(--color-primary)' } : undefined}
                   >
                     <img
                       src={product.images?.[i] || placeholderImages[i]}
@@ -178,7 +180,8 @@ export default function ProductDetailPage() {
                         <Star
                           key={i}
                           size={14}
-                          className={i < Math.floor(product.rating!) ? 'fill-[#f97316] text-[#f97316]' : 'text-white/20'}
+                          className={i < Math.floor(product.rating!) ? '' : 'text-white/20'}
+                          style={i < Math.floor(product.rating!) ? { fill: 'var(--color-primary)', color: 'var(--color-primary)' } : undefined}
                         />
                       ))}
                     </div>
@@ -194,7 +197,7 @@ export default function ProductDetailPage() {
                   <span className="text-lg text-white/30 line-through mb-0.5">{formatPrice(product.originalPrice)}</span>
                 )}
                 {discount > 0 && (
-                  <span className="text-sm font-bold text-[#f97316] mb-0.5">Save {formatPrice(product.originalPrice! - product.price)}</span>
+                  <span className="text-sm font-bold mb-0.5" style={{ color: 'var(--color-primary)' }}>Save {formatPrice(product.originalPrice! - product.price)}</span>
                 )}
               </div>
 
@@ -237,9 +240,10 @@ export default function ProductDetailPage() {
                         onClick={() => setSelectedSize(size)}
                         className={`px-4 py-2 text-sm font-bold rounded-xl border transition-all ${
                           selectedSize === size
-                            ? 'border-[#f97316] bg-[#f97316]/10 text-[#f97316]'
+                            ? ''
                             : 'border-white/10 text-white/50 hover:border-white/20 hover:text-white/70'
                         }`}
+                        style={selectedSize === size ? { borderColor: 'var(--color-primary)', backgroundColor: 'color-mix(in srgb, var(--color-primary) 10%, transparent)', color: 'var(--color-primary)' } : undefined}
                       >
                         {size}
                       </motion.button>
@@ -286,7 +290,10 @@ export default function ProductDetailPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleBuyNow}
-                  className="flex-1 py-4 rounded-xl font-bold glass border border-[#f97316]/30 text-[#f97316] hover:bg-[#f97316]/10 transition-all"
+                  className="flex-1 py-4 rounded-xl font-bold glass border transition-all"
+                  style={{ borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)', color: 'var(--color-primary)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--color-primary) 10%, transparent)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}
                 >
                   Buy Now
                 </motion.button>
@@ -300,7 +307,7 @@ export default function ProductDetailPage() {
                   { icon: RotateCcw, text: 'Easy Returns', sub: '30-day policy' },
                 ].map(({ icon: Icon, text, sub }) => (
                   <div key={text} className="glass p-3 rounded-xl border border-white/5 text-center">
-                    <Icon size={16} className="text-[#f97316] mx-auto mb-1.5" />
+                    <Icon size={16} className="mx-auto mb-1.5" style={{ color: 'var(--color-primary)' }} />
                     <p className="text-[10px] font-bold text-white/60">{text}</p>
                     <p className="text-[9px] text-white/30">{sub}</p>
                   </div>

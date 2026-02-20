@@ -115,10 +115,11 @@ export default function CheckoutPage() {
             {([['address', 'Shipping', '1'], ['payment', 'Payment', '2'], ['confirm', 'Confirmed', '3']] as const).map(([s, label, num], idx) => (
               <div key={s} className="flex items-center gap-2">
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all ${
-                  step === s ? 'bg-[#f97316] text-white' :
-                  (['address', 'payment', 'confirm'].indexOf(step) > idx) ? 'bg-[#f97316]/20 text-[#f97316]' :
+                  step === s ? 'text-white' :
+                  (['address', 'payment', 'confirm'].indexOf(step) > idx) ? '' :
                   'bg-white/5 text-white/20'
-                }`}>
+                }`}
+                style={step === s ? { backgroundColor: 'var(--color-primary)' } as React.CSSProperties : (['address', 'payment', 'confirm'].indexOf(step) > idx) ? { backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)', color: 'var(--color-primary)' } as React.CSSProperties : undefined}>
                   {num}
                 </div>
                 <span className={`text-xs font-semibold hidden sm:block ${step === s ? 'text-white' : 'text-white/30'}`}>{label}</span>
@@ -145,7 +146,7 @@ export default function CheckoutPage() {
                 </motion.div>
                 <h2 className="text-3xl font-black text-white mb-3">Order Confirmed!</h2>
                 <p className="text-white/50 mb-2">Thank you for shopping with GS • Sport</p>
-                <p className="text-sm text-white/30 mb-8">Order ID: <span className="font-mono text-[#f97316]">#{orderId}</span></p>
+                <p className="text-sm text-white/30 mb-8">Order ID: <span className="font-mono" style={{ color: 'var(--color-primary)' }}>#{orderId}</span></p>
                 <div className="flex gap-3 justify-center">
                   <Link href="/dashboard" className="btn-primary px-6 py-3 rounded-xl font-bold">
                     View Orders
@@ -164,7 +165,7 @@ export default function CheckoutPage() {
                       <motion.div key="address" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
                         <div className="glass-card p-6 space-y-5">
                           <div className="flex items-center gap-2 mb-2">
-                            <Truck size={18} className="text-[#f97316]" />
+                            <Truck size={18} style={{ color: 'var(--color-primary)' }} />
                             <h2 className="text-lg font-black text-white">Shipping Address</h2>
                           </div>
 
@@ -246,12 +247,12 @@ export default function CheckoutPage() {
                       <motion.div key="payment" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
                         <div className="glass-card p-6 space-y-5">
                           <div className="flex items-center gap-2 mb-2">
-                            <CreditCard size={18} className="text-[#f97316]" />
+                            <CreditCard size={18} style={{ color: 'var(--color-primary)' }} />
                             <h2 className="text-lg font-black text-white">Payment</h2>
                           </div>
 
-                          <div className="glass border border-[#f97316]/20 rounded-xl p-4 flex items-center gap-3">
-                            <Lock size={16} className="text-[#f97316] shrink-0" />
+                          <div className="glass rounded-xl p-4 flex items-center gap-3" style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)' }}>
+                            <Lock size={16} className="shrink-0" style={{ color: 'var(--color-primary)' }} />
                             <p className="text-xs text-white/50">
                               This is a demo store. No real payment will be processed. Click "Place Order" to complete your demo order.
                             </p>
@@ -342,13 +343,13 @@ export default function CheckoutPage() {
                       </div>
                       <div className="flex justify-between font-black text-white text-sm border-t border-white/5 pt-2 mt-2">
                         <span>Total</span>
-                        <span className="text-[#f97316]">{formatPrice(total)}</span>
+                        <span style={{ color: 'var(--color-primary)' }}>{formatPrice(total)}</span>
                       </div>
                     </div>
 
                     {subtotal < 75 && (
                       <p className="text-[10px] text-center text-white/30">
-                        Add <span className="text-[#f97316]">{formatPrice(75 - subtotal)}</span> more for free shipping
+                        Add <span style={{ color: 'var(--color-primary)' }}>{formatPrice(75 - subtotal)}</span> more for free shipping
                       </p>
                     )}
                   </div>

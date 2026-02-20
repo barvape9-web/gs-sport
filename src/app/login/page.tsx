@@ -50,7 +50,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-zinc-950 flex items-center justify-center relative overflow-hidden px-4">
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(800px,90vw)] h-[min(800px,90vw)] bg-[#f97316]/4 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(800px,90vw)] h-[min(800px,90vw)] rounded-full blur-[120px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 4%, transparent)' }} />
 
       {/* Animated rings */}
       {[300, 500, 700].map((size, i) => (
@@ -58,8 +58,8 @@ export default function LoginPage() {
           key={size}
           animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
           transition={{ duration: 20 + i * 5, repeat: Infinity, ease: 'linear' }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#f97316]/5"
-          style={{ width: `min(${size}px, 90vw)`, height: `min(${size}px, 90vw)` }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{ width: `min(${size}px, 90vw)`, height: `min(${size}px, 90vw)`, border: '1px solid color-mix(in srgb, var(--color-primary) 5%, transparent)' }}
         />
       ))}
 
@@ -76,7 +76,7 @@ export default function LoginPage() {
             <Link href="/">
               <span className="text-3xl font-black uppercase tracking-tight">
                 <span className="text-white">GS</span>
-                <span className="text-[#f97316]"> •</span>
+                <span style={{ color: 'var(--color-primary)' }}> •</span>
                 <span className="text-white"> Sport</span>
               </span>
             </Link>
@@ -97,7 +97,8 @@ export default function LoginPage() {
                 {...register('email')}
                 type="email"
                 placeholder="you@example.com"
-                className="w-full input-glass px-4 py-3 rounded-lg text-sm focus:ring-2 focus:ring-[#f97316]/25"
+                className="w-full input-glass px-4 py-3 rounded-lg text-sm focus:ring-2"
+                style={{ '--tw-ring-color': 'color-mix(in srgb, var(--color-primary) 25%, transparent)' } as React.CSSProperties}
               />
               {errors.email && (
                 <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
@@ -114,7 +115,8 @@ export default function LoginPage() {
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
-                  className="w-full input-glass px-4 py-3 rounded-lg text-sm pr-12 focus:ring-2 focus:ring-[#f97316]/25"
+                  className="w-full input-glass px-4 py-3 rounded-lg text-sm pr-12 focus:ring-2"
+                  style={{ '--tw-ring-color': 'color-mix(in srgb, var(--color-primary) 25%, transparent)' } as React.CSSProperties}
                 />
                 <button
                   type="button"
@@ -131,7 +133,7 @@ export default function LoginPage() {
 
             {/* Forgot password */}
             <div className="flex justify-end">
-              <Link href="/forgot-password" className="text-xs text-[#f97316] hover:text-[#fb923c]">
+              <Link href="/forgot-password" className="text-xs" style={{ color: 'var(--color-primary)' }}>
                 Forgot password?
               </Link>
             </div>
@@ -177,7 +179,7 @@ export default function LoginPage() {
           {/* Sign up link */}
           <p className="text-center text-sm text-white/40 mt-6">
             Don&apos;t have an account?{' '}
-            <Link href="/register" className="text-[#f97316] font-semibold hover:text-[#fb923c]">
+            <Link href="/register" className="font-semibold" style={{ color: 'var(--color-primary)' }}>
               Create one
             </Link>
           </p>

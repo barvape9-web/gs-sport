@@ -63,11 +63,12 @@ export default function Navbar() {
               >
                 <span className="text-xl sm:text-2xl font-extrabold tracking-[0.12em] uppercase">
                   <span className="text-white">GS</span>
-                  <span className="text-[#f97316]"> •</span>
+                  <span style={{ color: 'var(--color-primary)' }}> •</span>
                   <span className="text-white"> Sport</span>
                 </span>
                 <motion.div
-                  className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-[#f97316] to-transparent"
+                  className="absolute -bottom-1 left-0 h-0.5"
+                  style={{ backgroundImage: 'linear-gradient(to right, var(--color-primary), transparent)' }}
                   initial={{ width: 0 }}
                   whileHover={{ width: '100%' }}
                   transition={{ duration: 0.3 }}
@@ -102,9 +103,10 @@ export default function Navbar() {
                       />
                     )}
                     <span
-                      className={`pointer-events-none absolute left-3 right-3 -bottom-0.5 h-px origin-left scale-x-0 bg-gradient-to-r from-[#f97316] via-[#f97316]/60 to-transparent transition-transform duration-300 group-hover:scale-x-100 ${
+                      className={`pointer-events-none absolute left-3 right-3 -bottom-0.5 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 ${
                         pathname === link.href ? 'scale-x-100' : ''
                       }`}
+                      style={{ backgroundImage: 'linear-gradient(to right, var(--color-primary), color-mix(in srgb, var(--color-primary) 60%, transparent), transparent)' }}
                     />
                   </Link>
 
@@ -156,7 +158,8 @@ export default function Navbar() {
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="absolute -top-1 -right-1 w-5 h-5 bg-[#f97316] rounded-full text-[10px] font-bold text-white flex items-center justify-center"
+                    className="absolute -top-1 -right-1 w-5 h-5 rounded-full text-[10px] font-bold text-white flex items-center justify-center"
+                    style={{ backgroundColor: 'var(--color-primary)' }}
                   >
                     {totalItems}
                   </motion.span>
@@ -170,7 +173,7 @@ export default function Navbar() {
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-2 px-3 py-2 glass rounded-full text-sm font-medium text-white/80 hover:text-white transition-all"
                   >
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#f97316] to-[#ea580c] flex items-center justify-center text-xs font-bold">
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundImage: 'linear-gradient(to bottom right, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))' }}>
                       {user.name?.charAt(0).toUpperCase()}
                     </div>
                     <span className="hidden sm:block max-w-[80px] truncate">{user.name}</span>
@@ -185,7 +188,8 @@ export default function Navbar() {
                     {user.role === 'ADMIN' && (
                       <Link
                         href="/admin"
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#f97316] hover:bg-white/5 rounded-lg"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-white/5 rounded-lg"
+                        style={{ color: 'var(--color-primary)' }}
                       >
                         <Shield size={14} />
                         Admin Panel
@@ -241,9 +245,10 @@ export default function Navbar() {
                       onClick={() => setIsMobileOpen(false)}
                       className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                         pathname === link.href
-                          ? 'text-[#f97316] bg-orange-500/10'
+                          ? 'bg-[color-mix(in_srgb,var(--color-primary)_10%,transparent)]'
                           : 'text-white/70 hover:text-white hover:bg-white/5'
                       }`}
+                      style={pathname === link.href ? { color: 'var(--color-primary)' } : undefined}
                     >
                       {link.label}
                     </Link>

@@ -59,8 +59,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-[#f97316]/20 flex items-center justify-center mx-auto mb-2">
-                  <ShoppingBag size={24} className="text-[#f97316]" />
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)' }}>
+                  <ShoppingBag size={24} style={{ color: 'var(--color-primary)' }} />
                 </div>
                 <p className="text-xs text-white/30">No image</p>
               </div>
@@ -73,7 +73,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-1.5">
             {product.isFeatured && (
-              <span className="px-2 py-1 bg-[#f97316] text-white text-[10px] font-extrabold rounded-md flex items-center gap-1 uppercase tracking-widest">
+              <span className="px-2 py-1 text-white text-[10px] font-extrabold rounded-md flex items-center gap-1 uppercase tracking-widest" style={{ backgroundColor: 'var(--color-primary)' }}>
                 <Zap size={10} />
                 HOT
               </span>
@@ -133,7 +133,10 @@ export default function ProductCard({ product }: ProductCardProps) {
               <p className="text-[10px] text-white/40 font-medium uppercase tracking-wider mb-1">
                 {getCategoryLabel(product.category)}
               </p>
-              <h3 className="text-sm font-extrabold uppercase tracking-wide text-white leading-tight line-clamp-2 group-hover:text-[#f97316] transition-colors duration-300">
+              <h3 className="text-sm font-extrabold uppercase tracking-wide text-white leading-tight line-clamp-2 transition-colors duration-300" style={{ '--hover-c': 'var(--color-primary)' } as React.CSSProperties}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '')}
+              >
                 {product.name}
               </h3>
             </div>
@@ -159,7 +162,8 @@ export default function ProductCard({ product }: ProductCardProps) {
               <Star
                 key={star}
                 size={10}
-                className={`${star <= 4 ? 'fill-[#f97316] stroke-[#f97316]' : 'stroke-white/20'}`}
+                className={`${star <= 4 ? '' : 'stroke-white/20'}`}
+                style={star <= 4 ? { fill: 'var(--color-primary)', stroke: 'var(--color-primary)' } : undefined}
               />
             ))}
             <span className="text-[10px] text-white/30 ml-1">({product.popularity})</span>
@@ -167,7 +171,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Price */}
           <div className="flex items-center gap-2 mt-3">
-            <span className="text-lg font-black text-[#f97316]">
+            <span className="text-lg font-black" style={{ color: 'var(--color-primary)' }}>
               {formatPrice(product.price)}
             </span>
             {product.originalPrice && (

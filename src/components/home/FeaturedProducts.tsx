@@ -37,7 +37,7 @@ export default function FeaturedProducts() {
     <section className="py-12 sm:py-24 bg-[#0a0a0a] relative overflow-hidden isolate">
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-      <div className="absolute top-0 right-0 w-[min(500px,90vw)] h-[min(500px,90vw)] bg-[#f97316]/8 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[min(500px,90vw)] h-[min(500px,90vw)] rounded-full blur-[120px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 8%, transparent)' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -48,7 +48,7 @@ export default function FeaturedProducts() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center gap-2 text-[#f97316] text-sm font-semibold uppercase tracking-widest mb-3">
+            <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--color-primary)' }}>
               <TrendingUp size={16} />
               Featured Collection
             </div>
@@ -72,9 +72,10 @@ export default function FeaturedProducts() {
                 onClick={() => setActiveFilter(filter)}
                 className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
                   activeFilter === filter
-                    ? 'bg-[#f97316] text-white shadow-[0_0_20px_rgba(249,115,22,0.3)]'
+                    ? 'text-white'
                     : 'glass text-white/60 hover:text-white'
                 }`}
+                style={activeFilter === filter ? { backgroundColor: 'var(--color-primary)', boxShadow: '0 0 20px color-mix(in srgb, var(--color-primary) 30%, transparent)' } : undefined}
               >
                 {filter}
               </motion.button>

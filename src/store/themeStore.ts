@@ -15,8 +15,8 @@ interface ThemeStore {
 const defaultTheme: SiteTheme = {
   id: 'default',
   primaryColor: '#f97316',
-  secondaryColor: '#ffffff',
-  accentColor: '#000000',
+  secondaryColor: '#10b981',
+  accentColor: '#8b5cf6',
   isDarkMode: true,
 };
 

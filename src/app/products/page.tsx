@@ -100,10 +100,10 @@ function ProductsPageInner() {
         {/* Header */}
         <div className="relative py-16 overflow-hidden border-b border-white/5">
           <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,90vw)] h-[min(300px,50vw)] bg-[#f97316]/5 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,90vw)] h-[min(300px,50vw)] rounded-full blur-[80px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 5%, transparent)' }} />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <p className="text-[#f97316] text-sm font-bold uppercase tracking-widest mb-3">
+              <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--color-primary)' }}>
                 {filters.gender ? `${filters.gender}'s Collection` : 'All Products'}
               </p>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
@@ -128,13 +128,14 @@ function ProductsPageInner() {
               whileTap={{ scale: 0.98 }}
               onClick={() => setShowFilters(!showFilters)}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
-                showFilters ? 'bg-[#f97316] text-white' : 'glass text-white/70 hover:text-white'
+                showFilters ? 'text-white' : 'glass text-white/70 hover:text-white'
               }`}
+              style={showFilters ? { backgroundColor: 'var(--color-primary)' } : undefined}
             >
               <SlidersHorizontal size={16} />
               Filters
               {activeFilterCount > 0 && (
-                <span className="w-5 h-5 bg-white text-[#f97316] rounded-full text-xs font-bold flex items-center justify-center">
+                <span className="w-5 h-5 bg-white rounded-full text-xs font-bold flex items-center justify-center" style={{ color: 'var(--color-primary)' }}>
                   {activeFilterCount}
                 </span>
               )}
@@ -146,7 +147,7 @@ function ProductsPageInner() {
                 <span className="flex items-center gap-1 px-3 py-1 glass rounded-full text-xs text-white/70">
                   {filters.gender}
                   <button onClick={() => setFilters((f) => ({ ...f, gender: undefined }))}>
-                    <X size={12} className="hover:text-[#f97316]" />
+                    <X size={12} className="hover:text-white" style={{ '--hover-color': 'var(--color-primary)' } as React.CSSProperties} />
                   </button>
                 </span>
               )}
@@ -154,7 +155,7 @@ function ProductsPageInner() {
                 <span className="flex items-center gap-1 px-3 py-1 glass rounded-full text-xs text-white/70">
                   {filters.category.replace('_', ' ')}
                   <button onClick={() => setFilters((f) => ({ ...f, category: undefined }))}>
-                    <X size={12} className="hover:text-[#f97316]" />
+                    <X size={12} className="hover:text-white" style={{ '--hover-color': 'var(--color-primary)' } as React.CSSProperties} />
                   </button>
                 </span>
               )}
@@ -225,7 +226,8 @@ function ProductsPageInner() {
                     <p className="text-white/30 text-sm">Try adjusting your filters</p>
                     <button
                       onClick={() => setFilters({ sortBy: 'newest' })}
-                      className="mt-4 text-[#f97316] text-sm hover:underline"
+                      className="mt-4 text-sm hover:underline"
+                      style={{ color: 'var(--color-primary)' }}
                     >
                       Clear all filters
                     </button>

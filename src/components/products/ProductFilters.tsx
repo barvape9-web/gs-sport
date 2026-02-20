@@ -47,7 +47,8 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={clearAll}
-          className="text-xs text-[#f97316] hover:text-[#fb923c] flex items-center gap-1"
+          className="text-xs flex items-center gap-1"
+          style={{ color: 'var(--color-primary)' }}
         >
           <X size={12} />
           Clear All
@@ -65,12 +66,17 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
               onClick={() => update('gender', value)}
               className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
                 filters.gender === value
-                  ? 'bg-[#f97316]/15 text-[#f97316] border border-[#f97316]/30'
+                  ? 'border'
                   : 'text-white/60 hover:text-white hover:bg-white/5'
               }`}
+              style={filters.gender === value ? {
+                backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)',
+                color: 'var(--color-primary)',
+                borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)',
+              } : undefined}
             >
               {label}
-              {filters.gender === value && <span className="w-2 h-2 rounded-full bg-[#f97316]" />}
+              {filters.gender === value && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />}
             </motion.button>
           ))}
         </div>
@@ -87,12 +93,17 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
               onClick={() => update('category', value)}
               className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
                 filters.category === value
-                  ? 'bg-[#f97316]/15 text-[#f97316] border border-[#f97316]/30'
+                  ? 'border'
                   : 'text-white/60 hover:text-white hover:bg-white/5'
               }`}
+              style={filters.category === value ? {
+                backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)',
+                color: 'var(--color-primary)',
+                borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)',
+              } : undefined}
             >
               {label}
-              {filters.category === value && <span className="w-2 h-2 rounded-full bg-[#f97316]" />}
+              {filters.category === value && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />}
             </motion.button>
           ))}
         </div>
@@ -117,12 +128,17 @@ export default function ProductFilters({ filters, onFiltersChange }: ProductFilt
                 }}
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
                   isActive
-                    ? 'bg-[#f97316]/15 text-[#f97316] border border-[#f97316]/30'
+                    ? 'border'
                     : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
+                style={isActive ? {
+                  backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)',
+                  color: 'var(--color-primary)',
+                  borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)',
+                } : undefined}
               >
                 {range.label}
-                {isActive && <span className="w-2 h-2 rounded-full bg-[#f97316]" />}
+                {isActive && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />}
               </motion.button>
             );
           })}

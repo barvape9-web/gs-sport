@@ -70,7 +70,7 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center gap-4 sm:gap-6 mb-10"
           >
-            <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#f97316] to-[#ea580c] flex items-center justify-center text-xl sm:text-3xl font-black text-white shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+            <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-xl sm:text-3xl font-black text-white" style={{ backgroundImage: 'linear-gradient(to bottom right, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))', boxShadow: '0 0 30px color-mix(in srgb, var(--color-primary) 30%, transparent)' } as React.CSSProperties}>
               {user.name?.charAt(0).toUpperCase()}
             </div>
             <div>
@@ -78,7 +78,7 @@ export default function DashboardPage() {
                 Welcome, <span className="gradient-text">{user.name}</span>
               </h1>
               <p className="text-white/40 mt-1">{user.email}</p>
-              <span className="inline-flex items-center gap-1 mt-2 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#f97316]/15 text-[#f97316] border border-[#f97316]/20">
+              <span className="inline-flex items-center gap-1 mt-2 px-2.5 py-0.5 rounded-full text-xs font-bold" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)', color: 'var(--color-primary)', border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)' } as React.CSSProperties}>
                 <Star size={10} className="fill-current" />
                 {user.role === 'ADMIN' ? 'Admin' : 'Member'}
               </span>
@@ -96,9 +96,10 @@ export default function DashboardPage() {
                     onClick={() => setActiveTab(id)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                       activeTab === id
-                        ? 'bg-[#f97316]/15 text-[#f97316] border border-[#f97316]/20'
+                        ? ''
                         : 'text-white/60 hover:text-white hover:bg-white/5'
                     }`}
+                    style={activeTab === id ? { backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)', color: 'var(--color-primary)', border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)' } as React.CSSProperties : undefined}
                   >
                     <Icon size={18} />
                     {label}
@@ -109,7 +110,7 @@ export default function DashboardPage() {
                   <Link href="/admin">
                     <motion.button
                       whileHover={{ x: 4 }}
-                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-[#f97316] hover:bg-[#f97316]/10 transition-all"
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all" style={{ color: 'var(--color-primary)' }}
                     >
                       <Settings size={18} />
                       Admin Panel
@@ -185,7 +186,7 @@ export default function DashboardPage() {
                             </p>
                           </div>
                           <div className="text-right">
-                            <p className="text-lg font-black text-[#f97316]">
+                            <p className="text-lg font-black" style={{ color: 'var(--color-primary)' }}>
                               {formatPrice(order.total)}
                             </p>
                           </div>
@@ -266,7 +267,7 @@ export default function DashboardPage() {
                           <p className="text-sm font-semibold text-white">{setting.label}</p>
                           <p className="text-xs text-white/40">{setting.desc}</p>
                         </div>
-                        <div className="w-12 h-6 rounded-full bg-[#f97316] cursor-pointer relative">
+                        <div className="w-12 h-6 rounded-full cursor-pointer relative" style={{ backgroundColor: 'var(--color-primary)' }}>
                           <div className="absolute right-1 top-1 w-4 h-4 rounded-full bg-white" />
                         </div>
                       </div>

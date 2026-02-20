@@ -8,7 +8,7 @@ import Footer from '@/components/layout/Footer';
 import toast from 'react-hot-toast';
 
 const contactInfo = [
-  { icon: Mail, label: 'Email', value: 'support@gs-sport.com', color: '#f97316' },
+  { icon: Mail, label: 'Email', value: 'support@gs-sport.com', color: 'var(--color-primary)' },
   { icon: Phone, label: 'Phone', value: '+1 (800) GS-SPORT', color: '#3b82f6' },
   { icon: MapPin, label: 'Address', value: '123 Athletic Ave, New York, NY 10001', color: '#10b981' },
   { icon: Clock, label: 'Support Hours', value: '24/7 Online Support', color: '#8b5cf6' },
@@ -34,10 +34,10 @@ export default function ContactPage() {
         {/* Header */}
         <div className="relative py-16 overflow-hidden border-b border-white/5">
           <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,90vw)] h-[min(300px,50vw)] bg-[#f97316]/5 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,90vw)] h-[min(300px,50vw)] rounded-full blur-[80px] pointer-events-none" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 5%, transparent)' }} />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <p className="text-[#f97316] text-sm font-bold uppercase tracking-widest mb-3">
+              <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--color-primary)' }}>
                 Get In Touch
               </p>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
@@ -74,7 +74,7 @@ export default function ContactPage() {
                 >
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: `${color}15`, border: `1px solid ${color}20` }}
+                    style={{ backgroundColor: `color-mix(in srgb, ${color} 15%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 20%, transparent)` }}
                   >
                     <Icon size={18} style={{ color }} />
                   </div>
@@ -92,11 +92,12 @@ export default function ContactPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="glass-card p-5 border border-[#f97316]/20"
+                className="glass-card p-5"
+                style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)' }}
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#f97316]/15 flex items-center justify-center">
-                    <MessageCircle size={18} className="text-[#f97316]" />
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)' }}>
+                    <MessageCircle size={18} style={{ color: 'var(--color-primary)' }} />
                   </div>
                   <div>
                     <p className="text-sm font-bold text-white">Live Chat</p>

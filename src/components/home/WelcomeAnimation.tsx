@@ -34,24 +34,28 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(800px,90vw)] h-[min(800px,90vw)] rounded-full border border-[#f97316]/5"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(800px,90vw)] h-[min(800px,90vw)] rounded-full"
+              style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 5%, transparent)' }}
             />
             <motion.div
               animate={{ rotate: -360 }}
               transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(600px,70vw)] h-[min(600px,70vw)] rounded-full border border-[#f97316]/8"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(600px,70vw)] h-[min(600px,70vw)] rounded-full"
+              style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 8%, transparent)' }}
             />
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(400px,50vw)] h-[min(400px,50vw)] rounded-full border border-[#f97316]/12"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(400px,50vw)] h-[min(400px,50vw)] rounded-full"
+              style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 12%, transparent)' }}
             />
 
             {/* Glow orbs */}
             <motion.div
               animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
               transition={{ duration: 3, repeat: Infinity }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-[#f97316]/5 blur-3xl"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl"
+              style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 5%, transparent)' }}
             />
           </div>
 
@@ -69,18 +73,19 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                 <motion.div
                   initial={{ rotate: 0, opacity: 0 }}
                   animate={stage >= 1 ? { opacity: 1 } : {}}
-                  className="absolute inset-0 rounded-full border-2 border-[#f97316]/30"
+                  className="absolute inset-0 rounded-full"
+                  style={{ border: '2px solid color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
                 />
                 {/* Inner glow */}
-                <div className="absolute inset-2 rounded-full bg-gradient-to-br from-[#f97316] to-[#ea580c] flex items-center justify-center shadow-[0_0_30px_rgba(249,115,22,0.5)]">
+                <div className="absolute inset-2 rounded-full flex items-center justify-center" style={{ backgroundImage: 'linear-gradient(to bottom right, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))', boxShadow: '0 0 30px color-mix(in srgb, var(--color-primary) 50%, transparent)' }}>
                   <span className="text-white font-black text-3xl tracking-tight">GS</span>
                 </div>
                 {/* Rotating border segments */}
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                  className="absolute inset-0 rounded-full border-t-2 border-r-2 border-[#f97316] opacity-60"
-                  style={{ borderRadius: '50%' }}
+                  className="absolute inset-0 rounded-full opacity-60"
+                  style={{ borderRadius: '50%', borderTop: '2px solid var(--color-primary)', borderRight: '2px solid var(--color-primary)', borderBottom: '2px solid transparent', borderLeft: '2px solid transparent' }}
                 />
               </div>
             </motion.div>
@@ -97,13 +102,15 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                   initial={{ width: 0 }}
                   animate={stage >= 2 ? { width: '40px' } : {}}
                   transition={{ duration: 0.4, delay: 0.2 }}
-                  className="h-px bg-gradient-to-r from-transparent to-[#f97316]"
+                  className="h-px"
+                  style={{ backgroundImage: 'linear-gradient(to right, transparent, var(--color-primary))' }}
                 />
                 <motion.span
                   initial={{ opacity: 0, letterSpacing: '0.5em' }}
                   animate={stage >= 2 ? { opacity: 1, letterSpacing: '0.3em' } : {}}
                   transition={{ duration: 0.6 }}
-                  className="text-xs text-[#f97316] font-bold uppercase tracking-[0.3em]"
+                  className="text-xs font-bold uppercase tracking-[0.3em]"
+                  style={{ color: 'var(--color-primary)' }}
                 >
                   Premium
                 </motion.span>
@@ -111,7 +118,8 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                   initial={{ width: 0 }}
                   animate={stage >= 2 ? { width: '40px' } : {}}
                   transition={{ duration: 0.4, delay: 0.2 }}
-                  className="h-px bg-gradient-to-l from-transparent to-[#f97316]"
+                  className="h-px"
+                  style={{ backgroundImage: 'linear-gradient(to left, transparent, var(--color-primary))' }}
                 />
               </div>
 
@@ -121,7 +129,7 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-5xl sm:text-6xl font-black text-white tracking-tight"
               >
-                GS <span className="text-[#f97316]">•</span> Sport
+                GS <span style={{ color: 'var(--color-primary)' }}>•</span> Sport
               </motion.h1>
 
               <motion.p
@@ -146,7 +154,8 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                   initial={{ width: '0%' }}
                   animate={stage >= 2 ? { width: '100%' } : {}}
                   transition={{ duration: 1, ease: 'easeInOut', delay: 0.6 }}
-                  className="h-full bg-gradient-to-r from-[#f97316] to-[#fb923c]"
+                  className="h-full"
+                  style={{ backgroundImage: 'linear-gradient(to right, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, #fff))' }}
                 />
               </div>
             </motion.div>
