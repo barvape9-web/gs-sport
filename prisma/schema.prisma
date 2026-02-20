@@ -177,3 +177,10 @@ model ChatMessage {
 
   @@map("chat_messages")
 }
+
+model ActiveSession {
+  id        String   @id
+  lastSeen  DateTime @default(now())
+
+  @@map("active_sessions")
+}

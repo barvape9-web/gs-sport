@@ -40,17 +40,28 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Simulated live user counter
+  // Real live user counter — heartbeat + fetch
   useEffect(() => {
-    const randomBetween = (min: number, max: number) =>
-      Math.floor(Math.random() * (max - min + 1)) + min;
-    setOnlineCount(randomBetween(5, 50));
-    const interval = setInterval(() => {
-      setOnlineCount((prev) => {
-        const delta = randomBetween(-3, 3);
-        return Math.max(5, Math.min(50, prev + delta));
-      });
-    }, 5000);
+    let sessionId = sessionStorage.getItem('gs-session-id');
+    if (!sessionId) {
+      sessionId = crypto.randomUUID();
+      sessionStorage.setItem('gs-session-id', sessionId);
+    }
+
+    const heartbeat = async () => {
+      try {
+        const res = await fetch('/api/online', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId }),
+        });
+        const data = await res.json();
+        if (typeof data.count === 'number') setOnlineCount(data.count);
+      } catch { /* silent */ }
+    };
+
+    heartbeat();
+    const interval = setInterval(heartbeat, 30000);
     return () => clearInterval(interval);
   }, []);
 
