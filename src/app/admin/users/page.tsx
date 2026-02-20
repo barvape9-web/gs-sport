@@ -44,22 +44,26 @@ export default function AdminUsersPage() {
       const user = users.find((u) => u.id === userId);
       if (!user) return;
       const newRole = user.role === 'ADMIN' ? 'USER' : 'ADMIN';
-      await axios.put(`/api/admin/users/${userId}`, { role: newRole }).catch(() => {});
-      setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u)));
-      toast.success(`Role updated to ${newRole}`);
-    } catch {
-      toast.error('Failed to update role');
+      const res = await axios.put(`/api/admin/users/${userId}`, { role: newRole });
+      if (res.data?.id) {
+        setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u)));
+        toast.success(`Role updated to ${newRole}`);
+      }
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { error?: string } } })?.response?.data?.error || 'Failed to update role';
+      toast.error(msg);
     }
   };
 
   const deleteUser = async (userId: string) => {
     if (!confirm('Delete this user? This cannot be undone.')) return;
     try {
-      await axios.delete(`/api/admin/users/${userId}`).catch(() => {});
+      await axios.delete(`/api/admin/users/${userId}`);
       setUsers((prev) => prev.filter((u) => u.id !== userId));
       toast.success('User deleted');
-    } catch {
-      toast.error('Failed to delete user');
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { error?: string } } })?.response?.data?.error || 'Failed to delete user';
+      toast.error(msg);
     }
   };
 
