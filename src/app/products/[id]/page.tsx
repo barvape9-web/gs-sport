@@ -402,22 +402,33 @@ export default function ProductDetailPage() {
               {/* CTA Buttons */}
               <div className="flex gap-3 pt-2">
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.02, boxShadow: '0 8px 32px rgba(249,115,22,0.5)' }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={handleAddToCart}
-                  className="flex-1 btn-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2"
+                  className="flex-1 relative overflow-hidden py-4 rounded-2xl font-bold flex items-center justify-center gap-2.5 text-white group/btn"
+                  style={{
+                    background: 'linear-gradient(135deg, #f97316 0%, #ea580c 50%, #f97316 100%)',
+                    boxShadow: '0 4px 24px rgba(249,115,22,0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
+                    borderTop: '1px solid rgba(255,255,255,0.15)',
+                  }}
                 >
-                  <ShoppingCart size={18} />
-                  {t('productDetail.addToCart')}
+                  <ShoppingCart size={18} className="drop-shadow-sm" />
+                  <span className="drop-shadow-sm tracking-wide">{t('productDetail.addToCart')}</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={handleBuyNow}
-                  className="flex-1 py-4 rounded-xl font-bold glass border transition-all"
-                  style={{ borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)', color: 'var(--color-primary)' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--color-primary) 10%, transparent)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}
+                  className="flex-1 py-4 rounded-2xl font-bold backdrop-blur-md transition-all duration-300"
+                  style={{
+                    background: 'rgba(249,115,22,0.08)',
+                    border: '1px solid rgba(249,115,22,0.25)',
+                    color: 'var(--color-primary)',
+                    boxShadow: '0 2px 12px rgba(249,115,22,0.08)',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(249,115,22,0.15)'; e.currentTarget.style.borderColor = 'rgba(249,115,22,0.4)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(249,115,22,0.15)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(249,115,22,0.08)'; e.currentTarget.style.borderColor = 'rgba(249,115,22,0.25)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(249,115,22,0.08)'; }}
                 >
                   {t('productDetail.buyNow')}
                 </motion.button>

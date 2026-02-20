@@ -65,9 +65,9 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      <Link href={`/products/${product.id}`} className="block h-full">
+      <Link href={`/products/${product.id}`} className="flex flex-col h-full">
         {/* Image container */}
-        <div className="relative aspect-[3/4] overflow-hidden rounded-t-xl" style={{ backgroundColor: 'var(--bg-inset)' }}>
+        <div className="relative aspect-[3/4] overflow-hidden rounded-t-xl flex-shrink-0" style={{ backgroundColor: 'var(--bg-inset)' }}>
           {product.images?.[0] ? (
             <Image
               src={product.images[0]}
@@ -132,23 +132,38 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleAddToCart}
-              className="flex-1 btn-primary py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-white flex items-center justify-center gap-1 sm:gap-2 transition-all duration-300"
+              className="flex-1 relative overflow-hidden py-2.5 sm:py-3 rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider text-white flex items-center justify-center gap-1.5 sm:gap-2 transition-all duration-300 backdrop-blur-md"
+              style={{
+                background: isWomen
+                  ? 'linear-gradient(135deg, #ec4899, #db2777, #ec4899)'
+                  : 'linear-gradient(135deg, #f97316, #ea580c, #f97316)',
+                boxShadow: isWomen
+                  ? '0 4px 20px rgba(236,72,153,0.4), inset 0 1px 0 rgba(255,255,255,0.15)'
+                  : '0 4px 20px rgba(249,115,22,0.4), inset 0 1px 0 rgba(255,255,255,0.15)',
+                borderTop: '1px solid rgba(255,255,255,0.2)',
+              }}
             >
-              <ShoppingBag size={14} />
-              {t('productDetail.addToCart')}
+              <ShoppingBag size={14} className="drop-shadow-sm" />
+              <span className="drop-shadow-sm">{t('productDetail.addToCart')}</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-8 h-8 sm:w-10 sm:h-10 glass rounded-lg flex items-center justify-center"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center backdrop-blur-md"
+              style={{
+                background: 'rgba(255,255,255,0.1)',
+                border: '1px solid rgba(255,255,255,0.2)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              }}
             >
-              <Eye size={14} className="text-white/70" />
+              <Eye size={14} className="text-white/80" />
             </motion.button>
           </motion.div>
         </div>
 
         {/* Info */}
-        <div className="p-3 sm:p-4 lg:p-5" style={isWomen ? { background: 'linear-gradient(180deg, rgba(236,72,153,0.04) 0%, rgba(236,72,153,0.08) 100%)' } : undefined}>
+        <div className="p-3 sm:p-4 lg:p-5 flex-1 flex flex-col" style={isWomen ? { background: 'linear-gradient(180deg, rgba(236,72,153,0.04) 0%, rgba(236,72,153,0.08) 100%)' } : undefined}>
           <div className="flex items-start justify-between gap-1 sm:gap-2">
             <div className="flex-1 min-w-0">
               <p className="text-[9px] sm:text-[10px] font-medium uppercase tracking-wider mb-0.5 sm:mb-1" style={{ color: 'var(--text-muted)' }}>
@@ -203,6 +218,7 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
           </div>
 
           {/* Sizes preview */}
+          <div className="mt-auto" />
           {product.sizes && product.sizes.length > 0 && (
             <div className="flex gap-1 mt-2 sm:mt-3">
               {product.sizes.slice(0, 4).map((size) => (
