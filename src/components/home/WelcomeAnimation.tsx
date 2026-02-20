@@ -61,33 +61,101 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
 
           {/* Logo animation */}
           <div className="relative z-10 flex flex-col items-center">
-            {/* Logo mark */}
+            {/* GS Slash Logo */}
             <motion.div
-              initial={{ scale: 0, opacity: 0 }}
+              initial={{ scale: 0.5, opacity: 0 }}
               animate={stage >= 1 ? { scale: 1, opacity: 1 } : {}}
-              transition={{ duration: 0.8, type: 'spring', stiffness: 200, damping: 15 }}
-              className="mb-8"
+              transition={{ duration: 0.8, type: 'spring', stiffness: 180, damping: 14 }}
+              className="mb-8 relative"
             >
-              <div className="relative w-24 h-24">
-                {/* Outer ring */}
-                <motion.div
-                  initial={{ rotate: 0, opacity: 0 }}
-                  animate={stage >= 1 ? { opacity: 1 } : {}}
-                  className="absolute inset-0 rounded-full"
-                  style={{ border: '2px solid color-mix(in srgb, var(--color-primary) 30%, transparent)' }}
+              {/* Glow behind logo */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={stage >= 1 ? { opacity: [0, 0.6, 0.3] } : {}}
+                transition={{ duration: 1.5, delay: 0.3 }}
+                className="absolute inset-0 -m-6 rounded-full blur-2xl"
+                style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)' }}
+              />
+              <svg
+                width="120"
+                height="120"
+                viewBox="0 0 200 200"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="relative z-10"
+              >
+                <defs>
+                  <filter id="slashBlur">
+                    <feGaussianBlur stdDeviation="6" />
+                  </filter>
+                  <clipPath id="slashClipLeft">
+                    <rect x="0" y="0" width="200" height="200" />
+                  </clipPath>
+                </defs>
+                {/* G letter */}
+                <motion.text
+                  x="28"
+                  y="145"
+                  fill="white"
+                  fontSize="140"
+                  fontWeight="900"
+                  fontFamily="Inter, system-ui, sans-serif"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={stage >= 1 ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
+                >
+                  G
+                </motion.text>
+                {/* S letter */}
+                <motion.text
+                  x="100"
+                  y="155"
+                  fill="white"
+                  fontSize="130"
+                  fontWeight="900"
+                  fontFamily="Inter, system-ui, sans-serif"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={stage >= 1 ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.5, ease: 'easeOut' }}
+                >
+                  S
+                </motion.text>
+                {/* Diagonal slash */}
+                <motion.line
+                  x1="160"
+                  y1="15"
+                  x2="40"
+                  y2="185"
+                  stroke="white"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={stage >= 1 ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.4, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
                 />
-                {/* Inner glow */}
-                <div className="absolute inset-2 rounded-full flex items-center justify-center" style={{ backgroundImage: 'linear-gradient(to bottom right, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))', boxShadow: '0 0 30px color-mix(in srgb, var(--color-primary) 50%, transparent)' }}>
-                  <span className="text-white font-black text-3xl tracking-tight">GS</span>
-                </div>
-                {/* Rotating border segments */}
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                  className="absolute inset-0 rounded-full opacity-60"
-                  style={{ borderRadius: '50%', borderTop: '2px solid var(--color-primary)', borderRight: '2px solid var(--color-primary)', borderBottom: '2px solid transparent', borderLeft: '2px solid transparent' }}
+                {/* Slash glow line */}
+                <motion.line
+                  x1="160"
+                  y1="15"
+                  x2="40"
+                  y2="185"
+                  strokeWidth="14"
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={stage >= 1 ? { pathLength: 1, opacity: [0, 0.5, 0.15] } : {}}
+                  transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
+                  style={{ stroke: 'var(--color-primary)' }}
+                  filter="url(#slashBlur)"
                 />
-              </div>
+              </svg>
+              {/* Pulse ring */}
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={stage >= 1 ? { scale: [0.8, 1.3, 1.5], opacity: [0.5, 0.2, 0] } : {}}
+                transition={{ duration: 1.2, delay: 0.6, ease: 'easeOut' }}
+                className="absolute inset-0 -m-4 rounded-full"
+                style={{ border: '1px solid color-mix(in srgb, var(--color-primary) 40%, transparent)' }}
+              />
             </motion.div>
 
             {/* Brand name */}
