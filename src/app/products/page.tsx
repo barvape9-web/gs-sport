@@ -11,6 +11,7 @@ import ProductCard from '@/components/products/ProductCard';
 import ProductFilters from '@/components/products/ProductFilters';
 import { Product, ProductFilters as IProductFilters } from '@/types';
 import axios from 'axios';
+import { useTranslation } from '@/lib/useTranslation';
 
 const MOCK_PRODUCTS: Product[] = Array.from({ length: 24 }, (_, i) => ({
   id: `prod-${i}`,
@@ -50,6 +51,7 @@ export default function ProductsPage() {
 
 function ProductsPageInner() {
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
@@ -104,18 +106,18 @@ function ProductsPageInner() {
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--color-primary)' }}>
-                {filters.gender ? `${filters.gender}'s Collection` : 'All Products'}
+                {filters.gender ? t(`products.${filters.gender.toLowerCase()}Collection`) : t('products.allProducts')}
               </p>
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-3 sm:mb-4" style={{ color: 'var(--text-primary)' }}>
                 {filters.gender === 'MEN' ? (
-                  <>Men&apos;s <span className="gradient-text">Collection</span></>
+                  <>{t('products.mensCollectionTitle')} <span className="gradient-text">{t('products.collection')}</span></>
                 ) : filters.gender === 'WOMEN' ? (
-                  <>Women&apos;s <span className="gradient-text">Collection</span></>
+                  <>{t('products.womensCollectionTitle')} <span className="gradient-text">{t('products.collection')}</span></>
                 ) : (
-                  <>Our <span className="gradient-text">Collection</span></>
+                  <>{t('products.ourCollection')} <span className="gradient-text">{t('products.collection')}</span></>
                 )}
               </h1>
-              <p className="text-base sm:text-lg" style={{ color: 'var(--text-muted)' }}>{products.length} products found</p>
+              <p className="text-base sm:text-lg" style={{ color: 'var(--text-muted)' }}>{products.length} {t('products.productsFound')}</p>
             </motion.div>
           </div>
         </div>
@@ -133,7 +135,7 @@ function ProductsPageInner() {
               style={showFilters ? { backgroundColor: 'var(--color-primary)' } : undefined}
             >
               <SlidersHorizontal size={16} />
-              Filters
+              {t('products.filters')}
               {activeFilterCount > 0 && (
                 <span className="w-5 h-5 bg-white rounded-full text-xs font-bold flex items-center justify-center" style={{ color: 'var(--color-primary)' }}>
                   {activeFilterCount}
@@ -170,10 +172,10 @@ function ProductsPageInner() {
                 }
                 className="input-glass pl-4 pr-10 py-2.5 rounded-full text-sm appearance-none cursor-pointer"
               >
-                <option value="newest">Newest</option>
-                <option value="popularity">Most Popular</option>
-                <option value="price_asc">Price: Low to High</option>
-                <option value="price_desc">Price: High to Low</option>
+                <option value="newest">{t('products.newest')}</option>
+                <option value="popularity">{t('products.mostPopular')}</option>
+                <option value="price_asc">{t('products.priceLowHigh')}</option>
+                <option value="price_desc">{t('products.priceHighLow')}</option>
               </select>
               <ChevronDown
                 size={14}
@@ -240,14 +242,14 @@ function ProductsPageInner() {
                     <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4">
                       <SlidersHorizontal size={32} className="text-white/20" />
                     </div>
-                    <h3 className="font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>No products found</h3>
-                    <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Try adjusting your filters</p>
+                    <h3 className="font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>{t('products.noProducts')}</h3>
+                    <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t('products.tryAdjusting')}</p>
                     <button
                       onClick={() => setFilters({ sortBy: 'newest' })}
                       className="mt-4 text-sm hover:underline"
                       style={{ color: 'var(--color-primary)' }}
                     >
-                      Clear all filters
+                      {t('products.clearAllFilters')}
                     </button>
                   </motion.div>
                 ) : (

@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, LogIn, Loader2 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
+import { useTranslation } from '@/lib/useTranslation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -24,6 +25,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { setUser } = useAuthStore();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -81,9 +83,9 @@ export default function LoginPage() {
               </span>
             </Link>
             <h1 className="text-2xl font-extrabold uppercase tracking-wide mt-4" style={{ color: 'var(--text-primary)' }}>
-              Welcome back
+              {t('login.welcomeBack')}
             </h1>
-            <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Sign in to continue</p>
+            <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>{t('login.signInToContinue')}</p>
           </div>
 
           {/* Form */}
@@ -91,7 +93,7 @@ export default function LoginPage() {
             {/* Email */}
             <div>
               <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-secondary)' }}>
-                Email
+                {t('login.email')}
               </label>
               <input
                 {...register('email')}
@@ -108,7 +110,7 @@ export default function LoginPage() {
             {/* Password */}
             <div>
               <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-secondary)' }}>
-                Password
+                {t('login.password')}
               </label>
               <div className="relative">
                 <input
@@ -134,7 +136,7 @@ export default function LoginPage() {
             {/* Forgot password */}
             <div className="flex justify-end">
               <Link href="/forgot-password" className="text-xs" style={{ color: 'var(--color-primary)' }}>
-                Forgot password?
+                {t('login.forgotPassword')}
               </Link>
             </div>
 
@@ -151,7 +153,7 @@ export default function LoginPage() {
               ) : (
                 <>
                   <LogIn size={18} />
-                  Sign In
+                  {t('login.signIn')}
                 </>
               )}
             </motion.button>
@@ -162,14 +164,14 @@ export default function LoginPage() {
                 <div className="w-full border-t border-white/10" />
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="px-4 bg-transparent text-white/30">or</span>
+                <span className="px-4 bg-transparent text-white/30">{t('login.or')}</span>
               </div>
             </div>
 
             {/* Demo accounts */}
             <div className="glass rounded-lg p-4 text-xs space-y-1" style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-muted)' }}>
               <p className="font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--text-secondary)' }}>
-                Demo Accounts
+                {t('login.demoAccounts')}
               </p>
               <p>Admin: admin@gs-sport.com / admin123</p>
               <p>User: user@gs-sport.com / user123</p>
@@ -178,9 +180,9 @@ export default function LoginPage() {
 
           {/* Sign up link */}
           <p className="text-center text-sm mt-6" style={{ color: 'var(--text-muted)' }}>
-            Don&apos;t have an account?{' '}
+            {t('login.noAccount')}{' '}
             <Link href="/register" className="font-semibold" style={{ color: 'var(--color-primary)' }}>
-              Create one
+              {t('login.createOne')}
             </Link>
           </p>
         </div>

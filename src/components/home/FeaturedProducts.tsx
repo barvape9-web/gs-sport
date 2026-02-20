@@ -7,11 +7,13 @@ import Link from 'next/link';
 import axios from 'axios';
 import ProductCard from '@/components/products/ProductCard';
 import { Product } from '@/types';
+import { useTranslation } from '@/lib/useTranslation';
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<'ALL' | 'MEN' | 'WOMEN'>('ALL');
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -50,10 +52,10 @@ export default function FeaturedProducts() {
           >
             <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--color-primary)' }}>
               <TrendingUp size={16} />
-              Featured Collection
+              {t('featured.title')}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black" style={{ color: 'var(--text-primary)' }}>
-              Best <span className="gradient-text">Sellers</span>
+              {t('featured.bestSellers')} <span className="gradient-text">{t('featured.bestSellersAccent')}</span>
             </h2>
           </motion.div>
 
@@ -64,7 +66,9 @@ export default function FeaturedProducts() {
             viewport={{ once: true }}
             className="flex flex-wrap gap-2"
           >
-            {(['ALL', 'MEN', 'WOMEN'] as const).map((filter) => (
+            {(['ALL', 'MEN', 'WOMEN'] as const).map((filter) => {
+              const filterLabel = filter === 'ALL' ? t('featured.all') : filter === 'MEN' ? t('featured.men') : t('featured.women');
+              return (
               <motion.button
                 key={filter}
                 whileHover={{ scale: 1.05 }}
@@ -77,9 +81,10 @@ export default function FeaturedProducts() {
                 }`}
                 style={activeFilter === filter ? { backgroundColor: 'var(--color-primary)', boxShadow: '0 0 20px color-mix(in srgb, var(--color-primary) 30%, transparent)' } : undefined}
               >
-                {filter}
+                {filterLabel}
               </motion.button>
-            ))}
+              );
+            })}
           </motion.div>
         </div>
 
@@ -133,7 +138,7 @@ export default function FeaturedProducts() {
               whileTap={{ scale: 0.95 }}
               className="flex items-center gap-2 px-8 py-4 btn-primary rounded-full font-semibold text-white group"
             >
-              View All Products
+              {t('featured.viewAll')}
               <motion.span
                 animate={{ x: [0, 5, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}

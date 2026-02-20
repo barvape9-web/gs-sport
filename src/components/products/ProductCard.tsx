@@ -10,6 +10,7 @@ import { useCartStore } from '@/store/cartStore';
 import { formatPrice, getCategoryLabel } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { useTranslation } from '@/lib/useTranslation';
 
 interface ProductCardProps {
   product: Product;
@@ -21,6 +22,7 @@ export default function ProductCard({ product, isSaved = false, onToggleSave }: 
   const [isWishlisted, setIsWishlisted] = useState(isSaved);
   const [isHovered, setIsHovered] = useState(false);
   const { addItem, toggleCart } = useCartStore();
+  const { t } = useTranslation();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -72,7 +74,7 @@ export default function ProductCard({ product, isSaved = false, onToggleSave }: 
                 <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)' }}>
                   <ShoppingBag size={24} style={{ color: 'var(--color-primary)' }} />
                 </div>
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>No image</p>
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('productDetail.noImage')}</p>
               </div>
             </div>
           )}
@@ -85,7 +87,7 @@ export default function ProductCard({ product, isSaved = false, onToggleSave }: 
             {product.isFeatured && (
               <span className="px-2 py-1 text-white text-[10px] font-extrabold rounded-md flex items-center gap-1 uppercase tracking-widest" style={{ backgroundColor: 'var(--color-primary)' }}>
                 <Zap size={10} />
-                HOT
+                {t('productDetail.hot')}
               </span>
             )}
             {discount > 0 && (
@@ -124,7 +126,7 @@ export default function ProductCard({ product, isSaved = false, onToggleSave }: 
               className="flex-1 btn-primary py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-white flex items-center justify-center gap-1 sm:gap-2 transition-all duration-300"
             >
               <ShoppingBag size={14} />
-              Add to Cart
+              {t('productDetail.addToCart')}
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}

@@ -13,17 +13,19 @@ import axios from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { ChatConversation, ChatMessage } from '@/types';
 import { useRouter } from 'next/navigation';
-
-const contactInfo = [
-  { icon: Mail, label: 'Email', value: 'sardlishviligiorgi0@gmail.com', color: 'var(--color-primary)' },
-  { icon: Phone, label: 'Phone', value: '+995 557781251', color: '#3b82f6' },
-  { icon: Instagram, label: 'Instagram', value: '@_g_s_s_p_o_r_t_', color: '#e1306c', href: 'https://www.instagram.com/_g_s_s_p_o_r_t_/', extraGap: true },
-  { icon: Clock, label: 'Support Hours', value: '24/7 Online Support', color: '#8b5cf6' },
-];
+import { useTranslation } from '@/lib/useTranslation';
 
 export default function ContactPage() {
   const { user } = useAuthStore();
   const router = useRouter();
+  const { t } = useTranslation();
+
+  const contactInfo = [
+    { icon: Mail, label: t('contact.email'), value: 'sardlishviligiorgi0@gmail.com', color: 'var(--color-primary)' },
+    { icon: Phone, label: t('contact.phone'), value: '+995 557781251', color: '#3b82f6' },
+    { icon: Instagram, label: t('contact.instagram'), value: '@_g_s_s_p_o_r_t_', color: '#e1306c', href: 'https://www.instagram.com/_g_s_s_p_o_r_t_/', extraGap: true },
+    { icon: Clock, label: t('contact.supportHours'), value: t('contact.onlineSupport'), color: '#8b5cf6' },
+  ];
   const [conversations, setConversations] = useState<(ChatConversation & { unreadCount: number })[]>([]);
   const [activeConv, setActiveConv] = useState<ChatConversation | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -140,12 +142,12 @@ export default function ContactPage() {
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--color-primary)' }}>
-                Get In Touch
+                {t('contact.getInTouch')}
               </p>
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4" style={{ color: 'var(--text-primary)' }}>
-                Contact <span className="gradient-text">Us</span>
+                {t('contact.contactUs')} <span className="gradient-text">{t('contact.contactUsAccent')}</span>
               </h1>
-              <p className="text-lg" style={{ color: 'var(--text-muted)' }}>We&apos;re here to help. Reach out anytime.</p>
+              <p className="text-lg" style={{ color: 'var(--text-muted)' }}>{t('contact.subtitle')}</p>
             </motion.div>
           </div>
         </div>
@@ -159,9 +161,9 @@ export default function ContactPage() {
               className="lg:col-span-2 space-y-4"
             >
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Let&apos;s connect</h2>
+                <h2 className="text-xl sm:text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{t('contact.letsConnect')}</h2>
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                  Have a question about an order, sizing, or just want to say hello? Start a live chat with our team.
+                  {t('contact.connectDesc')}
                 </p>
               </div>
 
@@ -218,15 +220,15 @@ export default function ContactPage() {
                     <Headphones size={22} style={{ color: 'var(--color-primary)' }} />
                   </div>
                   <div>
-                    <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Live Chat Support</p>
+                    <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{t('contact.liveChatSupport')}</p>
                     <p className="text-xs text-green-400 flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                      Online now
+                      {t('contact.onlineNow')}
                     </p>
                   </div>
                 </div>
                 <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                  {user ? 'Start a chat and get instant support from our team' : 'Log in to start a live chat with our support team'}
+                  {user ? t('contact.startChat') : t('contact.loginForChat')}
                 </p>
               </motion.div>
             </motion.div>
@@ -251,9 +253,9 @@ export default function ContactPage() {
                   >
                     <MessageCircle size={36} style={{ color: 'var(--color-primary)' }} />
                   </div>
-                  <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Start a Live Chat</h3>
+                  <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{t('contact.startLiveChat')}</h3>
                   <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
-                    Please log in to chat with our support team. We&apos;ll get back to you instantly.
+                    {t('contact.loginPrompt')}
                   </p>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -261,7 +263,7 @@ export default function ContactPage() {
                     onClick={() => router.push('/login')}
                     className="btn-primary px-8 py-3 rounded-xl font-bold text-white"
                   >
-                    Log In to Chat
+                    {t('contact.logInToChat')}
                   </motion.button>
                 </div>
               ) : !activeConv ? (
@@ -281,8 +283,8 @@ export default function ContactPage() {
                         <MessageCircle size={18} style={{ color: 'var(--color-primary)' }} />
                       </div>
                       <div>
-                        <h3 className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Live Chat</h3>
-                        <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>Your conversations</p>
+                        <h3 className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{t('contact.liveChat')}</h3>
+                        <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{t('contact.yourConversations')}</p>
                       </div>
                     </div>
                     <motion.button
@@ -292,7 +294,7 @@ export default function ContactPage() {
                       className="btn-primary px-3 py-2 rounded-lg text-xs font-bold text-white flex items-center gap-1.5"
                     >
                       <Plus size={14} />
-                      New Chat
+                      {t('contact.newChat')}
                     </motion.button>
                   </div>
 
@@ -310,13 +312,13 @@ export default function ContactPage() {
                           <input
                             value={newSubject}
                             onChange={(e) => setNewSubject(e.target.value)}
-                            placeholder="Subject (e.g. Order inquiry)"
+                            placeholder={t('contact.subject')}
                             className="w-full input-glass px-4 py-2.5 rounded-xl text-sm"
                           />
                           <textarea
                             value={newFirstMsg}
                             onChange={(e) => setNewFirstMsg(e.target.value)}
-                            placeholder="How can we help you?"
+                            placeholder={t('contact.howCanWeHelp')}
                             rows={3}
                             className="w-full input-glass px-4 py-2.5 rounded-xl text-sm resize-none"
                           />
@@ -329,14 +331,14 @@ export default function ContactPage() {
                               className="flex-1 btn-primary py-2.5 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2"
                             >
                               {creating ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
-                              Start Chat
+                              {t('contact.startChatBtn')}
                             </motion.button>
                             <button
                               onClick={() => setShowNewChat(false)}
                               className="px-4 py-2.5 rounded-xl text-sm glass"
                               style={{ color: 'var(--text-muted)' }}
                             >
-                              Cancel
+                              {t('contact.cancel')}
                             </button>
                           </div>
                         </div>
@@ -349,7 +351,7 @@ export default function ContactPage() {
                     {loadingConvs ? (
                       <div className="p-12 text-center">
                         <Loader2 size={24} className="animate-spin mx-auto mb-3" style={{ color: 'var(--color-primary)' }} />
-                        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Loading chats...</p>
+                        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t('contact.loadingChats')}</p>
                       </div>
                     ) : conversations.length === 0 ? (
                       <div className="p-12 text-center">
@@ -363,9 +365,9 @@ export default function ContactPage() {
                         >
                           <Headphones size={28} style={{ color: 'var(--color-primary)' }} />
                         </div>
-                        <p className="text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>No conversations yet</p>
+                        <p className="text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>{t('contact.noConversations')}</p>
                         <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                          Click &quot;New Chat&quot; to start a conversation
+                          {t('contact.clickNewChat')}
                         </p>
                       </div>
                     ) : (
@@ -401,12 +403,12 @@ export default function ContactPage() {
                               )}
                             </div>
                             <p className="text-xs truncate mt-0.5" style={{ color: 'var(--text-muted)' }}>
-                              {conv.messages[0]?.content || 'No messages'}
+                              {conv.messages[0]?.content || t('contact.noMessages')}
                             </p>
                             <div className="flex items-center gap-2 mt-1">
                               <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{formatTime(conv.updatedAt)}</span>
                               {!conv.isOpen && (
-                                <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ backgroundColor: 'var(--bg-inset)', color: 'var(--text-muted)' }}>Closed</span>
+                                <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ backgroundColor: 'var(--bg-inset)', color: 'var(--text-muted)' }}>{t('contact.closed')}</span>
                               )}
                             </div>
                           </div>
@@ -443,7 +445,7 @@ export default function ContactPage() {
                       <p className="text-sm font-bold truncate" style={{ color: 'var(--text-primary)' }}>{activeConv.subject}</p>
                       <p className="text-[10px] text-green-400 flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                        Support team online
+                        {t('contact.supportOnline')}
                       </p>
                     </div>
                   </div>
@@ -511,7 +513,7 @@ export default function ContactPage() {
                           value={newMsg}
                           onChange={(e) => setNewMsg(e.target.value)}
                           onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
-                          placeholder="Type a message..."
+                          placeholder={t('contact.typeMessage')}
                           className="flex-1 input-glass px-4 py-3 rounded-xl text-sm"
                         />
                         <motion.button
@@ -527,7 +529,7 @@ export default function ContactPage() {
                     </div>
                   ) : (
                     <div className="p-4 text-center text-xs" style={{ borderTop: '1px solid var(--border-subtle)', color: 'var(--text-muted)' }}>
-                      This conversation has been closed
+                      {t('contact.conversationClosed')}
                     </div>
                   )}
                 </div>

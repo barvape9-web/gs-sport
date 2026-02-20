@@ -15,6 +15,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { useTranslation } from '@/lib/useTranslation';
 
 const addressSchema = z.object({
   fullName: z.string().min(2, 'Full name required'),
@@ -39,10 +40,11 @@ export default function CheckoutPage() {
   const [step, setStep] = useState<Step>('address');
   const [loading, setLoading] = useState(false);
   const [orderId, setOrderId] = useState<string>('');
+  const { t } = useTranslation();
 
   const { register, handleSubmit, getValues, formState: { errors } } = useForm<AddressForm>({
     resolver: zodResolver(addressSchema),
-    defaultValues: { country: 'US', fullName: user?.name || '', email: user?.email || '' },
+    defaultValues: { country: 'GE', fullName: user?.name || '', email: user?.email || '' },
   });
 
   const subtotal = getTotalPrice();
@@ -84,10 +86,10 @@ export default function CheckoutPage() {
         <main className="min-h-screen pt-20 flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
           <div className="text-center">
             <ShoppingBag size={48} className="mx-auto mb-4" style={{ color: 'var(--text-muted)' }} />
-            <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Your cart is empty</h2>
-            <p className="mb-6" style={{ color: 'var(--text-muted)' }}>Add some products before checking out</p>
+            <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{t('checkout.emptyCart')}</h2>
+            <p className="mb-6" style={{ color: 'var(--text-muted)' }}>{t('checkout.addProducts')}</p>
             <Link href="/products" className="btn-primary px-6 py-3 rounded-xl font-bold">
-              Shop Now
+              {t('checkout.shopNow')}
             </Link>
           </div>
         </main>
@@ -103,16 +105,16 @@ export default function CheckoutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-xs text-white/30 mb-8">
-            <Link href="/" className="hover:text-white/60 transition-colors">Home</Link>
+            <Link href="/" className="hover:text-white/60 transition-colors">{t('checkout.home')}</Link>
             <ChevronRight size={12} />
-            <Link href="/products" className="hover:text-white/60 transition-colors">Shop</Link>
+            <Link href="/products" className="hover:text-white/60 transition-colors">{t('checkout.shop')}</Link>
             <ChevronRight size={12} />
-            <span className="text-white/60">Checkout</span>
+            <span className="text-white/60">{t('checkout.checkout')}</span>
           </div>
 
           {/* Stepper */}
           <div className="flex items-center gap-4 mb-10">
-            {([['address', 'Shipping', '1'], ['payment', 'Payment', '2'], ['confirm', 'Confirmed', '3']] as const).map(([s, label, num], idx) => (
+            {([['address', t('checkout.shipping'), '1'], ['payment', t('checkout.payment'), '2'], ['confirm', t('checkout.confirmed'), '3']] as const).map(([s, label, num], idx) => (
               <div key={s} className="flex items-center gap-2">
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all ${
                   step === s ? 'text-white' :
@@ -144,15 +146,15 @@ export default function CheckoutPage() {
                 >
                   <CheckCircle size={40} className="text-green-400" />
                 </motion.div>
-                <h2 className="text-3xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>Order Confirmed!</h2>
-                <p className="mb-2" style={{ color: 'var(--text-muted)' }}>Thank you for shopping with GS • Sport</p>
-                <p className="text-sm text-white/30 mb-8">Order ID: <span className="font-mono" style={{ color: 'var(--color-primary)' }}>#{orderId}</span></p>
+                <h2 className="text-3xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>{t('checkout.orderConfirmed')}</h2>
+                <p className="mb-2" style={{ color: 'var(--text-muted)' }}>{t('checkout.thankYou')}</p>
+                <p className="text-sm text-white/30 mb-8">{t('checkout.orderId')}: <span className="font-mono" style={{ color: 'var(--color-primary)' }}>#{orderId}</span></p>
                 <div className="flex gap-3 justify-center">
                   <Link href="/dashboard" className="btn-primary px-6 py-3 rounded-xl font-bold">
-                    View Orders
+                    {t('checkout.viewOrders')}
                   </Link>
                   <Link href="/products" className="glass border border-white/10 px-6 py-3 rounded-xl font-bold text-white/70 hover:text-white transition-colors">
-                    Keep Shopping
+                    {t('checkout.keepShopping')}
                   </Link>
                 </div>
               </motion.div>
@@ -166,67 +168,62 @@ export default function CheckoutPage() {
                         <div className="glass-card p-6 space-y-5">
                           <div className="flex items-center gap-2 mb-2">
                             <Truck size={18} style={{ color: 'var(--color-primary)' }} />
-                            <h2 className="text-lg font-black text-white">Shipping Address</h2>
+                            <h2 className="text-lg font-black text-white">{t('checkout.shippingAddress')}</h2>
                           </div>
 
                           <form onSubmit={handleSubmit(onAddressSubmit)} className="space-y-4">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">Full Name</label>
+                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.fullName')}</label>
                                 <input {...register('fullName')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="John Doe" />
                                 {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName.message}</p>}
                               </div>
                               <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">Email</label>
+                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.email')}</label>
                                 <input {...register('email')} type="email" className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="john@example.com" />
                                 {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
                               </div>
                             </div>
 
                             <div>
-                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">Phone</label>
+                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.phone')}</label>
                               <input {...register('phone')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="+1 555-0000" />
                               {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
                             </div>
 
                             <div>
-                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">Address Line 1</label>
+                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.addressLine1')}</label>
                               <input {...register('line1')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="123 Main Street" />
                               {errors.line1 && <p className="text-red-400 text-xs mt-1">{errors.line1.message}</p>}
                             </div>
 
                             <div>
-                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">Address Line 2 <span className="font-normal text-white/20">(optional)</span></label>
+                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.addressLine2')} <span className="font-normal text-white/20">({t('checkout.optional')})</span></label>
                               <input {...register('line2')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="Apartment, suite, etc." />
                             </div>
 
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                               <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">City</label>
+                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.city')}</label>
                                 <input {...register('city')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="New York" />
                                 {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city.message}</p>}
                               </div>
                               <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">State</label>
+                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.state')}</label>
                                 <input {...register('state')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="NY" />
                                 {errors.state && <p className="text-red-400 text-xs mt-1">{errors.state.message}</p>}
                               </div>
                               <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">Postal Code</label>
+                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.postalCode')}</label>
                                 <input {...register('postalCode')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="10001" />
                                 {errors.postalCode && <p className="text-red-400 text-xs mt-1">{errors.postalCode.message}</p>}
                               </div>
                             </div>
 
                             <div>
-                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">Country</label>
+                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.country')}</label>
                               <select {...register('country')} className="w-full input-glass px-4 py-3 rounded-xl text-sm">
-                                <option value="US">United States</option>
-                                <option value="CA">Canada</option>
-                                <option value="GB">United Kingdom</option>
-                                <option value="AU">Australia</option>
-                                <option value="DE">Germany</option>
-                                <option value="FR">France</option>
+                                <option value="GE">{t('checkout.georgia')}</option>
                               </select>
                             </div>
 
@@ -236,7 +233,7 @@ export default function CheckoutPage() {
                               type="submit"
                               className="w-full btn-primary py-4 rounded-xl font-bold mt-4"
                             >
-                              Continue to Payment
+                              {t('checkout.continueToPayment')}
                             </motion.button>
                           </form>
                         </div>
@@ -248,7 +245,7 @@ export default function CheckoutPage() {
                         <div className="glass-card p-6 space-y-5">
                           <div className="flex items-center gap-2 mb-2">
                             <Banknote size={18} style={{ color: 'var(--color-primary)' }} />
-                            <h2 className="text-lg font-black text-white">Payment</h2>
+                            <h2 className="text-lg font-black text-white">{t('checkout.payment')}</h2>
                           </div>
 
                           {/* Cash on Delivery */}
@@ -258,15 +255,15 @@ export default function CheckoutPage() {
                                 <Banknote size={22} style={{ color: 'var(--color-primary)' }} />
                               </div>
                               <div>
-                                <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Cash on Delivery</p>
-                                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Pay with cash when your order arrives</p>
+                                <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{t('checkout.cashOnDelivery')}</p>
+                                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('checkout.payWithCash')}</p>
                               </div>
                             </div>
 
                             <div className="flex items-start gap-2 rounded-xl p-3" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 5%, transparent)' }}>
                               <Lock size={14} className="shrink-0 mt-0.5" style={{ color: 'var(--color-primary)' }} />
                               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                                No online payment required. Pay the courier in cash when you receive your order. Please have the exact amount ready.
+                                {t('checkout.noOnlinePayment')}
                               </p>
                             </div>
                           </div>
@@ -276,7 +273,7 @@ export default function CheckoutPage() {
                               onClick={() => setStep('address')}
                               className="px-6 py-4 rounded-xl font-bold glass border border-white/10 text-white/50 hover:text-white transition-colors"
                             >
-                              Back
+                              {t('checkout.back')}
                             </button>
                             <motion.button
                               whileHover={{ scale: 1.02 }}
@@ -290,7 +287,7 @@ export default function CheckoutPage() {
                               ) : (
                                 <>
                                   <Banknote size={16} />
-                                  Place Order • {formatPrice(total)}
+                                  {t('checkout.placeOrder')} • {formatPrice(total)}
                                 </>
                               )}
                             </motion.button>
@@ -304,7 +301,7 @@ export default function CheckoutPage() {
                 {/* Order Summary */}
                 <div className="space-y-4">
                   <div className="glass-card p-5 space-y-4 sticky top-24">
-                    <h3 className="text-sm font-black text-white uppercase tracking-wider">Order Summary</h3>
+                    <h3 className="text-sm font-black text-white uppercase tracking-wider">{t('checkout.orderSummary')}</h3>
 
                     <div className="space-y-3 max-h-64 overflow-y-auto pr-1 custom-scrollbar">
                       {items.map((item) => (
@@ -329,22 +326,22 @@ export default function CheckoutPage() {
 
                     <div className="border-t border-white/5 pt-4 space-y-2">
                       <div className="flex justify-between text-xs text-white/40">
-                        <span>Subtotal</span>
+                        <span>{t('checkout.subtotal')}</span>
                         <span>{formatPrice(subtotal)}</span>
                       </div>
                       <div className="flex justify-between text-xs text-white/40">
-                        <span>Shipping</span>
-                        <span>{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
+                        <span>{t('checkout.shippingCost')}</span>
+                        <span>{shipping === 0 ? t('checkout.free') : formatPrice(shipping)}</span>
                       </div>
                       <div className="flex justify-between font-black text-white text-sm border-t border-white/5 pt-2 mt-2">
-                        <span>Total</span>
+                        <span>{t('checkout.total')}</span>
                         <span style={{ color: 'var(--color-primary)' }}>{formatPrice(total)}</span>
                       </div>
                     </div>
 
                     {subtotal < 75 && (
                       <p className="text-[10px] text-center text-white/30">
-                        Add <span style={{ color: 'var(--color-primary)' }}>{formatPrice(75 - subtotal)}</span> more for free shipping
+                        {t('checkout.freeShippingHint', { amount: formatPrice(75 - subtotal) })}
                       </p>
                     )}
                   </div>

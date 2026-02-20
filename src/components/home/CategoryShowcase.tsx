@@ -4,33 +4,35 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-
-const categories = [
-  {
-    gender: 'MEN',
-    title: "Men's Collection",
-    subtitle: 'Power. Performance. Precision.',
-    description: 'Engineered for the modern athlete. From training to street.',
-    href: '/products?gender=MEN',
-    accent: '#3b82f6',
-    gradient: 'from-blue-900/30 to-black',
-    image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
-    filters: ['Upper Wear', 'Lower Wear', 'Winter Wear', 'Accessories'],
-  },
-  {
-    gender: 'WOMEN',
-    title: "Women's Collection",
-    subtitle: 'Bold. Beautiful. Unstoppable.',
-    description: 'Designed for women who push boundaries every day.',
-    href: '/products?gender=WOMEN',
-    accent: '#ec4899',
-    gradient: 'from-pink-900/30 to-black',
-    image: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800&q=80',
-    filters: ['Upper Wear', 'Lower Wear', 'Summer Wear', 'Accessories'],
-  },
-];
+import { useTranslation } from '@/lib/useTranslation';
 
 export default function CategoryShowcase() {
+  const { t } = useTranslation();
+
+  const categories = [
+    {
+      gender: 'MEN',
+      title: t('categories.mensTitle'),
+      subtitle: t('categories.mensSubtitle'),
+      description: t('categories.mensDesc'),
+      href: '/products?gender=MEN',
+      accent: '#3b82f6',
+      gradient: 'from-blue-900/30 to-black',
+      image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
+      filters: [t('categories.upperWear'), t('categories.lowerWear'), t('categories.winterWear'), t('categories.accessories')],
+    },
+    {
+      gender: 'WOMEN',
+      title: t('categories.womensTitle'),
+      subtitle: t('categories.womensSubtitle'),
+      description: t('categories.womensDesc'),
+      href: '/products?gender=WOMEN',
+      accent: '#ec4899',
+      gradient: 'from-pink-900/30 to-black',
+      image: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800&q=80',
+      filters: [t('categories.upperWear'), t('categories.lowerWear'), t('categories.summerWear'), t('categories.accessories')],
+    },
+  ];
   return (
     <section className="py-12 sm:py-20 lg:py-24 relative overflow-hidden isolate" style={{ backgroundColor: 'var(--bg-secondary)' }}>
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
@@ -44,10 +46,10 @@ export default function CategoryShowcase() {
           className="text-center mb-8 sm:mb-16"
         >
           <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.3em] mb-3 sm:mb-4" style={{ color: 'var(--color-primary)' }}>
-            Shop by Category
+            {t('categories.shopByCategory')}
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black" style={{ color: 'var(--text-primary)' }}>
-            Find Your <span className="gradient-text">Style</span>
+            {t('categories.findYourStyle')} <span className="gradient-text">{t('categories.findYourStyleAccent')}</span>
           </h2>
         </motion.div>
 
@@ -99,7 +101,7 @@ export default function CategoryShowcase() {
                       backgroundColor: `${cat.accent}15`,
                     }}
                   >
-                    {cat.gender === 'MEN' ? "Men's" : "Women's"}
+                    {cat.gender === 'MEN' ? t('categories.mens') : t('categories.womens')}
                   </div>
 
                   <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white mb-2 sm:mb-3">{cat.title}</h3>
@@ -134,7 +136,7 @@ export default function CategoryShowcase() {
                         boxShadow: `0 0 30px ${cat.accent}33`,
                       }}
                     >
-                      Shop Now
+                      {t('categories.shopNow')}
                       <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                     </motion.button>
                   </Link>

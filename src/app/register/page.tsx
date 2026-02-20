@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, UserPlus, Loader2, Check } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
+import { useTranslation } from '@/lib/useTranslation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -26,18 +27,19 @@ const schema = z
 
 type RegisterForm = z.infer<typeof schema>;
 
-const benefits = [
-  'Order tracking & history',
-  'Exclusive member offers',
-  'Saved products wishlist',
-  'Faster checkout',
-];
-
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { setUser } = useAuthStore();
+  const { t } = useTranslation();
+
+  const benefits = [
+    t('register.benefit1'),
+    t('register.benefit2'),
+    t('register.benefit3'),
+    t('register.benefit4'),
+  ];
 
   const {
     register,
@@ -81,10 +83,10 @@ export default function RegisterPage() {
             </span>
           </Link>
           <h2 className="text-3xl sm:text-4xl font-black mb-4" style={{ color: 'var(--text-primary)' }}>
-            Join the <span className="gradient-text">Elite</span>
+            {t('register.joinElite')} <span className="gradient-text">{t('register.joinEliteAccent')}</span>
           </h2>
           <p className="text-base sm:text-lg mb-10 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-            Create your GS • Sport account and unlock an exclusive athletic experience.
+            {t('register.createDescription')}
           </p>
           <div className="space-y-4">
             {benefits.map((benefit, i) => (
@@ -120,12 +122,12 @@ export default function RegisterPage() {
                 </span>
               </Link>
             </div>
-            <h1 className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Create Account</h1>
-            <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>Fill in your details to get started</p>
+            <h1 className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>{t('register.createAccount')}</h1>
+            <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>{t('register.fillDetails')}</p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Full Name</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>{t('register.fullName')}</label>
                 <input
                   {...register('name')}
                   placeholder="John Doe"
@@ -137,7 +139,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Email</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>{t('register.email')}</label>
                 <input
                   {...register('email')}
                   type="email"
@@ -150,7 +152,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Password</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>{t('register.password')}</label>
                 <div className="relative">
                   <input
                     {...register('password')}
@@ -172,7 +174,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Confirm Password</label>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>{t('register.confirmPassword')}</label>
                 <input
                   {...register('confirmPassword')}
                   type="password"
@@ -196,16 +198,16 @@ export default function RegisterPage() {
                 ) : (
                   <>
                     <UserPlus size={18} />
-                    Create Account
+                    {t('register.createAccount')}
                   </>
                 )}
               </motion.button>
             </form>
 
             <p className="text-center text-sm mt-6" style={{ color: 'var(--text-muted)' }}>
-              Already have an account?{' '}
+              {t('register.alreadyHaveAccount')}{' '}
               <Link href="/login" className="font-semibold" style={{ color: 'var(--color-primary)' }}>
-                Sign in
+                {t('register.signIn')}
               </Link>
             </p>
           </div>

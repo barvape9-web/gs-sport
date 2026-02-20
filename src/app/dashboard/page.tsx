@@ -10,17 +10,19 @@ import { Order, Product } from '@/types';
 import { formatPrice, formatDate, getOrderStatusColor } from '@/lib/utils';
 import axios from 'axios';
 import Link from 'next/link';
-
-const tabs = [
-  { id: 'orders', label: 'Orders', icon: Package },
-  { id: 'saved', label: 'Saved Items', icon: Heart },
-  { id: 'profile', label: 'Profile', icon: User },
-  { id: 'settings', label: 'Settings', icon: Settings },
-];
+import { useTranslation } from '@/lib/useTranslation';
 
 export default function DashboardPage() {
   const { user, logout } = useAuthStore();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('orders');
+
+  const tabs = [
+    { id: 'orders', label: t('dashboard.orders'), icon: Package },
+    { id: 'saved', label: t('dashboard.savedItems'), icon: Heart },
+    { id: 'profile', label: t('dashboard.profile'), icon: User },
+    { id: 'settings', label: t('dashboard.settings'), icon: Settings },
+  ];
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoadingOrders, setIsLoadingOrders] = useState(true);
   const [savedProducts, setSavedProducts] = useState<Product[]>([]);
@@ -68,10 +70,10 @@ export default function DashboardPage() {
         <Navbar />
         <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
           <div className="text-center">
-            <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>Please sign in to view your dashboard</p>
+            <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>{t('dashboard.signInRequired')}</p>
             <Link href="/login">
               <button className="btn-primary px-6 py-2.5 rounded-full text-white font-semibold">
-                Sign In
+                {t('login.signIn')}
               </button>
             </Link>
           </div>
@@ -99,12 +101,12 @@ export default function DashboardPage() {
             </div>
             <div>
               <h1 className="text-xl sm:text-3xl font-black" style={{ color: 'var(--text-primary)' }}>
-                Welcome, <span className="gradient-text">{user.name}</span>
+                {t('dashboard.welcome')} <span className="gradient-text">{user.name}</span>
               </h1>
               <p className="mt-1" style={{ color: 'var(--text-muted)' }}>{user.email}</p>
               <span className="inline-flex items-center gap-1 mt-2 px-2.5 py-0.5 rounded-full text-xs font-bold" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)', color: 'var(--color-primary)', border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)' } as React.CSSProperties}>
                 <Star size={10} className="fill-current" />
-                {user.role === 'ADMIN' ? 'Admin' : 'Member'}
+                {user.role === 'ADMIN' ? t('dashboard.admin') : t('dashboard.member')}
               </span>
             </div>
           </motion.div>
@@ -137,7 +139,7 @@ export default function DashboardPage() {
                       className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all" style={{ color: 'var(--color-primary)' }}
                     >
                       <Settings size={18} />
-                      Admin Panel
+                      {t('dashboard.adminPanel')}
                     </motion.button>
                   </Link>
                 )}
@@ -149,7 +151,7 @@ export default function DashboardPage() {
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-400/70 hover:text-red-400 hover:bg-red-400/5 transition-all"
                   >
                     <LogOut size={18} />
-                    Logout
+                    {t('nav.logout')}
                   </motion.button>
                 </div>
               </div>
@@ -163,7 +165,7 @@ export default function DashboardPage() {
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-4"
                 >
-                  <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>Order History</h2>
+                  <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>{t('dashboard.orderHistory')}</h2>
 
                   {isLoadingOrders ? (
                     <div className="space-y-3">
@@ -174,11 +176,11 @@ export default function DashboardPage() {
                   ) : orders.length === 0 ? (
                     <div className="glass-card p-12 text-center">
                       <ShoppingBag size={40} className="text-white/20 mx-auto mb-4" />
-                      <p className="text-white/50 font-semibold mb-2">No orders yet</p>
-                      <p className="text-white/30 text-sm mb-6">Start shopping to see your orders here</p>
+                      <p className="text-white/50 font-semibold mb-2">{t('dashboard.noOrders')}</p>
+                      <p className="text-white/30 text-sm mb-6">{t('dashboard.startShopping')}</p>
                       <Link href="/products">
                         <button className="btn-primary px-6 py-2.5 rounded-full text-white text-sm font-semibold">
-                          Shop Now
+                          {t('dashboard.shopNow')}
                         </button>
                       </Link>
                     </div>
@@ -206,7 +208,7 @@ export default function DashboardPage() {
                             </div>
                             <p className="text-xs text-white/40">{formatDate(order.createdAt)}</p>
                             <p className="text-xs text-white/40 mt-1">
-                              {order.items?.length || 0} item(s)
+                              {order.items?.length || 0} {t('dashboard.items')}
                             </p>
                           </div>
                           <div className="text-right">
@@ -226,18 +228,18 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <h2 className="text-xl font-bold text-white mb-6">Profile Information</h2>
+                  <h2 className="text-xl font-bold text-white mb-6">{t('dashboard.profileInfo')}</h2>
                   <div className="glass-card p-8">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-medium text-white/60 mb-2">Full Name</label>
+                        <label className="block text-sm font-medium text-white/60 mb-2">{t('dashboard.fullName')}</label>
                         <input
                           defaultValue={user.name}
                           className="w-full input-glass px-4 py-3 rounded-xl text-sm"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-white/60 mb-2">Email</label>
+                        <label className="block text-sm font-medium text-white/60 mb-2">{t('dashboard.email')}</label>
                         <input
                           defaultValue={user.email}
                           type="email"
@@ -250,7 +252,7 @@ export default function DashboardPage() {
                       whileTap={{ scale: 0.98 }}
                       className="btn-primary mt-6 px-8 py-3 rounded-xl font-semibold text-white"
                     >
-                      Save Changes
+                      {t('dashboard.saveChanges')}
                     </motion.button>
                   </div>
                 </motion.div>
@@ -261,7 +263,7 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <h2 className="text-xl font-bold text-white mb-6">Saved Products</h2>
+                  <h2 className="text-xl font-bold text-white mb-6">{t('dashboard.savedProducts')}</h2>
                   {isLoadingSaved ? (
                     <div className="space-y-3">
                       {[1, 2].map((i) => (
@@ -271,10 +273,10 @@ export default function DashboardPage() {
                   ) : savedProducts.length === 0 ? (
                     <div className="glass-card p-12 text-center">
                       <Heart size={40} className="text-white/20 mx-auto mb-4" />
-                      <p className="text-white/50">No saved items yet</p>
+                      <p className="text-white/50">{t('dashboard.noSavedItems')}</p>
                       <Link href="/products">
                         <button className="mt-4 btn-primary px-6 py-2.5 rounded-full text-white text-sm font-semibold">
-                          Browse Products
+                          {t('dashboard.browseProducts')}
                         </button>
                       </Link>
                     </div>
@@ -322,12 +324,12 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <h2 className="text-xl font-bold text-white mb-6">Settings</h2>
+                  <h2 className="text-xl font-bold text-white mb-6">{t('dashboard.settingsTitle')}</h2>
                   <div className="glass-card p-8 space-y-6">
                     {[
-                      { label: 'Email Notifications', desc: 'Receive order updates via email' },
-                      { label: 'SMS Notifications', desc: 'Receive shipping updates via SMS' },
-                      { label: 'Marketing Emails', desc: 'Receive deals and promotions' },
+                      { label: t('dashboard.emailNotifications'), desc: t('dashboard.emailNotificationsDesc') },
+                      { label: t('dashboard.smsNotifications'), desc: t('dashboard.smsNotificationsDesc') },
+                      { label: t('dashboard.marketingEmails'), desc: t('dashboard.marketingEmailsDesc') },
                     ].map((setting) => (
                       <div key={setting.label} className="flex items-center justify-between">
                         <div>

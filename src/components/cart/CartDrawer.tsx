@@ -6,9 +6,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cartStore';
 import { formatPrice } from '@/lib/utils';
+import { useTranslation } from '@/lib/useTranslation';
 
 export default function CartDrawer() {
   const { items, isOpen, toggleCart, removeItem, updateQuantity, getTotalPrice } = useCartStore();
+  const { t } = useTranslation();
 
   return (
     <AnimatePresence>
@@ -35,7 +37,7 @@ export default function CartDrawer() {
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
               <div className="flex items-center gap-3">
                 <ShoppingBag size={20} style={{ color: 'var(--color-primary)' }} />
-                <h2 className="text-lg font-bold">Your Cart</h2>
+                <h2 className="text-lg font-bold">{t('cart.yourCart')}</h2>
                 <span className="px-2 py-0.5 text-xs rounded-full font-semibold" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)', color: 'var(--color-primary)' }}>
                   {items.length}
                 </span>
@@ -58,8 +60,8 @@ export default function CartDrawer() {
                     <ShoppingBag size={32} className="text-white/30" />
                   </div>
                   <div>
-                    <p className="text-white/60 font-medium">Your cart is empty</p>
-                    <p className="text-white/30 text-sm mt-1">Add items to get started</p>
+                    <p className="text-white/60 font-medium">{t('cart.empty')}</p>
+                    <p className="text-white/30 text-sm mt-1">{t('cart.addItems')}</p>
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
@@ -67,7 +69,7 @@ export default function CartDrawer() {
                     onClick={toggleCart}
                     className="btn-primary px-6 py-2.5 rounded-full text-sm font-semibold text-white"
                   >
-                    <Link href="/products">Browse Products</Link>
+                    <Link href="/products">{t('cart.browseProducts')}</Link>
                   </motion.button>
                 </div>
               ) : (
@@ -105,10 +107,10 @@ export default function CartDrawer() {
                           </h4>
                           <div className="flex gap-2 mt-1">
                             {item.size && (
-                              <span className="text-xs text-white/40">Size: {item.size}</span>
+                              <span className="text-xs text-white/40">{t('cart.size')}: {item.size}</span>
                             )}
                             {item.color && (
-                              <span className="text-xs text-white/40">Color: {item.color}</span>
+                              <span className="text-xs text-white/40">{t('cart.color')}: {item.color}</span>
                             )}
                           </div>
                           <p className="font-bold text-sm mt-1" style={{ color: 'var(--color-primary)' }}>
@@ -168,7 +170,7 @@ export default function CartDrawer() {
             {items.length > 0 && (
               <div className="px-6 py-5 border-t border-white/10 space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-white/60">Subtotal</span>
+                  <span className="text-white/60">{t('cart.subtotal')}</span>
                   <span className="text-xl font-bold gradient-text">
                     {formatPrice(getTotalPrice())}
                   </span>
@@ -179,13 +181,13 @@ export default function CartDrawer() {
                     whileTap={{ scale: 0.98 }}
                     className="w-full btn-primary py-4 rounded-xl font-bold text-white flex items-center justify-center gap-2"
                   >
-                    Checkout
+                    {t('cart.checkout')}
                     <ArrowRight size={18} />
                   </motion.button>
                 </Link>
                 <Link href="/products" onClick={toggleCart}>
                   <button className="w-full py-3 text-sm text-white/50 hover:text-white transition-colors">
-                    Continue Shopping
+                    {t('cart.continueShopping')}
                   </button>
                 </Link>
               </div>

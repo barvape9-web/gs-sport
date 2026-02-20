@@ -13,6 +13,7 @@ import axios from 'axios';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CartDrawer from '@/components/cart/CartDrawer';
+import { useTranslation } from '@/lib/useTranslation';
 
 const MOCK_PRODUCT: Product = {
   id: '1',
@@ -46,6 +47,7 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(false);
 
   const { addItem, toggleCart } = useCartStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -147,9 +149,9 @@ export default function ProductDetailPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs mb-6 sm:mb-8" style={{ color: 'var(--text-muted)' }}>
-            <Link href="/" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>Home</Link>
+            <Link href="/" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>{t('productDetail.home')}</Link>
             <ChevronRight size={12} />
-            <Link href="/products" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>Products</Link>
+            <Link href="/products" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>{t('productDetail.products')}</Link>
             <ChevronRight size={12} />
             <span className="truncate max-w-[200px]" style={{ color: 'var(--text-secondary)' }}>{product.name}</span>
           </nav>
@@ -308,7 +310,7 @@ export default function ProductDetailPage() {
                         />
                       ))}
                     </div>
-                    <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{product.rating} ({product.reviewCount} reviews)</span>
+                    <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{product.rating} ({product.reviewCount} {t('productDetail.reviews')})</span>
                   </div>
                 )}
               </div>
@@ -320,7 +322,7 @@ export default function ProductDetailPage() {
                   <span className="text-lg line-through mb-0.5" style={{ color: 'var(--text-muted)' }}>{formatPrice(product.originalPrice)}</span>
                 )}
                 {discount > 0 && (
-                  <span className="text-sm font-bold mb-0.5" style={{ color: 'var(--color-primary)' }}>Save {formatPrice(product.originalPrice! - product.price)}</span>
+                  <span className="text-sm font-bold mb-0.5" style={{ color: 'var(--color-primary)' }}>{t('productDetail.save')} {formatPrice(product.originalPrice! - product.price)}</span>
                 )}
               </div>
 
@@ -331,7 +333,7 @@ export default function ProductDetailPage() {
               {product.colors && product.colors.length > 0 && (
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
-                    Color {selectedColor && <span className="normal-case" style={{ color: 'var(--text-secondary)' }}>selected</span>}
+                    {t('productDetail.color')} {selectedColor && <span className="normal-case" style={{ color: 'var(--text-secondary)' }}>{t('productDetail.selected')}</span>}
                   </p>
                   <div className="flex gap-3">
                     {product.colors.map((color) => (
@@ -353,7 +355,7 @@ export default function ProductDetailPage() {
               {/* Sizes */}
               {product.sizes && product.sizes.length > 0 && (
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>Size</p>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>{t('productDetail.size')}</p>
                   <div className="flex flex-wrap gap-2">
                     {product.sizes.map((size) => (
                       <motion.button
@@ -373,7 +375,7 @@ export default function ProductDetailPage() {
 
               {/* Quantity */}
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>Quantity</p>
+                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>{t('productDetail.quantity')}</p>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center glass rounded-xl overflow-hidden" style={{ border: '1px solid var(--border-subtle)' }}>
                     <button
@@ -392,7 +394,7 @@ export default function ProductDetailPage() {
                       +
                     </button>
                   </div>
-                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{product.stock} in stock</span>
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{product.stock} {t('productDetail.inStock')}</span>
                 </div>
               </div>
 
@@ -405,7 +407,7 @@ export default function ProductDetailPage() {
                   className="flex-1 btn-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2"
                 >
                   <ShoppingCart size={18} />
-                  Add to Cart
+                  {t('productDetail.addToCart')}
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
@@ -416,16 +418,16 @@ export default function ProductDetailPage() {
                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--color-primary) 10%, transparent)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; }}
                 >
-                  Buy Now
+                  {t('productDetail.buyNow')}
                 </motion.button>
               </div>
 
               {/* Perks */}
               <div className="grid grid-cols-3 gap-3 pt-2">
                 {[
-                  { icon: Truck, text: 'Free Shipping', sub: 'Orders over $75' },
-                  { icon: Shield, text: 'Guaranteed', sub: '100% authentic' },
-                  { icon: RotateCcw, text: 'Easy Returns', sub: '30-day policy' },
+                  { icon: Truck, text: t('productDetail.freeShipping'), sub: t('productDetail.ordersOver') },
+                  { icon: Shield, text: t('productDetail.guaranteed'), sub: t('productDetail.authentic') },
+                  { icon: RotateCcw, text: t('productDetail.easyReturns'), sub: t('productDetail.returnPolicy') },
                 ].map(({ icon: Icon, text, sub }) => (
                   <div key={text} className="glass p-3 rounded-xl text-center" style={{ border: '1px solid var(--card-border)' }}>
                     <Icon size={16} className="mx-auto mb-1.5" style={{ color: 'var(--color-primary)' }} />

@@ -2,47 +2,49 @@
 
 import { motion } from 'framer-motion';
 import { Zap, Shield, Truck, RefreshCw, Star, HeadphonesIcon } from 'lucide-react';
-
-const features = [
-  {
-    icon: Zap,
-    title: 'High Performance',
-    description: 'Every product engineered for maximum performance and durability.',
-    color: 'var(--color-primary)',
-  },
-  {
-    icon: Shield,
-    title: 'Premium Quality',
-    description: 'Only the finest materials. Quality guaranteed on every item.',
-    color: '#3b82f6',
-  },
-  {
-    icon: Truck,
-    title: 'Fast Shipping',
-    description: 'Free express shipping on orders over $100. Delivered fast.',
-    color: '#10b981',
-  },
-  {
-    icon: RefreshCw,
-    title: 'Easy Returns',
-    description: '30-day hassle-free returns. No questions asked.',
-    color: '#8b5cf6',
-  },
-  {
-    icon: Star,
-    title: '5★ Rated',
-    description: 'Over 50,000 happy athletes trust GS • Sport globally.',
-    color: '#f59e0b',
-  },
-  {
-    icon: HeadphonesIcon,
-    title: '24/7 Support',
-    description: 'Our team is always here to help with any question.',
-    color: '#ec4899',
-  },
-];
+import { useTranslation } from '@/lib/useTranslation';
 
 export default function WhyUs() {
+  const { t } = useTranslation();
+
+  const features = [
+    {
+      icon: Zap,
+      title: t('whyUs.highPerformance'),
+      description: t('whyUs.highPerformanceDesc'),
+      color: 'var(--color-primary)',
+    },
+    {
+      icon: Shield,
+      title: t('whyUs.premiumQuality'),
+      description: t('whyUs.premiumQualityDesc'),
+      color: '#3b82f6',
+    },
+    {
+      icon: Truck,
+      title: t('whyUs.fastShipping'),
+      description: t('whyUs.fastShippingDesc'),
+      color: '#10b981',
+    },
+    {
+      icon: RefreshCw,
+      title: t('whyUs.easyReturns'),
+      description: t('whyUs.easyReturnsDesc'),
+      color: '#8b5cf6',
+    },
+    {
+      icon: Star,
+      title: t('whyUs.fiveStarRated'),
+      description: t('whyUs.fiveStarRatedDesc'),
+      color: '#f59e0b',
+    },
+    {
+      icon: HeadphonesIcon,
+      title: t('whyUs.support'),
+      description: t('whyUs.supportDesc'),
+      color: '#ec4899',
+    },
+  ];
   return (
     <section className="py-12 sm:py-20 lg:py-24 relative overflow-hidden isolate" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
@@ -59,13 +61,13 @@ export default function WhyUs() {
           className="text-center mb-10 sm:mb-16"
         >
           <p className="text-sm font-bold uppercase tracking-[0.3em] mb-4" style={{ color: 'var(--color-primary)' }}>
-            Why GS • Sport
+            {t('whyUs.subtitle')}
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-3 sm:mb-4" style={{ color: 'var(--text-primary)' }}>
-            The <span className="gradient-text">Standard</span> of Excellence
+            {t('whyUs.title')} <span className="gradient-text">{t('whyUs.titleAccent')}</span> 
           </h2>
           <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto" style={{ color: 'var(--text-muted)' }}>
-            We don&apos;t just make sportswear. We engineer excellence into every thread.
+            {t('whyUs.description')}
           </p>
         </motion.div>
 
@@ -121,10 +123,10 @@ export default function WhyUs() {
         >
           <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(to right, color-mix(in srgb, var(--color-primary) 5%, transparent), transparent, color-mix(in srgb, var(--color-primary) 5%, transparent))' }} />
           <h3 className="text-xl sm:text-2xl md:text-3xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
-            Ready to elevate your game?
+            {t('whyUs.cta')}
           </h3>
           <p className="mb-6 sm:mb-8" style={{ color: 'var(--text-muted)' }}>
-            Join 50,000+ athletes who trust GS • Sport for peak performance.
+            {t('whyUs.ctaDesc')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.a
@@ -133,7 +135,7 @@ export default function WhyUs() {
               whileTap={{ scale: 0.95 }}
               className="btn-primary px-8 py-4 rounded-full font-bold text-white inline-block"
             >
-              Shop Now
+              {t('whyUs.shopNow')}
             </motion.a>
             <motion.a
               href="/register"
@@ -143,7 +145,7 @@ export default function WhyUs() {
               onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-primary) 30%, transparent)')}
               onMouseLeave={(e) => (e.currentTarget.style.borderColor = '')}
             >
-              Create Account
+              {t('whyUs.createAccount')}
             </motion.a>
           </div>
         </motion.div>

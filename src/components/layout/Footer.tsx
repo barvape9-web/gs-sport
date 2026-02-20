@@ -3,27 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Instagram, Twitter, Youtube, Mail, Phone, ArrowRight } from 'lucide-react';
-
-const footerLinks = {
-  Shop: [
-    { label: "Men's Collection", href: '/products?gender=MEN' },
-    { label: "Women's Collection", href: '/products?gender=WOMEN' },
-    { label: 'New Arrivals', href: '/products?sort=newest' },
-    { label: 'Sale', href: '/products?sale=true' },
-  ],
-  Company: [
-    { label: 'About Us', href: '/about' },
-    { label: 'Careers', href: '/careers' },
-    { label: 'Press', href: '/press' },
-    { label: 'Contact', href: '/contact' },
-  ],
-  Support: [
-    { label: 'FAQ', href: '/faq' },
-    { label: 'Shipping Policy', href: '/shipping' },
-    { label: 'Returns', href: '/returns' },
-    { label: 'Size Guide', href: '/size-guide' },
-  ],
-};
+import { useTranslation } from '@/lib/useTranslation';
 
 const socialLinks = [
   { icon: Instagram, href: '#', label: 'Instagram' },
@@ -32,6 +12,28 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const { t } = useTranslation();
+
+  const footerLinks = {
+    [t('footer.shop')]: [
+      { label: t('footer.mensCollection'), href: '/products?gender=MEN' },
+      { label: t('footer.womensCollection'), href: '/products?gender=WOMEN' },
+      { label: t('footer.newArrivals'), href: '/products?sort=newest' },
+      { label: t('footer.sale'), href: '/products?sale=true' },
+    ],
+    [t('footer.company')]: [
+      { label: t('footer.aboutUs'), href: '/about' },
+      { label: t('footer.careers'), href: '/careers' },
+      { label: t('footer.press'), href: '/press' },
+      { label: t('footer.contact'), href: '/contact' },
+    ],
+    [t('footer.support')]: [
+      { label: t('footer.faq'), href: '/faq' },
+      { label: t('footer.shippingPolicy'), href: '/shipping' },
+      { label: t('footer.returns'), href: '/returns' },
+      { label: t('footer.sizeGuide'), href: '/size-guide' },
+    ],
+  };
   return (
     <footer className="relative overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-subtle)' }}>
       {/* Background decoration */}
@@ -51,16 +53,16 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: 'var(--text-muted)' }}>
-              Premium sportswear engineered for peak performance. Elevate your game with GS • Sport.
+              {t('footer.brandDescription')}
             </p>
 
             {/* Newsletter */}
             <div className="glass-card p-4">
-              <p className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Stay Updated</p>
+              <p className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>{t('footer.stayUpdated')}</p>
               <div className="flex gap-2">
                 <input
                   type="email"
-                  placeholder="Your email"
+                  placeholder={t('footer.yourEmail')}
                   className="flex-1 input-glass px-3 py-2 rounded-lg text-sm"
                 />
                 <motion.button
@@ -115,7 +117,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8" style={{ borderTop: '1px solid var(--border-subtle)' }}>
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            © {new Date().getFullYear()} GS • Sport. All rights reserved.
+            © {new Date().getFullYear()} GS • Sport. {t('footer.allRights')}
           </p>
 
           <div className="flex items-center gap-4">
@@ -136,8 +138,8 @@ export default function Footer() {
           </div>
 
           <div className="flex gap-4 text-xs" style={{ color: 'var(--text-muted)' }}>
-            <Link href="/privacy" className="hover:text-white/60 transition-colors">Privacy</Link>
-            <Link href="/terms" className="hover:text-white/60 transition-colors">Terms</Link>
+            <Link href="/privacy" className="hover:text-white/60 transition-colors">{t('footer.privacy')}</Link>
+            <Link href="/terms" className="hover:text-white/60 transition-colors">{t('footer.terms')}</Link>
           </div>
         </div>
       </div>

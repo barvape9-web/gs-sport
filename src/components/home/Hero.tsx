@@ -5,19 +5,21 @@ import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Zap, Star, Shield } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useTranslation } from '@/lib/useTranslation';
 
 const FloatingOrbs = dynamic(() => import('@/components/three/FloatingOrbs'), {
   ssr: false,
   loading: () => null,
 });
 
-const stats = [
-  { icon: Star, value: '50K+', label: 'Happy Customers' },
-  { icon: Zap, value: '200+', label: 'Premium Products' },
-  { icon: Shield, value: '5★', label: 'Average Rating' },
-];
-
 export default function Hero() {
+  const { t } = useTranslation();
+
+  const stats = [
+    { icon: Star, value: '50K+', label: t('hero.happyCustomers') },
+    { icon: Zap, value: '200+', label: t('hero.premiumProducts') },
+    { icon: Shield, value: '5★', label: t('hero.averageRating') },
+  ];
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref });
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
@@ -58,7 +60,7 @@ export default function Hero() {
         >
           <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-primary)' }} />
           <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>
-            New Season Collection 2026
+            {t('hero.badge')}
           </span>
           <ArrowRight size={14} style={{ color: 'var(--color-primary)' }} />
         </motion.div>
@@ -70,8 +72,8 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-[0.95] tracking-tight mb-6 uppercase"
         >
-          <span className="block" style={{ color: 'var(--text-primary)' }}>Unleash</span>
-          <span className="block gradient-text glow-text">Your Power</span>
+          <span className="block" style={{ color: 'var(--text-primary)' }}>{t('hero.title1')}</span>
+          <span className="block gradient-text glow-text">{t('hero.title2')}</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -82,7 +84,7 @@ export default function Hero() {
           className="text-sm sm:text-base md:text-lg max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed"
           style={{ color: 'var(--text-muted)' }}
         >
-          Premium sportswear engineered for peak performance.
+          {t('hero.subtitle')}
         </motion.p>
 
         {/* CTA Buttons */}
@@ -98,7 +100,7 @@ export default function Hero() {
               whileTap={{ scale: 0.95 }}
               className="btn-primary px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base font-semibold uppercase tracking-widest text-white flex items-center gap-2 group transition-all duration-300"
             >
-              Shop Collection
+              {t('hero.shopCollection')}
               <motion.span
                 animate={{ x: [0, 5, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
@@ -117,7 +119,7 @@ export default function Hero() {
               onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-primary) 30%, transparent)')}
               onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'transparent')}
             >
-              Women&apos;s Collection
+              {t('hero.womensCollection')}
             </motion.button>
           </Link>
         </motion.div>
@@ -150,7 +152,7 @@ export default function Hero() {
             transition={{ duration: 1.5, repeat: Infinity }}
             className="flex flex-col items-center gap-2"
           >
-            <span className="text-xs uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Scroll</span>
+            <span className="text-xs uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{t('hero.scroll')}</span>
             <div className="w-px h-8" style={{ backgroundImage: 'linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 60%, transparent), transparent)' }} />
           </motion.div>
         </motion.div>

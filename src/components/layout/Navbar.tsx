@@ -4,25 +4,17 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, User, Menu, X, ChevronDown, Shield } from 'lucide-react';
+import { ShoppingBag, User, Menu, X, ChevronDown, Shield, Globe } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
+import { useLanguageStore, Locale } from '@/store/languageStore';
+import { useTranslation } from '@/lib/useTranslation';
 import CartDrawer from '@/components/cart/CartDrawer';
 
-const navLinks = [
-  { label: 'Home', href: '/' },
-  {
-    label: 'Products',
-    href: '/products',
-    sublinks: [
-      { label: "Men's Collection", href: '/products?gender=MEN' },
-      { label: "Women's Collection", href: '/products?gender=WOMEN' },
-      { label: 'New Arrivals', href: '/products?sort=newest' },
-      { label: 'Best Sellers', href: '/products?sort=popularity' },
-    ],
-  },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
+const localeOptions: { value: Locale; label: string; flag: string }[] = [
+  { value: 'ka', label: 'ქარ', flag: '🇬🇪' },
+  { value: 'en', label: 'ENG', flag: '🇬🇧' },
+  { value: 'ru', label: 'РУС', flag: '🇷🇺' },
 ];
 
 export default function Navbar() {
@@ -31,8 +23,27 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [onlineCount, setOnlineCount] = useState(0);
+  const [langOpen, setLangOpen] = useState(false);
   const { getTotalItems, toggleCart } = useCartStore();
   const { user, logout } = useAuthStore();
+  const { locale, setLocale } = useLanguageStore();
+  const { t } = useTranslation();
+
+  const navLinks = [
+    { label: t('nav.home'), href: '/' },
+    {
+      label: t('nav.products'),
+      href: '/products',
+      sublinks: [
+        { label: t('nav.mensCollection'), href: '/products?gender=MEN' },
+        { label: t('nav.womensCollection'), href: '/products?gender=WOMEN' },
+        { label: t('nav.newArrivals'), href: '/products?sort=newest' },
+        { label: t('nav.bestSellers'), href: '/products?sort=popularity' },
+      ],
+    },
+    { label: t('nav.about'), href: '/about' },
+    { label: t('nav.contact'), href: '/contact' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -169,6 +180,54 @@ export default function Navbar() {
 
             {/* Actions */}
             <div className="flex items-center gap-2">
+              {/* Language Switcher */}
+              <div className="relative">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setLangOpen(!langOpen)}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-semibold transition-all"
+                  style={{
+                    borderColor: 'color-mix(in srgb, var(--color-primary) 25%, transparent)',
+                    backgroundColor: 'color-mix(in srgb, var(--color-primary) 6%, transparent)',
+                    color: 'var(--text-secondary)',
+                  }}
+                >
+                  <Globe size={14} style={{ color: 'var(--color-primary)' }} />
+                  <span className="hidden sm:inline">{localeOptions.find(l => l.value === locale)?.flag}</span>
+                  <span>{localeOptions.find(l => l.value === locale)?.label}</span>
+                </motion.button>
+
+                <AnimatePresence>
+                  {langOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 top-full mt-2 glass-card p-1.5 shadow-2xl z-50 min-w-[120px]"
+                    >
+                      {localeOptions.map((opt) => (
+                        <button
+                          key={opt.value}
+                          onClick={() => { setLocale(opt.value); setLangOpen(false); }}
+                          className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                            locale === opt.value ? '' : 'hover:bg-white/5'
+                          }`}
+                          style={locale === opt.value ? {
+                            backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)',
+                            color: 'var(--color-primary)',
+                          } : { color: 'var(--text-secondary)' }}
+                        >
+                          <span>{opt.flag}</span>
+                          <span>{opt.label}</span>
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               {/* Live Counter */}
               {onlineCount > 0 && (
                 <motion.div
@@ -192,7 +251,7 @@ export default function Navbar() {
                     className="text-[11px] font-semibold tracking-wide"
                     style={{ color: '#4ade80' }}
                   >
-                    Online: {onlineCount}
+                    {t('nav.online')}: {onlineCount}
                   </motion.span>
                 </motion.div>
               )}
@@ -237,7 +296,7 @@ export default function Navbar() {
                       className="block px-4 py-2.5 text-sm rounded-lg"
                       style={{ color: 'var(--text-secondary)' }}
                     >
-                      Dashboard
+                      {t('nav.dashboard')}
                     </Link>
                     {user.role === 'ADMIN' && (
                       <Link
@@ -246,14 +305,14 @@ export default function Navbar() {
                         style={{ color: 'var(--color-primary)' }}
                       >
                         <Shield size={14} />
-                        Admin Panel
+                        {t('nav.adminPanel')}
                       </Link>
                     )}
                     <button
                       onClick={() => logout()}
                       className="w-full text-left px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 rounded-lg"
                     >
-                      Logout
+                      {t('nav.logout')}
                     </button>
                   </div>
                 </div>
@@ -265,7 +324,7 @@ export default function Navbar() {
                     className="hidden sm:flex items-center gap-2 px-4 py-2 btn-primary rounded-lg text-xs font-semibold uppercase tracking-widest text-white"
                   >
                     <User size={16} />
-                    Sign In
+                    {t('nav.signIn')}
                   </motion.button>
                 </Link>
               )}
@@ -329,7 +388,7 @@ export default function Navbar() {
                   <div className="pt-2" style={{ borderTop: '1px solid var(--glass-border)' }}>
                     <Link href="/login" onClick={() => setIsMobileOpen(false)}>
                       <button className="w-full btn-primary py-3 rounded-xl text-sm font-semibold text-white">
-                        Sign In
+                        {t('nav.signIn')}
                       </button>
                     </Link>
                   </div>
