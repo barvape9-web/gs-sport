@@ -522,7 +522,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Price ($)</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Price (₾)</label>
                     <input
                       value={form.price}
                       onChange={(e) => setForm({ ...form, price: e.target.value })}
@@ -534,7 +534,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Original Price ($)</label>
+                    <label className="text-xs font-medium mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Original Price (₾)</label>
                     <input
                       value={form.originalPrice}
                       onChange={(e) => setForm({ ...form, originalPrice: e.target.value })}
