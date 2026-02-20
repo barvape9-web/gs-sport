@@ -300,7 +300,7 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
               <img
                 src="/logo1.jpg"
                 alt="GS Sport Logo"
-                className="w-[140px] sm:w-[180px] md:w-[220px] h-auto select-none"
+                className="w-[200px] sm:w-[260px] md:w-[320px] h-auto select-none"
                 style={{
                   filter: 'drop-shadow(0 0 15px rgba(249,115,22,0.1))',
                 }}
