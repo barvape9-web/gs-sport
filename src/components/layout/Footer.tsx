@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Instagram, Twitter, Youtube, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { Instagram, Twitter, Youtube, Mail, Phone, ArrowRight } from 'lucide-react';
 
 const footerLinks = {
   Shop: [
@@ -100,11 +100,10 @@ export default function Footer() {
         </div>
 
         {/* Contact info */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
           {[
             { icon: Mail, text: 'sardlishviligiorgi0@gmail.com' },
             { icon: Phone, text: '+995 557781251' },
-            { icon: MapPin, text: 'New York, NY 10001' },
           ].map(({ icon: Icon, text }) => (
             <div key={text} className="flex items-center gap-3 glass-card px-4 py-3">
               <Icon size={16} style={{ color: 'var(--color-primary)' }} />

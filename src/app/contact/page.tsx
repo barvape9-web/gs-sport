@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Mail, Phone, MapPin, Send, MessageCircle, Clock, Loader2,
+  Mail, Phone, Send, MessageCircle, Clock, Loader2,
   Headphones, Plus, ArrowLeft, Check, CheckCheck,
 } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -17,7 +17,6 @@ import { useRouter } from 'next/navigation';
 const contactInfo = [
   { icon: Mail, label: 'Email', value: 'sardlishviligiorgi0@gmail.com', color: 'var(--color-primary)' },
   { icon: Phone, label: 'Phone', value: '+995 557781251', color: '#3b82f6' },
-  { icon: MapPin, label: 'Address', value: '123 Athletic Ave, New York, NY 10001', color: '#10b981' },
   { icon: Clock, label: 'Support Hours', value: '24/7 Online Support', color: '#8b5cf6' },
 ];
 
