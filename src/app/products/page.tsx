@@ -257,7 +257,7 @@ function ProductsPageInner() {
                   onChange={(e) =>
                     setFilters((f) => ({ ...f, sortBy: e.target.value as IProductFilters['sortBy'] }))
                   }
-                  className="input-glass pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm appearance-none cursor-pointer"
+                  className="input-glass pl-2.5 sm:pl-4 pr-7 sm:pr-10 py-1.5 sm:py-2.5 rounded-full text-[10px] sm:text-sm appearance-none cursor-pointer max-w-[130px] sm:max-w-none"
                 >
                   <option value="newest">{t('products.newest')}</option>
                   <option value="popularity">{t('products.mostPopular')}</option>
@@ -265,8 +265,8 @@ function ProductsPageInner() {
                   <option value="price_desc">{t('products.priceHighLow')}</option>
                 </select>
                 <ChevronDown
-                  size={14}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none"
+                  size={12}
+                  className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none"
                 />
               </div>
             </div>
