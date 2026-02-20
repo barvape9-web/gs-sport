@@ -297,11 +297,12 @@ export default function AdminProductsPage() {
     if (!confirm('Delete this product?')) return;
     try {
       await axios.delete(`/api/products/${id}`);
-    } catch {
-      // proceed anyway in demo
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+      toast.success('Product deleted');
+    } catch (err: unknown) {
+      const msg = axios.isAxiosError(err) ? err.response?.data?.error : 'Failed to delete';
+      toast.error(msg || 'Failed to delete product');
     }
-    setProducts((prev) => prev.filter((p) => p.id !== id));
-    toast.success('Product deleted');
   };
 
   return (
