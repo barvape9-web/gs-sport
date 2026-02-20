@@ -285,10 +285,20 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
               transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' as const }}
               className="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight select-none"
             >
-              GS{' '}
+              <span className="text-5xl sm:text-7xl md:text-8xl">GS</span>{' '}
               <span style={{ color: '#f97316', textShadow: '0 0 25px rgba(249,115,22,0.45)' }}>•</span>{' '}
               Sport
             </motion.h1>
+
+            {/* ── Made In Georgia ── */}
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={stage >= 2 ? { opacity: 0.5, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.35, ease: 'easeOut' as const }}
+              className="mt-2 text-[10px] sm:text-xs tracking-[0.25em] uppercase text-white/50 select-none font-medium"
+            >
+              Made In Georgia
+            </motion.p>
 
             {/* ── Cinematic progress bar ── */}
             <motion.div
