@@ -14,6 +14,7 @@ import { Order, Product } from '@/types';
 import { formatPrice, formatDate, getOrderStatusColor } from '@/lib/utils';
 import axios from 'axios';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 import { useTranslation } from '@/lib/useTranslation';
 
 const statusIcons: Record<string, typeof Package> = {
@@ -25,10 +26,30 @@ const statusIcons: Record<string, typeof Package> = {
 };
 
 export default function DashboardPage() {
-  const { user, logout } = useAuthStore();
+  const { user, logout, setUser } = useAuthStore();
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('orders');
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+  const [profileName, setProfileName] = useState(user?.name || '');
+  const [profileEmail, setProfileEmail] = useState(user?.email || '');
+  const [savingProfile, setSavingProfile] = useState(false);
+
+  const handleSaveProfile = async () => {
+    if (!profileName.trim() || !profileEmail.trim()) {
+      toast.error(t('dashboard.fillAllFields') || 'Please fill all fields');
+      return;
+    }
+    setSavingProfile(true);
+    try {
+      const res = await axios.put('/api/auth/profile', { name: profileName.trim(), email: profileEmail.trim() });
+      setUser(res.data.user);
+      toast.success(t('dashboard.profileUpdated') || 'Profile updated!');
+    } catch (err: any) {
+      toast.error(err.response?.data?.error || 'Failed to update profile');
+    } finally {
+      setSavingProfile(false);
+    }
+  };
 
   const tabs = [
     { id: 'orders', label: t('dashboard.orders'), icon: Package, gradient: 'linear-gradient(135deg, #f97316, #ea580c)' },
@@ -716,14 +737,16 @@ export default function DashboardPage() {
                         <div>
                           <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>{t('dashboard.fullName')}</label>
                           <input
-                            defaultValue={user.name}
+                            value={profileName}
+                            onChange={(e) => setProfileName(e.target.value)}
                             className="w-full input-glass px-4 py-3 rounded-xl text-sm"
                           />
                         </div>
                         <div>
                           <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>{t('dashboard.email')}</label>
                           <input
-                            defaultValue={user.email}
+                            value={profileEmail}
+                            onChange={(e) => setProfileEmail(e.target.value)}
                             type="email"
                             className="w-full input-glass px-4 py-3 rounded-xl text-sm"
                           />
@@ -732,9 +755,18 @@ export default function DashboardPage() {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="btn-primary mt-6 px-8 py-3 rounded-xl font-bold text-white"
+                        onClick={handleSaveProfile}
+                        disabled={savingProfile}
+                        className="btn-primary mt-6 px-8 py-3 rounded-xl font-bold text-white disabled:opacity-50"
                       >
-                        {t('dashboard.saveChanges')}
+                        {savingProfile ? (
+                          <span className="flex items-center gap-2">
+                            <Loader2 size={16} className="animate-spin" />
+                            {t('dashboard.saving') || 'Saving...'}
+                          </span>
+                        ) : (
+                          t('dashboard.saveChanges')
+                        )}
                       </motion.button>
                     </div>
                   </motion.div>
