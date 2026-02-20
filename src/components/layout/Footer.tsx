@@ -102,8 +102,8 @@ export default function Footer() {
         {/* Contact info */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
           {[
-            { icon: Mail, text: 'support@gs-sport.com' },
-            { icon: Phone, text: '+1 (800) GS-SPORT' },
+            { icon: Mail, text: 'sardlishviligiorgi0@gmail.com' },
+            { icon: Phone, text: '+995 557781251' },
             { icon: MapPin, text: 'New York, NY 10001' },
           ].map(({ icon: Icon, text }) => (
             <div key={text} className="flex items-center gap-3 glass-card px-4 py-3">
