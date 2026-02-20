@@ -175,56 +175,16 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
           {/* ── Main content ───────────────────────────────────── */}
           <div className="relative z-10 flex flex-col items-center">
 
-            {/* ── PREMIUM label with accent lines ── */}
+            {/* ── welcome.jpg logo (GS + MADE IN GEORGIA) ── */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={stage >= 1 ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' as const }}
-              className="flex items-center justify-center gap-4 mb-6"
-            >
-              <motion.div
-                initial={{ width: 0 }}
-                animate={stage >= 1 ? { width: 50 } : {}}
-                transition={{ duration: 0.5, delay: 0.25, ease: 'easeOut' as const }}
-                className="h-px"
-                style={{
-                  background: 'linear-gradient(to right, transparent, #f97316)',
-                }}
-              />
-              <motion.span
-                initial={{ opacity: 0, letterSpacing: '0.6em' }}
-                animate={
-                  stage >= 1
-                    ? { opacity: 1, letterSpacing: '0.35em' }
-                    : {}
-                }
-                transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' as const }}
-                className="text-[11px] sm:text-xs font-bold uppercase select-none"
-                style={{ color: '#f97316' }}
-              >
-                Premium
-              </motion.span>
-              <motion.div
-                initial={{ width: 0 }}
-                animate={stage >= 1 ? { width: 50 } : {}}
-                transition={{ duration: 0.5, delay: 0.25, ease: 'easeOut' as const }}
-                className="h-px"
-                style={{
-                  background: 'linear-gradient(to left, transparent, #f97316)',
-                }}
-              />
-            </motion.div>
-
-            {/* ── welcome.jpg logo — mix-blend-mode: screen removes black bg ── */}
-            <motion.div
-              initial={{ scale: 0.7, opacity: 0, rotateX: 15 }}
+              initial={{ scale: 0.7, opacity: 0, rotateX: 12 }}
               animate={
                 stage >= 1
                   ? {
-                      scale: [1, 1.06, 1.02],
+                      scale: [1, 1.04, 1.01],
                       opacity: 1,
                       rotateX: 0,
-                      y: [0, -5, 0],
+                      y: [0, -4, 0],
                     }
                   : {}
               }
@@ -232,9 +192,9 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                 scale: { duration: 2, times: [0, 0.4, 1], ease: 'easeOut' as const },
                 opacity: { duration: 0.8, ease: 'easeOut' as const },
                 rotateX: { duration: 1.2, ease: 'easeOut' as const },
-                y: { duration: 3.5, repeat: Infinity, ease: 'easeInOut' as const, delay: 1.2 },
+                y: { duration: 4, repeat: Infinity, ease: 'easeInOut' as const, delay: 1.5 },
               }}
-              className="relative mb-8"
+              className="relative mb-6"
               style={{ perspective: '800px' }}
             >
               {/* Glow layers behind image */}
@@ -242,72 +202,91 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={
                   stage >= 1
-                    ? { opacity: [0, 0.6, 0.3, 0.45, 0.3], scale: [0.5, 1.1, 1] }
+                    ? { opacity: [0, 0.5, 0.25, 0.35, 0.25], scale: [0.5, 1.1, 1] }
                     : {}
                 }
                 transition={{ duration: 2.5, ease: 'easeOut' as const }}
-                className="absolute inset-0 -m-12 rounded-full blur-3xl"
-                style={{ backgroundColor: 'rgba(249,115,22,0.15)' }}
+                className="absolute inset-0 -m-10 rounded-full blur-3xl"
+                style={{ backgroundColor: 'rgba(249,115,22,0.12)' }}
               />
               <motion.div
                 initial={{ opacity: 0 }}
-                animate={stage >= 1 ? { opacity: [0, 0.25, 0.12] } : {}}
+                animate={stage >= 1 ? { opacity: [0, 0.2, 0.1] } : {}}
                 transition={{ duration: 2, delay: 0.5, ease: 'easeOut' as const }}
-                className="absolute inset-0 -m-20 rounded-full blur-[80px]"
-                style={{ backgroundColor: 'rgba(249,115,22,0.08)' }}
+                className="absolute inset-0 -m-16 rounded-full blur-[70px]"
+                style={{ backgroundColor: 'rgba(249,115,22,0.06)' }}
               />
 
-              {/* The actual logo image (white on transparent) */}
+              {/* The logo image */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/welcome.jpg"
-                alt="GS Sport"
-                className="relative z-10 w-[320px] sm:w-[420px] md:w-[500px] h-auto select-none"
+                alt="GS Sport — Made in Georgia"
+                className="relative z-10 w-[260px] sm:w-[340px] md:w-[400px] h-auto select-none"
                 style={{
-                  filter: 'drop-shadow(0 0 30px rgba(249,115,22,0.2))',
+                  filter: 'drop-shadow(0 0 25px rgba(249,115,22,0.15))',
                 }}
                 draggable={false}
               />
 
               {/* Expanding pulse rings */}
-              {[0, 0.35, 0.7].map((d, i) => (
+              {[0, 0.3, 0.6].map((d, i) => (
                 <motion.div
                   key={i}
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={
                     stage >= 1
-                      ? { scale: [0.8, 1.3, 1.6], opacity: [0.4, 0.12, 0] }
+                      ? { scale: [0.8, 1.3, 1.6], opacity: [0.35, 0.1, 0] }
                       : {}
                   }
                   transition={{ duration: 1.5, delay: 0.6 + d, ease: 'easeOut' as const }}
-                  className="absolute inset-0 -m-6 rounded-full pointer-events-none"
-                  style={{
-                    border: '1px solid rgba(249,115,22,0.3)',
-                  }}
+                  className="absolute inset-0 -m-4 rounded-full pointer-events-none"
+                  style={{ border: '1px solid rgba(249,115,22,0.25)' }}
                 />
               ))}
             </motion.div>
 
+            {/* ── PREMIUM label with accent lines ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={stage >= 2 ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, ease: 'easeOut' as const }}
+              className="flex items-center justify-center gap-4 mb-4"
+            >
+              <motion.div
+                initial={{ width: 0 }}
+                animate={stage >= 2 ? { width: 40 } : {}}
+                transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' as const }}
+                className="h-px"
+                style={{ background: 'linear-gradient(to right, transparent, #f97316)' }}
+              />
+              <motion.span
+                initial={{ opacity: 0, letterSpacing: '0.6em' }}
+                animate={stage >= 2 ? { opacity: 1, letterSpacing: '0.3em' } : {}}
+                transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' as const }}
+                className="text-[10px] sm:text-xs font-bold uppercase select-none"
+                style={{ color: '#f97316' }}
+              >
+                Premium
+              </motion.span>
+              <motion.div
+                initial={{ width: 0 }}
+                animate={stage >= 2 ? { width: 40 } : {}}
+                transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' as const }}
+                className="h-px"
+                style={{ background: 'linear-gradient(to left, transparent, #f97316)' }}
+              />
+            </motion.div>
+
             {/* ── GS • Sport title ── */}
             <motion.h1
-              initial={{ opacity: 0, scale: 0.75, y: 10 }}
-              animate={
-                stage >= 2
-                  ? { opacity: 1, scale: 1, y: 0 }
-                  : {}
-              }
-              transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' as const }}
-              className="text-5xl sm:text-7xl font-black text-white tracking-tight select-none"
+              initial={{ opacity: 0, scale: 0.8, y: 8 }}
+              animate={stage >= 2 ? { opacity: 1, scale: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' as const }}
+              className="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight select-none"
             >
               GS{' '}
-              <span
-                style={{
-                  color: '#f97316',
-                  textShadow: '0 0 30px rgba(249,115,22,0.5)',
-                }}
-              >
-                •
-              </span>{' '}
+              <span style={{ color: '#f97316', textShadow: '0 0 25px rgba(249,115,22,0.45)' }}>•</span>{' '}
               Sport
             </motion.h1>
 
