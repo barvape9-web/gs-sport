@@ -9,13 +9,16 @@ import { Product } from '@/types';
 import { useCartStore } from '@/store/cartStore';
 import { formatPrice, getCategoryLabel } from '@/lib/utils';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 
 interface ProductCardProps {
   product: Product;
+  isSaved?: boolean;
+  onToggleSave?: (productId: string, saved: boolean) => void;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
-  const [isWishlisted, setIsWishlisted] = useState(false);
+export default function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProps) {
+  const [isWishlisted, setIsWishlisted] = useState(isSaved);
   const [isHovered, setIsHovered] = useState(false);
   const { addItem, toggleCart } = useCartStore();
 
@@ -27,11 +30,17 @@ export default function ProductCard({ product }: ProductCardProps) {
     toggleCart();
   };
 
-  const handleWishlist = (e: React.MouseEvent) => {
+  const handleWishlist = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
-    toast.success(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist!');
+    try {
+      const res = await axios.post('/api/saved', { productId: product.id });
+      setIsWishlisted(res.data.saved);
+      toast.success(res.data.message);
+      onToggleSave?.(product.id, res.data.saved);
+    } catch {
+      toast.error('Sign in to save items');
+    }
   };
 
   const discount = product.originalPrice

@@ -59,6 +59,29 @@ export default function ProductDetailPage() {
     if (id) fetchProduct();
   }, [id]);
 
+  // Check if product is saved
+  useEffect(() => {
+    const checkSaved = async () => {
+      try {
+        const res = await axios.get('/api/saved');
+        if (res.data.ids?.includes(id)) setWishlist(true);
+      } catch {
+        // not logged in or error
+      }
+    };
+    if (id) checkSaved();
+  }, [id]);
+
+  const handleToggleWishlist = async () => {
+    try {
+      const res = await axios.post('/api/saved', { productId: id });
+      setWishlist(res.data.saved);
+      toast.success(res.data.message);
+    } catch {
+      toast.error('Sign in to save items');
+    }
+  };
+
   const handleAddToCart = () => {
     if (product.sizes && product.sizes.length > 0 && !selectedSize) {
       toast.error('Please select a size');
@@ -78,11 +101,8 @@ export default function ProductDetailPage() {
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
-  const placeholderImages = [
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600',
-    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600',
-    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600',
-  ];
+  const defaultPlaceholder = '/gs.jpg';
+  const productImages = product.images && product.images.length > 0 ? product.images : [defaultPlaceholder];
 
   return (
     <>
@@ -109,10 +129,10 @@ export default function ProductDetailPage() {
                 className="relative aspect-square rounded-2xl overflow-hidden glass" style={{ border: '1px solid var(--card-border)' }}
               >
                 <img
-                  src={product.images?.[activeImg] || placeholderImages[activeImg] || placeholderImages[0]}
+                  src={productImages[activeImg] || defaultPlaceholder}
                   alt={product.name}
                   className="w-full h-full object-cover"
-                  onError={(e) => { (e.target as HTMLImageElement).src = placeholderImages[activeImg % 3]; }}
+                  onError={(e) => { (e.target as HTMLImageElement).src = defaultPlaceholder; }}
                 />
                 {discount > 0 && (
                   <div className="absolute top-4 left-4 text-white text-xs font-black px-2 py-1 rounded-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
@@ -122,7 +142,7 @@ export default function ProductDetailPage() {
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => setWishlist(!wishlist)}
+                  onClick={handleToggleWishlist}
                   className="absolute top-4 right-4 p-2.5 rounded-xl glass" style={{ border: '1px solid var(--border-subtle)' }}
                 >
                   <Heart
@@ -132,25 +152,27 @@ export default function ProductDetailPage() {
                 </motion.button>
               </motion.div>
 
-              {/* Thumbnails */}
-              <div className="flex gap-3">
-                {[...Array(3)].map((_, i) => (
-                  <motion.button
-                    key={i}
-                    whileHover={{ scale: 1.05 }}
-                    onClick={() => setActiveImg(i)}
-                    className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 transition-all`}
-                    style={{ borderColor: activeImg === i ? 'var(--color-primary)' : 'var(--border-subtle)' }}
-                  >
-                    <img
-                      src={product.images?.[i] || placeholderImages[i]}
-                      alt=""
-                      className="w-full h-full object-cover"
-                      onError={(e) => { (e.target as HTMLImageElement).src = placeholderImages[i]; }}
-                    />
-                  </motion.button>
-                ))}
-              </div>
+              {/* Thumbnails — only show when multiple images */}
+              {productImages.length > 1 && (
+                <div className="flex gap-3">
+                  {productImages.map((img, i) => (
+                    <motion.button
+                      key={i}
+                      whileHover={{ scale: 1.05 }}
+                      onClick={() => setActiveImg(i)}
+                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 transition-all`}
+                      style={{ borderColor: activeImg === i ? 'var(--color-primary)' : 'var(--border-subtle)' }}
+                    >
+                      <img
+                        src={img}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        onError={(e) => { (e.target as HTMLImageElement).src = defaultPlaceholder; }}
+                      />
+                    </motion.button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Product Info */}

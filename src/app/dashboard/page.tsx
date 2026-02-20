@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Package, Heart, User, Settings, ShoppingBag, LogOut, Star } from 'lucide-react';
+import { Package, Heart, User, Settings, ShoppingBag, LogOut, Star, Trash2 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { useAuthStore } from '@/store/authStore';
-import { Order } from '@/types';
+import { Order, Product } from '@/types';
 import { formatPrice, formatDate, getOrderStatusColor } from '@/lib/utils';
 import axios from 'axios';
 import Link from 'next/link';
@@ -23,6 +23,8 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('orders');
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoadingOrders, setIsLoadingOrders] = useState(true);
+  const [savedProducts, setSavedProducts] = useState<Product[]>([]);
+  const [isLoadingSaved, setIsLoadingSaved] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -35,8 +37,30 @@ export default function DashboardPage() {
         setIsLoadingOrders(false);
       }
     };
-    if (user) fetchOrders();
+    const fetchSaved = async () => {
+      try {
+        const res = await axios.get('/api/saved');
+        setSavedProducts(res.data.products || []);
+      } catch {
+        setSavedProducts([]);
+      } finally {
+        setIsLoadingSaved(false);
+      }
+    };
+    if (user) {
+      fetchOrders();
+      fetchSaved();
+    }
   }, [user]);
+
+  const handleRemoveSaved = async (productId: string) => {
+    try {
+      await axios.post('/api/saved', { productId });
+      setSavedProducts((prev) => prev.filter((p) => p.id !== productId));
+    } catch {
+      // ignore
+    }
+  };
 
   if (!user) {
     return (
@@ -238,15 +262,58 @@ export default function DashboardPage() {
                   animate={{ opacity: 1, y: 0 }}
                 >
                   <h2 className="text-xl font-bold text-white mb-6">Saved Products</h2>
-                  <div className="glass-card p-12 text-center">
-                    <Heart size={40} className="text-white/20 mx-auto mb-4" />
-                    <p className="text-white/50">No saved items yet</p>
-                    <Link href="/products">
-                      <button className="mt-4 btn-primary px-6 py-2.5 rounded-full text-white text-sm font-semibold">
-                        Browse Products
-                      </button>
-                    </Link>
-                  </div>
+                  {isLoadingSaved ? (
+                    <div className="space-y-3">
+                      {[1, 2].map((i) => (
+                        <div key={i} className="glass-card p-5 shimmer h-24 rounded-xl" />
+                      ))}
+                    </div>
+                  ) : savedProducts.length === 0 ? (
+                    <div className="glass-card p-12 text-center">
+                      <Heart size={40} className="text-white/20 mx-auto mb-4" />
+                      <p className="text-white/50">No saved items yet</p>
+                      <Link href="/products">
+                        <button className="mt-4 btn-primary px-6 py-2.5 rounded-full text-white text-sm font-semibold">
+                          Browse Products
+                        </button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {savedProducts.map((product) => (
+                        <motion.div
+                          key={product.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="glass-card p-4 flex items-center gap-4"
+                        >
+                          <Link href={`/products/${product.id}`} className="shrink-0">
+                            <div className="w-16 h-16 rounded-lg overflow-hidden" style={{ backgroundColor: 'var(--bg-inset)' }}>
+                              {product.images?.[0] ? (
+                                <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center">
+                                  <ShoppingBag size={20} style={{ color: 'var(--text-muted)' }} />
+                                </div>
+                              )}
+                            </div>
+                          </Link>
+                          <Link href={`/products/${product.id}`} className="flex-1 min-w-0">
+                            <p className="text-sm font-bold truncate" style={{ color: 'var(--text-primary)' }}>{product.name}</p>
+                            <p className="text-sm font-bold mt-1" style={{ color: 'var(--color-primary)' }}>{formatPrice(product.price)}</p>
+                          </Link>
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => handleRemoveSaved(product.id)}
+                            className="p-2 rounded-lg transition-colors hover:bg-red-500/10"
+                          >
+                            <Trash2 size={16} className="text-red-400" />
+                          </motion.button>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
                 </motion.div>
               )}
 
