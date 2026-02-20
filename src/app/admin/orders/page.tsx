@@ -1,14 +1,121 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Search, Filter, ChevronDown, Eye, Edit, Loader2 } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, Filter, ChevronDown, Eye, Edit, Loader2, Check } from 'lucide-react';
 import { Order, OrderStatus } from '@/types';
 import { formatPrice, formatDate, getOrderStatusColor } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
 const ALL_STATUSES: OrderStatus[] = ['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
+
+/* ── Status badge with click-to-open dropdown (portalled to body) ── */
+function StatusDropdown({
+  orderId,
+  currentStatus,
+  onUpdate,
+}: {
+  orderId: string;
+  currentStatus: OrderStatus;
+  onUpdate: (id: string, status: OrderStatus) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
+  const badgeRef = useRef<HTMLButtonElement>(null);
+  const dropRef = useRef<HTMLDivElement>(null);
+
+  const openMenu = useCallback(() => {
+    if (!badgeRef.current) return;
+    const rect = badgeRef.current.getBoundingClientRect();
+    setPos({ top: rect.bottom + 6, left: rect.left });
+    setOpen(true);
+  }, []);
+
+  /* close on outside click or Escape */
+  useEffect(() => {
+    if (!open) return;
+    const handleClick = (e: MouseEvent) => {
+      if (
+        dropRef.current &&
+        !dropRef.current.contains(e.target as Node) &&
+        badgeRef.current &&
+        !badgeRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('mousedown', handleClick);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [open]);
+
+  return (
+    <>
+      <button
+        ref={badgeRef}
+        onClick={openMenu}
+        className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold rounded-full cursor-pointer transition-all hover:ring-1 hover:ring-white/20 ${getOrderStatusColor(currentStatus)}`}
+      >
+        {currentStatus}
+        <ChevronDown size={10} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      {/* Portal dropdown rendered at body level so overflow can't clip it */}
+      {open && pos && typeof document !== 'undefined' && (
+        <AnimatePresence>
+          <motion.div
+            ref={dropRef}
+            initial={{ opacity: 0, y: -6, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.95 }}
+            transition={{ duration: 0.15 }}
+            className="fixed z-[9999] w-44 rounded-xl border border-white/10 bg-[#141414]/95 backdrop-blur-xl shadow-2xl p-1.5"
+            style={{ top: pos.top, left: pos.left }}
+          >
+            <p className="px-3 py-1.5 text-[9px] uppercase tracking-widest text-white/25 font-bold">
+              Change Status
+            </p>
+            {ALL_STATUSES.map((s) => (
+              <button
+                key={s}
+                onClick={() => {
+                  onUpdate(orderId, s);
+                  setOpen(false);
+                }}
+                className={`w-full flex items-center justify-between px-3 py-2 text-xs rounded-lg transition-colors ${
+                  currentStatus === s
+                    ? 'text-[#f97316] bg-[#f97316]/10'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <span className="flex items-center gap-2">
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      s === 'PENDING' ? 'bg-yellow-400' :
+                      s === 'PROCESSING' ? 'bg-blue-400' :
+                      s === 'SHIPPED' ? 'bg-purple-400' :
+                      s === 'DELIVERED' ? 'bg-green-400' :
+                      'bg-red-400'
+                    }`}
+                  />
+                  {s}
+                </span>
+                {currentStatus === s && <Check size={12} className="text-[#f97316]" />}
+              </button>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+      )}
+    </>
+  );
+}
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -41,11 +148,14 @@ export default function AdminOrdersPage() {
   });
 
   const updateStatus = async (orderId: string, newStatus: OrderStatus) => {
+    // Optimistic update
+    setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)));
+    toast.success(`Order status → ${newStatus}`);
     try {
       await axios.put(`/api/orders/${orderId}`, { status: newStatus });
-    } catch { /* optimistic */ }
-    setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)));
-    toast.success(`Order status updated to ${newStatus}`);
+    } catch {
+      toast.error('Failed to update status');
+    }
   };
 
   return (
@@ -148,25 +258,11 @@ export default function AdminOrdersPage() {
                   <span className="text-sm font-bold text-[#f97316]">{formatPrice(order.total)}</span>
                 </td>
                 <td>
-                  <div className="relative group">
-                    <span className={`px-2.5 py-1 text-[10px] font-bold rounded-full cursor-pointer ${getOrderStatusColor(order.status)}`}>
-                      {order.status}
-                    </span>
-                    {/* Status dropdown */}
-                    <div className="absolute left-0 top-full mt-1 glass-card p-1.5 z-10 w-36 hidden group-hover:block shadow-2xl">
-                      {ALL_STATUSES.map((s) => (
-                        <button
-                          key={s}
-                          onClick={() => updateStatus(order.id, s)}
-                          className={`w-full text-left px-3 py-1.5 text-xs rounded-lg hover:bg-white/5 transition-colors ${
-                            order.status === s ? 'text-[#f97316]' : 'text-white/60'
-                          }`}
-                        >
-                          {s}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                  <StatusDropdown
+                    orderId={order.id}
+                    currentStatus={order.status}
+                    onUpdate={updateStatus}
+                  />
                 </td>
                 <td>
                   <div className="flex items-center justify-end gap-2">
