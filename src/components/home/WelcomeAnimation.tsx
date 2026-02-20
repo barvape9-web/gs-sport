@@ -257,15 +257,14 @@ export default function WelcomeAnimation({ onComplete }: WelcomeAnimationProps) 
                 style={{ backgroundColor: 'rgba(249,115,22,0.08)' }}
               />
 
-              {/* The actual logo image — brightness + contrast crush the dark bg to pure black, screen blend removes it */}
+              {/* The actual logo image (white on transparent) */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/welcome.jpg"
                 alt="GS Sport"
                 className="relative z-10 w-[320px] sm:w-[420px] md:w-[500px] h-auto select-none"
                 style={{
-                  mixBlendMode: 'screen',
-                  filter: 'brightness(1.15) contrast(1.35) drop-shadow(0 0 40px rgba(249,115,22,0.25))',
+                  filter: 'drop-shadow(0 0 30px rgba(249,115,22,0.2))',
                 }}
                 draggable={false}
               />
