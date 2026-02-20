@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ShoppingCart, Heart, Star, Truck, Shield, RotateCcw, ChevronRight, Play, ChevronLeft } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Heart, Star, Truck, CalendarDays, RotateCcw, ChevronRight, Play, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { formatPrice } from '@/lib/utils';
@@ -437,15 +437,40 @@ export default function ProductDetailPage() {
               {/* Perks */}
               <div className="grid grid-cols-3 gap-3 pt-2">
                 {[
-                  { icon: Truck, text: t('productDetail.freeShipping'), sub: t('productDetail.ordersOver') },
-                  { icon: Shield, text: t('productDetail.guaranteed'), sub: t('productDetail.authentic') },
-                  { icon: RotateCcw, text: t('productDetail.easyReturns'), sub: t('productDetail.returnPolicy') },
-                ].map(({ icon: Icon, text, sub }) => (
-                  <div key={text} className="glass p-3 rounded-xl text-center" style={{ border: '1px solid var(--card-border)' }}>
-                    <Icon size={16} className="mx-auto mb-1.5" style={{ color: 'var(--color-primary)' }} />
-                    <p className="text-[10px] font-bold" style={{ color: 'var(--text-secondary)' }}>{text}</p>
-                    <p className="text-[9px]" style={{ color: 'var(--text-muted)' }}>{sub}</p>
-                  </div>
+                  { icon: Truck, text: t('productDetail.freeShipping'), sub: t('productDetail.ordersOver'), color: '#f97316' },
+                  { icon: CalendarDays, text: t('productDetail.guaranteed'), sub: t('productDetail.authentic'), color: '#22c55e' },
+                  { icon: RotateCcw, text: t('productDetail.easyReturns'), sub: t('productDetail.returnPolicy'), color: '#3b82f6' },
+                ].map(({ icon: Icon, text, sub, color }, index) => (
+                  <motion.div
+                    key={text}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 + index * 0.1 }}
+                    className="relative group/perk overflow-hidden rounded-2xl text-center py-4 px-2 cursor-default"
+                    style={{
+                      background: `linear-gradient(135deg, ${color}08, ${color}03)`,
+                      border: `1px solid ${color}20`,
+                      transition: 'all 0.3s ease',
+                    }}
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = `${color}40`;
+                      e.currentTarget.style.boxShadow = `0 8px 24px ${color}15, inset 0 0 20px ${color}05`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = `${color}20`;
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    <div className="absolute inset-0 opacity-0 group-hover/perk:opacity-100 transition-opacity duration-500" style={{ background: `radial-gradient(circle at 50% 0%, ${color}10, transparent 70%)` }} />
+                    <div className="relative">
+                      <div className="w-9 h-9 mx-auto mb-2 rounded-xl flex items-center justify-center" style={{ background: `${color}15`, boxShadow: `0 2px 8px ${color}10` }}>
+                        <Icon size={16} style={{ color }} />
+                      </div>
+                      <p className="text-[10px] sm:text-[11px] font-bold tracking-wide" style={{ color: 'var(--text-primary)' }}>{text}</p>
+                      <p className="text-[9px] mt-0.5" style={{ color }}>{sub}</p>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
