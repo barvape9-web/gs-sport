@@ -229,74 +229,88 @@ function ProductsPageInner() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {/* Controls */}
-          <div className="flex flex-wrap items-center justify-between mb-6 sm:mb-8 gap-2 sm:gap-4">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm font-semibold transition-all shrink-0 ${
-                showFilters ? 'text-white' : 'glass text-white/70 hover:text-white'
-              }`}
-              style={showFilters ? { backgroundColor: theme.accent } : undefined}
-            >
-              <SlidersHorizontal size={16} />
-              {t('products.filters')}
-              {activeFilterCount > 0 && (
-                <span className="w-5 h-5 bg-white rounded-full text-xs font-bold flex items-center justify-center" style={{ color: theme.accent }}>
-                  {activeFilterCount}
-                </span>
-              )}
-            </motion.button>
-
-            {/* Active filters */}
-            <div className="flex items-center gap-2 flex-wrap flex-1 min-w-0 overflow-hidden">
-              {filters.gender && (
-                <motion.span
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex items-center gap-1 px-3 py-1 rounded-full text-xs text-white/90 shrink-0"
-                  style={{ backgroundColor: theme.tagBg, border: `1px solid ${theme.tagBorder}` }}
-                >
-                  {filters.gender}
-                  <button onClick={() => setFilters((f) => ({ ...f, gender: undefined }))}>
-                    <X size={12} className="hover:text-white" />
-                  </button>
-                </motion.span>
-              )}
-              {filters.category && (
-                <motion.span
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex items-center gap-1 px-3 py-1 rounded-full text-xs text-white/90 shrink-0"
-                  style={{ backgroundColor: theme.tagBg, border: `1px solid ${theme.tagBorder}` }}
-                >
-                  {filters.category.replace('_', ' ')}
-                  <button onClick={() => setFilters((f) => ({ ...f, category: undefined }))}>
-                    <X size={12} className="hover:text-white" />
-                  </button>
-                </motion.span>
-              )}
-            </div>
-
-            {/* Sort */}
-            <div className="relative shrink-0">
-              <select
-                value={filters.sortBy}
-                onChange={(e) =>
-                  setFilters((f) => ({ ...f, sortBy: e.target.value as IProductFilters['sortBy'] }))
-                }
-                className="input-glass pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm appearance-none cursor-pointer max-w-[140px] sm:max-w-none truncate"
+          <div className="mb-6 sm:mb-8 space-y-3">
+            {/* Top row: filter button + sort */}
+            <div className="flex items-center justify-between gap-3">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm font-semibold transition-all shrink-0 ${
+                  showFilters ? 'text-white' : 'glass text-white/70 hover:text-white'
+                }`}
+                style={showFilters ? { backgroundColor: theme.accent } : undefined}
               >
-                <option value="newest">{t('products.newest')}</option>
-                <option value="popularity">{t('products.mostPopular')}</option>
-                <option value="price_asc">{t('products.priceLowHigh')}</option>
-                <option value="price_desc">{t('products.priceHighLow')}</option>
-              </select>
-              <ChevronDown
-                size={14}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none"
-              />
+                <SlidersHorizontal size={16} />
+                {t('products.filters')}
+                {activeFilterCount > 0 && (
+                  <span className="w-5 h-5 bg-white rounded-full text-xs font-bold flex items-center justify-center" style={{ color: theme.accent }}>
+                    {activeFilterCount}
+                  </span>
+                )}
+              </motion.button>
+
+              {/* Sort */}
+              <div className="relative shrink-0">
+                <select
+                  value={filters.sortBy}
+                  onChange={(e) =>
+                    setFilters((f) => ({ ...f, sortBy: e.target.value as IProductFilters['sortBy'] }))
+                  }
+                  className="input-glass pl-3 sm:pl-4 pr-8 sm:pr-10 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm appearance-none cursor-pointer"
+                >
+                  <option value="newest">{t('products.newest')}</option>
+                  <option value="popularity">{t('products.mostPopular')}</option>
+                  <option value="price_asc">{t('products.priceLowHigh')}</option>
+                  <option value="price_desc">{t('products.priceHighLow')}</option>
+                </select>
+                <ChevronDown
+                  size={14}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none"
+                />
+              </div>
             </div>
+
+            {/* Active filter tags — separate row */}
+            <AnimatePresence>
+              {(filters.gender || filters.category) && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="flex items-center gap-2 flex-wrap overflow-hidden"
+                >
+                  {filters.gender && (
+                    <motion.span
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-white/90"
+                      style={{ backgroundColor: theme.tagBg, border: `1px solid ${theme.tagBorder}` }}
+                    >
+                      {filters.gender}
+                      <button onClick={() => setFilters((f) => ({ ...f, gender: undefined }))} className="hover:opacity-70 transition-opacity">
+                        <X size={12} />
+                      </button>
+                    </motion.span>
+                  )}
+                  {filters.category && (
+                    <motion.span
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-white/90"
+                      style={{ backgroundColor: theme.tagBg, border: `1px solid ${theme.tagBorder}` }}
+                    >
+                      {filters.category.replace('_', ' ')}
+                      <button onClick={() => setFilters((f) => ({ ...f, category: undefined }))} className="hover:opacity-70 transition-opacity">
+                        <X size={12} />
+                      </button>
+                    </motion.span>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <div className="flex gap-4 sm:gap-8 relative">
