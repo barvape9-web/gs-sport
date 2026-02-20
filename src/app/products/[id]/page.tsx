@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ShoppingCart, Heart, Star, Truck, Shield, RotateCcw, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Heart, Star, Truck, Shield, RotateCcw, ChevronRight, Play, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { formatPrice } from '@/lib/utils';
@@ -103,6 +103,41 @@ export default function ProductDetailPage() {
 
   const defaultPlaceholder = '/gs.jpg';
   const productImages = product.images && product.images.length > 0 ? product.images : [defaultPlaceholder];
+  const productVideos = product.videos || [];
+  
+  // Unified media array: images first, then videos
+  type MediaItem = { type: 'image'; src: string } | { type: 'video'; src: string };
+  const mediaItems: MediaItem[] = [
+    ...productImages.map((src): MediaItem => ({ type: 'image', src })),
+    ...productVideos.map((src): MediaItem => ({ type: 'video', src })),
+  ];
+
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollToSlide = useCallback((index: number) => {
+    if (!carouselRef.current) return;
+    const slide = carouselRef.current.children[index] as HTMLElement;
+    if (slide) {
+      slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    }
+    setActiveImg(index);
+  }, []);
+
+  // Sync activeImg on scroll (snap)
+  useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const handleScroll = () => {
+      const scrollLeft = el.scrollLeft;
+      const slideWidth = el.offsetWidth;
+      const newIndex = Math.round(scrollLeft / slideWidth);
+      if (newIndex !== activeImg && newIndex >= 0 && newIndex < mediaItems.length) {
+        setActiveImg(newIndex);
+      }
+    };
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, [activeImg, mediaItems.length]);
 
   return (
     <>
@@ -120,73 +155,126 @@ export default function ProductDetailPage() {
           </nav>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
-            {/* Images */}
-            <div className="space-y-4">
-              <motion.div
-                key={activeImg}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="relative aspect-square rounded-2xl overflow-hidden glass" style={{ border: '1px solid var(--card-border)' }}
-              >
-                <img
-                  src={productImages[activeImg] || defaultPlaceholder}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => { (e.target as HTMLImageElement).src = defaultPlaceholder; }}
-                />
+            {/* Media Carousel */}
+            <div className="space-y-3">
+              {/* Main carousel */}
+              <div className="relative">
+                <div
+                  ref={carouselRef}
+                  className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide rounded-2xl"
+                  style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
+                >
+                  {mediaItems.map((item, i) => (
+                    <div
+                      key={i}
+                      className="snap-center flex-shrink-0 w-full aspect-square relative rounded-2xl overflow-hidden glass"
+                      style={{ border: '1px solid var(--card-border)' }}
+                    >
+                      {item.type === 'image' ? (
+                        <img
+                          src={item.src}
+                          alt={product.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => { (e.target as HTMLImageElement).src = defaultPlaceholder; }}
+                        />
+                      ) : (
+                        <video
+                          src={item.src}
+                          controls
+                          preload="metadata"
+                          className="w-full h-full object-contain bg-black"
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Discount badge */}
                 {discount > 0 && (
-                  <div className="absolute top-4 left-4 text-white text-xs font-black px-2 py-1 rounded-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
+                  <div className="absolute top-4 left-4 z-10 text-white text-xs font-black px-2 py-1 rounded-lg" style={{ backgroundColor: 'var(--color-primary)' }}>
                     -{discount}%
                   </div>
                 )}
+
+                {/* Wishlist button */}
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={handleToggleWishlist}
-                  className="absolute top-4 right-4 p-2.5 rounded-xl glass" style={{ border: '1px solid var(--border-subtle)' }}
+                  className="absolute top-4 right-4 z-10 p-2.5 rounded-xl glass"
+                  style={{ border: '1px solid var(--border-subtle)' }}
                 >
                   <Heart
                     size={18}
                     style={wishlist ? { fill: 'var(--color-primary)', color: 'var(--color-primary)' } : { color: 'var(--text-muted)' }}
                   />
                 </motion.button>
-              </motion.div>
 
-              {/* Thumbnails — only show when multiple images */}
-              {productImages.length > 1 && (
-                <div className="flex gap-3">
-                  {productImages.map((img, i) => (
+                {/* Prev / Next arrows (desktop) */}
+                {mediaItems.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => scrollToSlide(Math.max(0, activeImg - 1))}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full glass items-center justify-center hidden sm:flex"
+                      style={{ border: '1px solid var(--border-subtle)' }}
+                    >
+                      <ChevronLeft size={16} style={{ color: 'var(--text-secondary)' }} />
+                    </button>
+                    <button
+                      onClick={() => scrollToSlide(Math.min(mediaItems.length - 1, activeImg + 1))}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full glass items-center justify-center hidden sm:flex"
+                      style={{ border: '1px solid var(--border-subtle)' }}
+                    >
+                      <ChevronRight size={16} style={{ color: 'var(--text-secondary)' }} />
+                    </button>
+                  </>
+                )}
+
+                {/* Dot indicators */}
+                {mediaItems.length > 1 && (
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+                    {mediaItems.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => scrollToSlide(i)}
+                        className="w-2 h-2 rounded-full transition-all"
+                        style={{
+                          backgroundColor: activeImg === i ? 'var(--color-primary)' : 'rgba(255,255,255,0.4)',
+                          transform: activeImg === i ? 'scale(1.3)' : 'scale(1)',
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Thumbnails — images + videos */}
+              {mediaItems.length > 1 && (
+                <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+                  {mediaItems.map((item, i) => (
                     <motion.button
                       key={i}
                       whileHover={{ scale: 1.05 }}
-                      onClick={() => setActiveImg(i)}
-                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 transition-all`}
+                      onClick={() => scrollToSlide(i)}
+                      className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all"
                       style={{ borderColor: activeImg === i ? 'var(--color-primary)' : 'var(--border-subtle)' }}
                     >
-                      <img
-                        src={img}
-                        alt=""
-                        className="w-full h-full object-cover"
-                        onError={(e) => { (e.target as HTMLImageElement).src = defaultPlaceholder; }}
-                      />
+                      {item.type === 'image' ? (
+                        <img
+                          src={item.src}
+                          alt=""
+                          className="w-full h-full object-cover"
+                          onError={(e) => { (e.target as HTMLImageElement).src = defaultPlaceholder; }}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-black/80 flex items-center justify-center relative">
+                          <video src={item.src} className="w-full h-full object-cover opacity-60" muted preload="metadata" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Play size={16} className="text-white" fill="white" />
+                          </div>
+                        </div>
+                      )}
                     </motion.button>
-                  ))}
-                </div>
-              )}
-
-              {/* Product Videos */}
-              {product.videos && product.videos.length > 0 && (
-                <div className="space-y-3">
-                  <h3 className="text-sm font-bold" style={{ color: 'var(--text-secondary)' }}>Product Videos</h3>
-                  {product.videos.map((videoUrl, i) => (
-                    <div key={i} className="rounded-2xl overflow-hidden glass" style={{ border: '1px solid var(--card-border)' }}>
-                      <video
-                        src={videoUrl}
-                        controls
-                        className="w-full max-h-[400px] object-contain bg-black"
-                        preload="metadata"
-                      />
-                    </div>
                   ))}
                 </div>
               )}
