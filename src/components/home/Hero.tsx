@@ -183,15 +183,70 @@ export default function Hero() {
                 onDragEnd={handleDragEnd}
                 className="flex flex-col items-center justify-center cursor-grab active:cursor-grabbing min-h-[50vh] sm:min-h-[55vh]"
               >
-                {/* Made in Georgia image */}
+                {/* Made in Georgia image with glow + animation */}
                 <div className="relative w-[280px] h-[200px] sm:w-[420px] sm:h-[300px] md:w-[520px] md:h-[370px] lg:w-[620px] lg:h-[440px]">
-                  <Image
-                    src="/made-in-georgia.png"
-                    alt="Made in Georgia"
-                    fill
-                    className="object-contain drop-shadow-2xl"
-                    priority
+                  {/* Glow layers behind the logo */}
+                  <motion.div
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background: 'radial-gradient(ellipse at center, rgba(249,115,22,0.35) 0%, rgba(249,115,22,0.15) 35%, transparent 70%)',
+                      filter: 'blur(40px)',
+                    }}
+                    animate={{
+                      scale: [1, 1.15, 1],
+                      opacity: [0.6, 1, 0.6],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
                   />
+                  <motion.div
+                    className="absolute inset-[-15%] rounded-full"
+                    style={{
+                      background: 'radial-gradient(ellipse at center, rgba(249,115,22,0.2) 0%, rgba(251,146,60,0.08) 40%, transparent 70%)',
+                      filter: 'blur(60px)',
+                    }}
+                    animate={{
+                      scale: [1.1, 1, 1.1],
+                      opacity: [0.4, 0.8, 0.4],
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                  />
+
+                  {/* Animated logo */}
+                  <motion.div
+                    className="relative w-full h-full"
+                    initial={{ scale: 0.7, opacity: 0, rotateY: -30 }}
+                    animate={{
+                      scale: 1,
+                      opacity: 1,
+                      rotateY: 0,
+                      y: [0, -8, 0],
+                    }}
+                    transition={{
+                      scale: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+                      opacity: { duration: 0.6 },
+                      rotateY: { duration: 1, ease: 'easeOut' },
+                      y: { duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 },
+                    }}
+                  >
+                    <Image
+                      src="/made-in-georgia.png"
+                      alt="Made in Georgia"
+                      fill
+                      className="object-contain"
+                      style={{
+                        filter: 'drop-shadow(0 0 20px rgba(249,115,22,0.4)) drop-shadow(0 0 60px rgba(249,115,22,0.15))',
+                      }}
+                      priority
+                    />
+                  </motion.div>
                 </div>
 
                 <Link href="/products" className="mt-6">
