@@ -112,8 +112,11 @@ export default function AdminDashboard() {
               className={`px-4 py-2 text-xs rounded-lg font-bold uppercase tracking-wider transition-all ${
                 period === p
                   ? 'bg-[#f97316] text-white shadow-lg shadow-orange-500/25'
-                  : 'text-white/50 hover:text-white'
+                  : ''
               }`}
+              style={period !== p ? { color: 'var(--text-secondary)' } : undefined}
+              onMouseEnter={(e) => { if (period !== p) e.currentTarget.style.color = 'var(--text-primary)'; }}
+              onMouseLeave={(e) => { if (period !== p) e.currentTarget.style.color = 'var(--text-secondary)'; }}
             >
               {p}
             </motion.button>
@@ -307,7 +310,7 @@ export default function AdminDashboard() {
                   {i + 1}
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold text-white/80 truncate group-hover:text-white transition-colors">{product.name}</p>
+                  <p className="text-xs font-semibold truncate group-hover:text-white transition-colors" style={{ color: 'var(--text-secondary)' }}>{product.name}</p>
                   <div className="mt-1.5 h-1 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--overlay-bg)' }}>
                     <motion.div
                       initial={{ width: 0 }}
@@ -322,7 +325,7 @@ export default function AdminDashboard() {
                 <span className="text-sm font-bold shrink-0" style={{ color: COLORS[i] }}>
                   {formatPrice(product.revenue)}
                 </span>
-                <ArrowUpRight size={14} className="text-white/10 group-hover:text-white/30 transition-colors shrink-0" />
+                <ArrowUpRight size={14} className="transition-colors shrink-0" style={{ color: 'var(--border-subtle)' }} />
               </motion.div>
             ))}
           </div>

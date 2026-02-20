@@ -97,9 +97,9 @@ function FeaturedProducts() {
                 className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
                   activeFilter === filter
                     ? 'text-white'
-                    : 'glass text-white/60 hover:text-white'
+                    : 'glass'
                 }`}
-                style={activeFilter === filter ? { backgroundColor: 'var(--color-primary)', boxShadow: '0 0 20px color-mix(in srgb, var(--color-primary) 30%, transparent)' } : undefined}
+                style={activeFilter === filter ? { backgroundColor: 'var(--color-primary)', boxShadow: '0 0 20px color-mix(in srgb, var(--color-primary) 30%, transparent)' } : { color: 'var(--text-secondary)' }}
               >
                 {filterLabel}
               </motion.button>

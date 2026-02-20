@@ -123,9 +123,11 @@ export default function DashboardPage() {
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                       activeTab === id
                         ? ''
-                        : 'text-white/60 hover:text-white hover:bg-white/5'
+                        : ''
                     }`}
-                    style={activeTab === id ? { backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)', color: 'var(--color-primary)', border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)' } as React.CSSProperties : undefined}
+                    style={activeTab === id ? { backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)', color: 'var(--color-primary)', border: '1px solid color-mix(in srgb, var(--color-primary) 20%, transparent)' } as React.CSSProperties : { color: 'var(--text-secondary)' }}
+                    onMouseEnter={(e) => { if (activeTab !== id) { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'; } }}
+                    onMouseLeave={(e) => { if (activeTab !== id) { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.backgroundColor = ''; } }}
                   >
                     <Icon size={18} />
                     {label}
@@ -144,7 +146,7 @@ export default function DashboardPage() {
                   </Link>
                 )}
 
-                <div className="pt-2 border-t border-white/10 mt-2">
+                <div className="pt-2 mt-2" style={{ borderTop: '1px solid var(--border-subtle)' }}>
                   <motion.button
                     whileHover={{ x: 4 }}
                     onClick={() => logout()}
@@ -175,9 +177,9 @@ export default function DashboardPage() {
                     </div>
                   ) : orders.length === 0 ? (
                     <div className="glass-card p-12 text-center">
-                      <ShoppingBag size={40} className="text-white/20 mx-auto mb-4" />
-                      <p className="text-white/50 font-semibold mb-2">{t('dashboard.noOrders')}</p>
-                      <p className="text-white/30 text-sm mb-6">{t('dashboard.startShopping')}</p>
+                      <ShoppingBag size={40} className="mx-auto mb-4" style={{ color: 'var(--text-muted)' }} />
+                      <p className="font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>{t('dashboard.noOrders')}</p>
+                      <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>{t('dashboard.startShopping')}</p>
                       <Link href="/products">
                         <button className="btn-primary px-6 py-2.5 rounded-full text-white text-sm font-semibold">
                           {t('dashboard.shopNow')}
@@ -195,7 +197,7 @@ export default function DashboardPage() {
                         <div className="flex items-start justify-between gap-4">
                           <div>
                             <div className="flex items-center gap-3 mb-1">
-                              <span className="text-sm font-bold text-white">
+                              <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
                                 #{order.id.slice(-8).toUpperCase()}
                               </span>
                               <span
@@ -206,8 +208,8 @@ export default function DashboardPage() {
                                 {order.status}
                               </span>
                             </div>
-                            <p className="text-xs text-white/40">{formatDate(order.createdAt)}</p>
-                            <p className="text-xs text-white/40 mt-1">
+                            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{formatDate(order.createdAt)}</p>
+                            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                               {order.items?.length || 0} {t('dashboard.items')}
                             </p>
                           </div>
@@ -228,18 +230,18 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <h2 className="text-xl font-bold text-white mb-6">{t('dashboard.profileInfo')}</h2>
+                  <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>{t('dashboard.profileInfo')}</h2>
                   <div className="glass-card p-8">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-medium text-white/60 mb-2">{t('dashboard.fullName')}</label>
+                        <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>{t('dashboard.fullName')}</label>
                         <input
                           defaultValue={user.name}
                           className="w-full input-glass px-4 py-3 rounded-xl text-sm"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-white/60 mb-2">{t('dashboard.email')}</label>
+                        <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>{t('dashboard.email')}</label>
                         <input
                           defaultValue={user.email}
                           type="email"
@@ -263,7 +265,7 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <h2 className="text-xl font-bold text-white mb-6">{t('dashboard.savedProducts')}</h2>
+                  <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>{t('dashboard.savedProducts')}</h2>
                   {isLoadingSaved ? (
                     <div className="space-y-3">
                       {[1, 2].map((i) => (
@@ -272,8 +274,8 @@ export default function DashboardPage() {
                     </div>
                   ) : savedProducts.length === 0 ? (
                     <div className="glass-card p-12 text-center">
-                      <Heart size={40} className="text-white/20 mx-auto mb-4" />
-                      <p className="text-white/50">{t('dashboard.noSavedItems')}</p>
+                      <Heart size={40} className="mx-auto mb-4" style={{ color: 'var(--text-muted)' }} />
+                      <p style={{ color: 'var(--text-secondary)' }}>{t('dashboard.noSavedItems')}</p>
                       <Link href="/products">
                         <button className="mt-4 btn-primary px-6 py-2.5 rounded-full text-white text-sm font-semibold">
                           {t('dashboard.browseProducts')}
@@ -324,7 +326,7 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <h2 className="text-xl font-bold text-white mb-6">{t('dashboard.settingsTitle')}</h2>
+                  <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>{t('dashboard.settingsTitle')}</h2>
                   <div className="glass-card p-8 space-y-6">
                     {[
                       { label: t('dashboard.emailNotifications'), desc: t('dashboard.emailNotificationsDesc') },
@@ -333,8 +335,8 @@ export default function DashboardPage() {
                     ].map((setting) => (
                       <div key={setting.label} className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-semibold text-white">{setting.label}</p>
-                          <p className="text-xs text-white/40">{setting.desc}</p>
+                          <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{setting.label}</p>
+                          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{setting.desc}</p>
                         </div>
                         <div className="w-12 h-6 rounded-full cursor-pointer relative" style={{ backgroundColor: 'var(--color-primary)' }}>
                           <div className="absolute right-1 top-1 w-4 h-4 rounded-full bg-white" />

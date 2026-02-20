@@ -164,14 +164,14 @@ export default function AdminAnalyticsPage() {
             <TrendingUp size={18} style={{ color: '#10b981', filter: 'drop-shadow(0 2px 4px rgba(16,185,129,0.4))' }} />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-white">Analytics</h1>
-            <p className="text-white/35 text-sm">
+            <h1 className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>Analytics</h1>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
               Performance overview for the last {periodDays} days
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex gap-1 p-1 glass rounded-2xl border border-white/5">
+          <div className="flex gap-1 p-1 glass rounded-2xl" style={{ border: '1px solid var(--border-subtle)' }}>
             {(['7d', '30d', '90d'] as const).map((p) => (
               <motion.button
                 key={p}
@@ -181,8 +181,11 @@ export default function AdminAnalyticsPage() {
                 className={`px-4 py-2 text-xs rounded-xl font-bold uppercase tracking-wider transition-all ${
                   period === p
                     ? 'bg-[#f97316] text-white shadow-lg shadow-orange-500/25'
-                    : 'text-white/40 hover:text-white'
+                    : ''
                 }`}
+                style={period !== p ? { color: 'var(--text-muted)' } : undefined}
+                onMouseEnter={(e) => { if (period !== p) e.currentTarget.style.color = 'var(--text-primary)'; }}
+                onMouseLeave={(e) => { if (period !== p) e.currentTarget.style.color = 'var(--text-muted)'; }}
               >
                 {p}
               </motion.button>
@@ -192,7 +195,10 @@ export default function AdminAnalyticsPage() {
             whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(249,115,22,0.15)' }}
             whileTap={{ scale: 0.95 }}
             onClick={fetchAnalytics}
-            className="p-2.5 glass rounded-2xl text-white/40 hover:text-[#f97316] border border-white/5 hover:border-[#f97316]/20 transition-all"
+            className="p-2.5 glass rounded-2xl transition-all"
+            style={{ color: 'var(--text-muted)', border: '1px solid var(--border-subtle)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#f97316'; e.currentTarget.style.borderColor = 'color-mix(in srgb, #f97316 20%, transparent)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.borderColor = 'var(--border-subtle)'; }}
             title="Refresh"
           >
             <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
@@ -239,8 +245,8 @@ export default function AdminAnalyticsPage() {
                 {stat.change}
               </div>
             </div>
-            <p className="text-2xl font-black text-white">{stat.value}</p>
-            <p className="text-xs text-white/35 mt-1">{stat.title}</p>
+            <p className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>{stat.value}</p>
+            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>{stat.title}</p>
           </motion.div>
         ))}
       </div>
@@ -260,11 +266,11 @@ export default function AdminAnalyticsPage() {
                 <DollarSign size={13} style={{ color: '#f97316' }} />
               </div>
               <div>
-                <h3 className="font-bold text-white">Revenue Trend</h3>
-                <p className="text-xs text-white/25 mt-0.5">Daily revenue for the last {periodDays} days</p>
+                <h3 className="font-bold" style={{ color: 'var(--text-primary)' }}>Revenue Trend</h3>
+                <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>Daily revenue for the last {periodDays} days</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 text-xs text-white/25">
+            <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-muted)' }}>
               <Calendar size={12} />
               Last {period}
             </div>
@@ -324,8 +330,8 @@ export default function AdminAnalyticsPage() {
               <ShoppingCart size={13} style={{ color: '#3b82f6' }} />
             </div>
             <div>
-              <h3 className="font-bold text-white">Order Breakdown</h3>
-              <p className="text-xs text-white/25">{totalOrders} total orders</p>
+              <h3 className="font-bold" style={{ color: 'var(--text-primary)' }}>Order Breakdown</h3>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{totalOrders} total orders</p>
             </div>
           </div>
           <ResponsiveContainer width="100%" height={200}>
@@ -369,11 +375,11 @@ export default function AdminAnalyticsPage() {
                     className="w-2.5 h-2.5 rounded-full"
                     style={{ backgroundColor: COLORS[i % COLORS.length] }}
                   />
-                  <span className="text-white/60">{item.name}</span>
+                  <span style={{ color: 'var(--text-secondary)' }}>{item.name}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-white">{item.value}</span>
-                  <span className="text-white/30">
+                  <span className="font-bold" style={{ color: 'var(--text-primary)' }}>{item.value}</span>
+                  <span style={{ color: 'var(--text-muted)' }}>
                     ({totalOrders > 0 ? Math.round((item.value / totalOrders) * 100) : 0}%)
                   </span>
                 </div>
@@ -397,8 +403,8 @@ export default function AdminAnalyticsPage() {
               <Package size={13} style={{ color: '#f97316' }} />
             </div>
             <div>
-              <h3 className="font-bold text-white">Orders per Day</h3>
-              <p className="text-xs text-white/25 mt-0.5">Daily order volume</p>
+              <h3 className="font-bold" style={{ color: 'var(--text-primary)' }}>Orders per Day</h3>
+              <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>Daily order volume</p>
             </div>
           </div>
           <ResponsiveContainer width="100%" height={220}>
@@ -441,8 +447,8 @@ export default function AdminAnalyticsPage() {
               <TrendingUp size={13} style={{ color: '#8b5cf6' }} />
             </div>
             <div>
-              <h3 className="font-bold text-white">Top Products</h3>
-              <p className="text-xs text-white/25 mt-0.5">Best performers by revenue</p>
+              <h3 className="font-bold" style={{ color: 'var(--text-primary)' }}>Top Products</h3>
+              <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>Best performers by revenue</p>
             </div>
           </div>
           <div className="space-y-4">
@@ -459,11 +465,11 @@ export default function AdminAnalyticsPage() {
                   {i + 1}
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white/80 truncate">{product.name}</p>
+                  <p className="text-sm font-semibold truncate" style={{ color: 'var(--text-secondary)' }}>{product.name}</p>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <p className="text-[10px] text-white/30">{product.sales} sales</p>
+                    <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{product.sales} sales</p>
                     {/* Mini bar */}
-                    <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                    <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--overlay-bg)' }}>
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(product.sales / topProducts[0].sales) * 100}%` }}
@@ -477,7 +483,7 @@ export default function AdminAnalyticsPage() {
                 <span className="text-sm font-bold" style={{ color: COLORS[i] }}>
                   {formatPrice(product.revenue)}
                 </span>
-                <ArrowUpRight size={14} className="text-white/20" />
+                <ArrowUpRight size={14} style={{ color: 'var(--text-muted)' }} />
               </div>
             ))}
           </div>
@@ -496,8 +502,8 @@ export default function AdminAnalyticsPage() {
             <TrendingUp size={13} style={{ color: '#ec4899' }} />
           </div>
           <div>
-            <h3 className="font-bold text-white">Key Metrics</h3>
-            <p className="text-xs text-white/25 mt-0.5">Performance benchmarks</p>
+              <h3 className="font-bold" style={{ color: 'var(--text-primary)' }}>Key Metrics</h3>
+              <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>Performance benchmarks</p>
           </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -531,8 +537,8 @@ export default function AdminAnalyticsPage() {
               <div className="icon-3d w-8 h-8 mx-auto mb-2" style={{ background: `linear-gradient(135deg, ${metric.color}20, ${metric.color}08)`, border: `1px solid ${metric.color}15` }}>
                 <metric.icon size={13} style={{ color: metric.color }} />
               </div>
-              <p className="text-lg font-black text-white">{metric.value}</p>
-              <p className="text-[10px] text-white/30 mt-1 uppercase tracking-wider font-bold">{metric.label}</p>
+              <p className="text-lg font-black" style={{ color: 'var(--text-primary)' }}>{metric.value}</p>
+              <p className="text-[10px] mt-1 uppercase tracking-wider font-bold" style={{ color: 'var(--text-muted)' }}>{metric.label}</p>
             </motion.div>
           ))}
         </div>

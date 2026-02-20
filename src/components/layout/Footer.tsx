@@ -138,8 +138,8 @@ export default function Footer() {
           </div>
 
           <div className="flex gap-4 text-xs" style={{ color: 'var(--text-muted)' }}>
-            <Link href="/privacy" className="hover:text-white/60 transition-colors">{t('footer.privacy')}</Link>
-            <Link href="/terms" className="hover:text-white/60 transition-colors">{t('footer.terms')}</Link>
+            <Link href="/privacy" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}>{t('footer.privacy')}</Link>
+            <Link href="/terms" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}>{t('footer.terms')}</Link>
           </div>
         </div>
       </div>

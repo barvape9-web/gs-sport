@@ -89,7 +89,7 @@ const MOCK_PRODUCTS: Product[] = Array.from({ length: 24 }, (_, i) => ({
 
 export default function ProductsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center text-white/40">Loading products...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-muted)' }}>Loading products...</div>}>
       <ProductsPageInner />
     </Suspense>
   );
@@ -153,7 +153,7 @@ function ProductsPageInner() {
       <Navbar />
       <div className="min-h-screen pt-24" style={{ backgroundColor: 'var(--bg-primary)' }}>
         {/* Header — gender-themed */}
-        <div className="relative py-16 overflow-hidden border-b border-white/5">
+        <div className="relative py-16 overflow-hidden" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
           <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
 
           {/* Animated glow blob — color changes with gender */}
@@ -238,9 +238,9 @@ function ProductsPageInner() {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setShowFilters(!showFilters)}
                 className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm font-semibold transition-all shrink-0 ${
-                  showFilters ? 'text-white' : 'glass text-white/70 hover:text-white'
+                  showFilters ? 'text-white' : 'glass'
                 }`}
-                style={showFilters ? { backgroundColor: theme.accent } : undefined}
+                style={showFilters ? { backgroundColor: theme.accent } : { color: 'var(--text-secondary)' }}
               >
                 <SlidersHorizontal size={16} />
                 {t('products.filters')}
@@ -260,11 +260,11 @@ function ProductsPageInner() {
                   style={{
                     background: showSortDropdown
                       ? `linear-gradient(135deg, ${theme.accent}20, ${theme.accent}10)`
-                      : 'rgba(255,255,255,0.05)',
+                      : 'var(--overlay-bg)',
                     border: showSortDropdown
                       ? `1px solid ${theme.accent}40`
-                      : '1px solid rgba(255,255,255,0.1)',
-                    color: showSortDropdown ? theme.accent : 'rgba(255,255,255,0.7)',
+                      : '1px solid var(--border-subtle)',
+                    color: showSortDropdown ? theme.accent : 'var(--text-secondary)',
                   }}
                 >
                   <ArrowUpDown size={12} className="shrink-0" />
@@ -283,7 +283,7 @@ function ProductsPageInner() {
                   style={{ y: '-50%' }}
                   transition={{ duration: 0.2 }}
                 >
-                  <ChevronDown size={12} className="text-white/40" />
+                  <ChevronDown size={12} style={{ color: 'var(--text-muted)' }} />
                 </motion.div>
 
                 {/* Custom dropdown */}
@@ -298,10 +298,10 @@ function ProductsPageInner() {
                         transition={{ duration: 0.2, ease: 'easeOut' }}
                         className="absolute right-0 top-full mt-2 z-50 w-56 overflow-hidden rounded-2xl"
                         style={{
-                          background: 'rgba(15,15,15,0.95)',
+                          background: 'var(--bg-elevated)',
                           backdropFilter: 'blur(20px)',
                           border: `1px solid ${theme.accent}25`,
-                          boxShadow: `0 20px 60px rgba(0,0,0,0.5), 0 0 30px ${theme.accent}10`,
+                          boxShadow: `0 20px 60px var(--shadow-color), 0 0 30px ${theme.accent}10`,
                         }}
                       >
                         <div className="p-1.5">
@@ -327,14 +327,14 @@ function ProductsPageInner() {
                                   background: isActive ? `${color}15` : 'transparent',
                                   border: isActive ? `1px solid ${color}25` : '1px solid transparent',
                                 }}
-                                whileHover={{ x: 3, backgroundColor: `${color}10` }}
+                                whileHover={{ x: 3 }}
                               >
                                 <motion.div
                                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                                   style={{
-                                    background: isActive ? `${color}20` : 'rgba(255,255,255,0.05)',
+                                    background: isActive ? `${color}20` : 'var(--overlay-bg)',
                                     boxShadow: isActive ? `0 2px 10px ${color}20` : 'none',
-                                    border: `1px solid ${isActive ? color + '30' : 'rgba(255,255,255,0.08)'}`,
+                                    border: `1px solid ${isActive ? color + '30' : 'var(--border-subtle)'}`,
                                   }}
                                   whileHover={{
                                     scale: 1.1,
@@ -343,11 +343,11 @@ function ProductsPageInner() {
                                   }}
                                   transition={{ type: 'spring', stiffness: 400, damping: 15 }}
                                 >
-                                  <SortIcon size={14} style={{ color: isActive ? color : 'rgba(255,255,255,0.4)' }} />
+                                  <SortIcon size={14} style={{ color: isActive ? color : 'var(--text-muted)' }} />
                                 </motion.div>
                                 <span
                                   className="text-xs font-medium flex-1"
-                                  style={{ color: isActive ? color : 'rgba(255,255,255,0.6)' }}
+                                  style={{ color: isActive ? color : 'var(--text-secondary)' }}
                                 >
                                   {label}
                                 </span>
@@ -384,8 +384,8 @@ function ProductsPageInner() {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.8 }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-white/90"
-                      style={{ backgroundColor: theme.tagBg, border: `1px solid ${theme.tagBorder}` }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
+                      style={{ backgroundColor: theme.tagBg, border: `1px solid ${theme.tagBorder}`, color: 'var(--text-primary)' }}
                     >
                       {filters.gender}
                       <button onClick={() => setFilters((f) => ({ ...f, gender: undefined }))} className="hover:opacity-70 transition-opacity">
@@ -398,8 +398,8 @@ function ProductsPageInner() {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.8 }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-white/90"
-                      style={{ backgroundColor: theme.tagBg, border: `1px solid ${theme.tagBorder}` }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
+                      style={{ backgroundColor: theme.tagBg, border: `1px solid ${theme.tagBorder}`, color: 'var(--text-primary)' }}
                     >
                       {filters.category.replace('_', ' ')}
                       <button onClick={() => setFilters((f) => ({ ...f, category: undefined }))} className="hover:opacity-70 transition-opacity">
@@ -467,8 +467,8 @@ function ProductsPageInner() {
                     animate={{ opacity: 1 }}
                     className="flex flex-col items-center justify-center py-24 text-center"
                   >
-                    <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4">
-                      <SlidersHorizontal size={32} className="text-white/20" />
+                    <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: 'var(--overlay-bg)' }}>
+                      <SlidersHorizontal size={32} style={{ color: 'var(--text-muted)' }} />
                     </div>
                     <h3 className="font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>{t('products.noProducts')}</h3>
                     <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{t('products.tryAdjusting')}</p>

@@ -31,10 +31,10 @@ export default function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-md flex flex-col glass-dark border-l border-white/10"
+            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-md flex flex-col glass-dark" style={{ borderLeft: '1px solid var(--border-subtle)' }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+            <div className="flex items-center justify-between px-6 py-5" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
               <div className="flex items-center gap-3">
                 <ShoppingBag size={20} style={{ color: 'var(--color-primary)' }} />
                 <h2 className="text-lg font-bold">{t('cart.yourCart')}</h2>
@@ -46,7 +46,10 @@ export default function CartDrawer() {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={toggleCart}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-2 rounded-lg transition-colors"
+                style={{ color: 'var(--text-secondary)' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = ''}
               >
                 <X size={20} />
               </motion.button>
@@ -56,12 +59,12 @@ export default function CartDrawer() {
             <div className="flex-1 overflow-y-auto px-6 py-4">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
-                  <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center">
-                    <ShoppingBag size={32} className="text-white/30" />
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--overlay-bg)' }}>
+                    <ShoppingBag size={32} style={{ color: 'var(--text-muted)' }} />
                   </div>
                   <div>
-                    <p className="text-white/60 font-medium">{t('cart.empty')}</p>
-                    <p className="text-white/30 text-sm mt-1">{t('cart.addItems')}</p>
+                    <p className="font-medium" style={{ color: 'var(--text-secondary)' }}>{t('cart.empty')}</p>
+                    <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>{t('cart.addItems')}</p>
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
@@ -85,7 +88,7 @@ export default function CartDrawer() {
                     >
                       <div className="flex gap-4">
                         {/* Image */}
-                        <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-white/5 flex-shrink-0">
+                        <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0" style={{ backgroundColor: 'var(--overlay-bg)' }}>
                           {item.product.images?.[0] ? (
                             <Image
                               src={item.product.images[0]}
@@ -94,7 +97,7 @@ export default function CartDrawer() {
                               className="object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-white/20">
+                            <div className="w-full h-full flex items-center justify-center" style={{ color: 'var(--text-muted)' }}>
                               <ShoppingBag size={24} />
                             </div>
                           )}
@@ -102,15 +105,15 @@ export default function CartDrawer() {
 
                         {/* Info */}
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-sm font-semibold text-white truncate">
+                          <h4 className="text-sm font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
                             {item.product.name}
                           </h4>
                           <div className="flex gap-2 mt-1">
                             {item.size && (
-                              <span className="text-xs text-white/40">{t('cart.size')}: {item.size}</span>
+                              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('cart.size')}: {item.size}</span>
                             )}
                             {item.color && (
-                              <span className="text-xs text-white/40">{t('cart.color')}: {item.color}</span>
+                              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('cart.color')}: {item.color}</span>
                             )}
                           </div>
                           <p className="font-bold text-sm mt-1" style={{ color: 'var(--color-primary)' }}>
@@ -123,7 +126,9 @@ export default function CartDrawer() {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => removeItem(item.productId, item.size, item.color)}
-                          className="text-white/30 hover:text-red-400 transition-colors self-start"
+                          className="self-start transition-colors" style={{ color: 'var(--text-muted)' }}
+                          onMouseEnter={(e) => e.currentTarget.style.color = '#f87171'}
+                          onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
                         >
                           <Trash2 size={16} />
                         </motion.button>
@@ -138,7 +143,10 @@ export default function CartDrawer() {
                             onClick={() =>
                               updateQuantity(item.productId, item.quantity - 1, item.size, item.color)
                             }
-                            className="w-7 h-7 rounded-md bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                            className="w-7 h-7 rounded-md flex items-center justify-center transition-colors"
+                            style={{ backgroundColor: 'var(--overlay-bg)' }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--text-muted) 20%, transparent)'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'}
                           >
                             <Minus size={12} />
                           </motion.button>
@@ -151,12 +159,15 @@ export default function CartDrawer() {
                             onClick={() =>
                               updateQuantity(item.productId, item.quantity + 1, item.size, item.color)
                             }
-                            className="w-7 h-7 rounded-md bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                            className="w-7 h-7 rounded-md flex items-center justify-center transition-colors"
+                            style={{ backgroundColor: 'var(--overlay-bg)' }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--text-muted) 20%, transparent)'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'}
                           >
                             <Plus size={12} />
                           </motion.button>
                         </div>
-                        <p className="text-sm font-bold text-white">
+                        <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
                           {formatPrice(item.product.price * item.quantity)}
                         </p>
                       </div>
@@ -168,9 +179,9 @@ export default function CartDrawer() {
 
             {/* Footer */}
             {items.length > 0 && (
-              <div className="px-6 py-5 border-t border-white/10 space-y-4">
+              <div className="px-6 py-5 space-y-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
                 <div className="flex justify-between items-center">
-                  <span className="text-white/60">{t('cart.subtotal')}</span>
+                  <span style={{ color: 'var(--text-secondary)' }}>{t('cart.subtotal')}</span>
                   <span className="text-xl font-bold gradient-text">
                     {formatPrice(getTotalPrice())}
                   </span>
@@ -186,7 +197,7 @@ export default function CartDrawer() {
                   </motion.button>
                 </Link>
                 <Link href="/products" onClick={toggleCart}>
-                  <button className="w-full py-3 text-sm text-white/50 hover:text-white transition-colors">
+                  <button className="w-full py-3 text-sm transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}>
                     {t('cart.continueShopping')}
                   </button>
                 </Link>

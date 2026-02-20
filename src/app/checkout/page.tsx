@@ -111,12 +111,12 @@ export default function CheckoutPage() {
       <main className="min-h-screen pt-20 pb-20" style={{ backgroundColor: 'var(--bg-primary)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-xs text-white/30 mb-8">
-            <Link href="/" className="hover:text-white/60 transition-colors">{t('checkout.home')}</Link>
+          <div className="flex items-center gap-2 text-xs mb-8" style={{ color: 'var(--text-muted)' }}>
+            <Link href="/" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}>{t('checkout.home')}</Link>
             <ChevronRight size={12} />
-            <Link href="/products" className="hover:text-white/60 transition-colors">{t('checkout.shop')}</Link>
+            <Link href="/products" className="transition-colors" style={{ color: 'var(--text-muted)' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-secondary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}>{t('checkout.shop')}</Link>
             <ChevronRight size={12} />
-            <span className="text-white/60">{t('checkout.checkout')}</span>
+            <span style={{ color: 'var(--text-secondary)' }}>{t('checkout.checkout')}</span>
           </div>
 
           {/* Stepper */}
@@ -126,13 +126,13 @@ export default function CheckoutPage() {
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all ${
                   step === s ? 'text-white' :
                   (['address', 'payment', 'confirm'].indexOf(step) > idx) ? '' :
-                  'bg-white/5 text-white/20'
+                  ''
                 }`}
-                style={step === s ? { backgroundColor: 'var(--color-primary)' } as React.CSSProperties : (['address', 'payment', 'confirm'].indexOf(step) > idx) ? { backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)', color: 'var(--color-primary)' } as React.CSSProperties : undefined}>
+                style={step === s ? { backgroundColor: 'var(--color-primary)' } as React.CSSProperties : (['address', 'payment', 'confirm'].indexOf(step) > idx) ? { backgroundColor: 'color-mix(in srgb, var(--color-primary) 20%, transparent)', color: 'var(--color-primary)' } as React.CSSProperties : { backgroundColor: 'var(--overlay-bg)', color: 'var(--text-muted)' }}>
                   {num}
                 </div>
-                <span className={`text-xs font-semibold hidden sm:block ${step === s ? 'text-white' : 'text-white/30'}`}>{label}</span>
-                {idx < 2 && <ChevronRight size={14} className="text-white/10" />}
+                <span className="text-xs font-semibold hidden sm:block" style={{ color: step === s ? 'var(--text-primary)' : 'var(--text-muted)' }}>{label}</span>
+                {idx < 2 && <ChevronRight size={14} style={{ color: 'var(--border-subtle)' }} />}
               </div>
             ))}
           </div>
@@ -155,12 +155,12 @@ export default function CheckoutPage() {
                 </motion.div>
                 <h2 className="text-3xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>{t('checkout.orderConfirmed')}</h2>
                 <p className="mb-2" style={{ color: 'var(--text-muted)' }}>{t('checkout.thankYou')}</p>
-                <p className="text-sm text-white/30 mb-8">{t('checkout.orderId')}: <span className="font-mono" style={{ color: 'var(--color-primary)' }}>#{orderId}</span></p>
+                <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>{t('checkout.orderId')}: <span className="font-mono" style={{ color: 'var(--color-primary)' }}>#{orderId}</span></p>
                 <div className="flex gap-3 justify-center">
                   <Link href="/dashboard" className="btn-primary px-6 py-3 rounded-xl font-bold">
                     {t('checkout.viewOrders')}
                   </Link>
-                  <Link href="/products" className="glass border border-white/10 px-6 py-3 rounded-xl font-bold text-white/70 hover:text-white transition-colors">
+                  <Link href="/products" className="glass px-6 py-3 rounded-xl font-bold transition-colors" style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}>
                     {t('checkout.keepShopping')}
                   </Link>
                 </div>
@@ -175,55 +175,55 @@ export default function CheckoutPage() {
                         <div className="glass-card p-6 space-y-5">
                           <div className="flex items-center gap-2 mb-2">
                             <Truck size={18} style={{ color: 'var(--color-primary)' }} />
-                            <h2 className="text-lg font-black text-white">{t('checkout.shippingAddress')}</h2>
+                            <h2 className="text-lg font-black" style={{ color: 'var(--text-primary)' }}>{t('checkout.shippingAddress')}</h2>
                           </div>
 
                           <form onSubmit={handleSubmit(onAddressSubmit)} className="space-y-4">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.fullName')}</label>
+                                <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>{t('checkout.fullName')}</label>
                                 <input {...register('fullName')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="John Doe" />
                                 {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName.message}</p>}
                               </div>
                               <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.email')}</label>
+                                <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>{t('checkout.email')}</label>
                                 <input {...register('email')} type="email" className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="john@example.com" />
                                 {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
                               </div>
                             </div>
 
                             <div>
-                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.phone')}</label>
+                              <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>{t('checkout.phone')}</label>
                               <input {...register('phone')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="+1 555-0000" />
                               {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
                             </div>
 
                             <div>
-                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.addressLine1')}</label>
+                              <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>{t('checkout.addressLine1')}</label>
                               <input {...register('line1')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="123 Main Street" />
                               {errors.line1 && <p className="text-red-400 text-xs mt-1">{errors.line1.message}</p>}
                             </div>
 
                             <div>
-                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.addressLine2')} <span className="font-normal text-white/20">({t('checkout.optional')})</span></label>
+                              <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>{t('checkout.addressLine2')} <span className="font-normal" style={{ color: 'var(--text-muted)', opacity: 0.6 }}>({t('checkout.optional')})</span></label>
                               <input {...register('line2')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="Apartment, suite, etc." />
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.city')}</label>
+                                <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>{t('checkout.city')}</label>
                                 <input {...register('city')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="თბილისი" />
                                 {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city.message}</p>}
                               </div>
                               <div>
-                                <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.state')}</label>
+                                <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>{t('checkout.state')}</label>
                                 <input {...register('state')} className="w-full input-glass px-4 py-3 rounded-xl text-sm" placeholder="თბილისი" />
                                 {errors.state && <p className="text-red-400 text-xs mt-1">{errors.state.message}</p>}
                               </div>
                             </div>
 
                             <div>
-                              <label className="text-xs text-white/40 font-bold uppercase tracking-wider block mb-1.5">{t('checkout.country')}</label>
+                              <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>{t('checkout.country')}</label>
                               <select {...register('country')} className="w-full input-glass px-4 py-3 rounded-xl text-sm">
                                 <option value="GE">{t('checkout.georgia')}</option>
                               </select>
@@ -247,7 +247,7 @@ export default function CheckoutPage() {
                         <div className="glass-card p-6 space-y-5">
                           <div className="flex items-center gap-2 mb-2">
                             <Banknote size={18} style={{ color: 'var(--color-primary)' }} />
-                            <h2 className="text-lg font-black text-white">{t('checkout.payment')}</h2>
+                            <h2 className="text-lg font-black" style={{ color: 'var(--text-primary)' }}>{t('checkout.payment')}</h2>
                           </div>
 
                           {/* Bank Transfer */}
@@ -271,7 +271,7 @@ export default function CheckoutPage() {
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#f97316' }}>BOG Bank</p>
-                                  <p className="text-xs font-mono font-semibold text-white/80 truncate">GE89BG0000000580619674</p>
+                                  <p className="text-xs font-mono font-semibold truncate" style={{ color: 'var(--text-secondary)' }}>GE89BG0000000580619674</p>
                                 </div>
                                 <motion.div whileTap={{ scale: 0.85 }} className="p-1.5 rounded-lg shrink-0" style={{ backgroundColor: 'color-mix(in srgb, #f97316 10%, transparent)' }}>
                                   {copiedIban === 'GE89BG0000000580619674' ? <Check size={14} className="text-green-400" /> : <Copy size={14} style={{ color: '#f97316' }} />}
@@ -285,7 +285,7 @@ export default function CheckoutPage() {
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#3b82f6' }}>TBC Bank</p>
-                                  <p className="text-xs font-mono font-semibold text-white/80 truncate">GE80TB7099445061600037</p>
+                                  <p className="text-xs font-mono font-semibold truncate" style={{ color: 'var(--text-secondary)' }}>GE80TB7099445061600037</p>
                                 </div>
                                 <motion.div whileTap={{ scale: 0.85 }} className="p-1.5 rounded-lg shrink-0" style={{ backgroundColor: 'color-mix(in srgb, #3b82f6 10%, transparent)' }}>
                                   {copiedIban === 'GE80TB7099445061600037' ? <Check size={14} className="text-green-400" /> : <Copy size={14} style={{ color: '#3b82f6' }} />}
@@ -334,7 +334,10 @@ export default function CheckoutPage() {
                           <div className="flex gap-3 pt-2">
                             <button
                               onClick={() => setStep('address')}
-                              className="px-6 py-4 rounded-xl font-bold glass border border-white/10 text-white/50 hover:text-white transition-colors"
+                              className="px-6 py-4 rounded-xl font-bold glass transition-colors"
+                              style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
+                              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+                              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                             >
                               {t('checkout.back')}
                             </button>
@@ -346,7 +349,7 @@ export default function CheckoutPage() {
                               className="flex-1 btn-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2 disabled:opacity-70"
                             >
                               {loading ? (
-                                <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: 'var(--border-subtle)', borderTopColor: 'var(--text-primary)' }} />
                               ) : (
                                 <>
                                   <Banknote size={16} />
@@ -364,46 +367,46 @@ export default function CheckoutPage() {
                 {/* Order Summary */}
                 <div className="space-y-4">
                   <div className="glass-card p-5 space-y-4 sticky top-24">
-                    <h3 className="text-sm font-black text-white uppercase tracking-wider">{t('checkout.orderSummary')}</h3>
+                    <h3 className="text-sm font-black uppercase tracking-wider" style={{ color: 'var(--text-primary)' }}>{t('checkout.orderSummary')}</h3>
 
                     <div className="space-y-3 max-h-64 overflow-y-auto pr-1 custom-scrollbar">
                       {items.map((item) => (
                         <div key={`${item.id}-${item.size}-${item.color}`} className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-lg glass border border-white/5 overflow-hidden shrink-0 flex items-center justify-center">
+                          <div className="w-12 h-12 rounded-lg glass overflow-hidden shrink-0 flex items-center justify-center" style={{ border: '1px solid var(--border-subtle)' }}>
                             {item.product.images?.[0] ? (
                               <img src={item.product.images[0]} alt={item.product.name} className="w-full h-full object-cover" />
                             ) : (
-                              <ShoppingBag size={16} className="text-white/20" />
+                              <ShoppingBag size={16} style={{ color: 'var(--text-muted)' }} />
                             )}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-xs font-semibold text-white/80 truncate">{item.product.name}</p>
-                            <p className="text-[10px] text-white/30">
+                            <p className="text-xs font-semibold truncate" style={{ color: 'var(--text-secondary)' }}>{item.product.name}</p>
+                            <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
                               {[item.size, item.color].filter(Boolean).join(' · ')} × {item.quantity}
                             </p>
                           </div>
-                          <span className="text-xs font-bold text-white shrink-0">{formatPrice(item.product.price * item.quantity)}</span>
+                          <span className="text-xs font-bold shrink-0" style={{ color: 'var(--text-primary)' }}>{formatPrice(item.product.price * item.quantity)}</span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="border-t border-white/5 pt-4 space-y-2">
-                      <div className="flex justify-between text-xs text-white/40">
+                    <div className="pt-4 space-y-2" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                      <div className="flex justify-between text-xs" style={{ color: 'var(--text-muted)' }}>
                         <span>{t('checkout.subtotal')}</span>
                         <span>{formatPrice(subtotal)}</span>
                       </div>
-                      <div className="flex justify-between text-xs text-white/40">
+                      <div className="flex justify-between text-xs" style={{ color: 'var(--text-muted)' }}>
                         <span>{t('checkout.shippingCost')}</span>
                         <span>{shipping === 0 ? t('checkout.free') : formatPrice(shipping)}</span>
                       </div>
-                      <div className="flex justify-between font-black text-white text-sm border-t border-white/5 pt-2 mt-2">
+                      <div className="flex justify-between font-black text-sm pt-2 mt-2" style={{ color: 'var(--text-primary)', borderTop: '1px solid var(--border-subtle)' }}>
                         <span>{t('checkout.total')}</span>
                         <span style={{ color: 'var(--color-primary)' }}>{formatPrice(total)}</span>
                       </div>
                     </div>
 
                     {subtotal < 55 && (
-                      <p className="text-[10px] text-center text-white/30">
+                      <p className="text-[10px] text-center" style={{ color: 'var(--text-muted)' }}>
                         {t('checkout.freeShippingHint', { amount: formatPrice(55 - subtotal) })}
                       </p>
                     )}

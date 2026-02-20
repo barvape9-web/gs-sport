@@ -111,11 +111,12 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
             <span
               className={`px-2 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-widest ${
                 product.gender === 'MEN'
-                  ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                  ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300 border border-blue-500/30'
                   : product.gender === 'WOMEN'
-                  ? 'bg-pink-500/20 text-pink-300 border border-pink-500/30'
-                  : 'bg-white/10 text-white/60 border border-white/20'
+                  ? 'bg-pink-500/20 text-pink-600 dark:text-pink-300 border border-pink-500/30'
+                  : 'border'
               }`}
+              style={product.gender === 'UNISEX' ? { backgroundColor: 'var(--overlay-bg)', color: 'var(--text-muted)', borderColor: 'var(--border-subtle)' } : undefined}
             >
               {product.gender}
             </span>
@@ -186,8 +187,9 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
               <Heart
                 size={16}
                 className={`transition-all duration-200 ${
-                  isWishlisted ? 'fill-red-500 stroke-red-500' : 'stroke-white/30 hover:stroke-red-400'
+                  isWishlisted ? 'fill-red-500 stroke-red-500' : 'hover:stroke-red-400'
                 }`}
+                style={!isWishlisted ? { stroke: 'var(--text-muted)' } : undefined}
               />
             </motion.button>
           </div>
@@ -198,8 +200,8 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
               <Star
                 key={star}
                 size={10}
-                className={`${star <= 4 ? '' : 'stroke-white/20'}`}
-                style={star <= 4 ? { fill: isWomen ? '#ec4899' : 'var(--color-primary)', stroke: isWomen ? '#ec4899' : 'var(--color-primary)' } : undefined}
+                className={`${star <= 4 ? '' : ''}`}
+                style={star <= 4 ? { fill: isWomen ? '#ec4899' : 'var(--color-primary)', stroke: isWomen ? '#ec4899' : 'var(--color-primary)' } : { stroke: 'var(--border-subtle)' }}
               />
             ))}
             <span className="text-[9px] sm:text-[10px] ml-1" style={{ color: 'var(--text-muted)' }}>({product.popularity})</span>

@@ -106,7 +106,7 @@ export default function AdminUsersPage() {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -115,7 +115,7 @@ export default function AdminUsersPage() {
           />
         </div>
         <div className="relative">
-          <Filter size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+          <Filter size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value as RoleFilter)}
@@ -125,7 +125,7 @@ export default function AdminUsersPage() {
             <option value="USER">Users</option>
             <option value="ADMIN">Admins</option>
           </select>
-          <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
+          <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--text-muted)' }} />
         </div>
       </div>
 
@@ -176,8 +176,9 @@ export default function AdminUsersPage() {
                     className={`px-2.5 py-1 text-[10px] font-bold rounded-full ${
                       user.role === 'ADMIN'
                         ? 'bg-[#f97316]/10 text-[#f97316] border border-[#f97316]/20'
-                        : 'bg-white/5 text-white/40 border border-white/10'
+                        : ''
                     }`}
+                    style={user.role !== 'ADMIN' ? { backgroundColor: 'var(--overlay-bg)', color: 'var(--text-muted)', border: '1px solid var(--border-subtle)' } : undefined}
                   >
                     {user.role === 'ADMIN' ? (
                       <span className="flex items-center gap-1">
@@ -198,14 +199,20 @@ export default function AdminUsersPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => toggleRole(user.id)}
-                      className="px-3 py-1.5 text-[10px] font-bold rounded-lg glass border border-white/10 hover:border-[#f97316]/30 text-white/50 hover:text-white transition-all"
+                      className="px-3 py-1.5 text-[10px] font-bold rounded-lg glass transition-all"
+                      style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'color-mix(in srgb, #f97316 30%, transparent)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
                     >
                       {user.role === 'ADMIN' ? 'Make User' : 'Make Admin'}
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       onClick={() => deleteUser(user.id)}
-                      className="p-2 text-white/20 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                      className="p-2 rounded-lg transition-all"
+                      style={{ color: 'var(--text-muted)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = '#f87171'; e.currentTarget.style.backgroundColor = 'rgba(239,68,68,0.1)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.backgroundColor = ''; }}
                     >
                       <Trash2 size={13} />
                     </motion.button>

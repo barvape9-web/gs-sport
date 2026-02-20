@@ -601,7 +601,7 @@
 
   /* Shimmer loading */
   .shimmer {
-    background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+    background: linear-gradient(90deg, var(--overlay-bg) 25%, color-mix(in srgb, var(--text-muted) 12%, transparent) 50%, var(--overlay-bg) 75%);
     background-size: 1000px 100%;
     animation: shimmer 2s infinite;
   }

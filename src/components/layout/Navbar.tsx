@@ -165,8 +165,10 @@ export default function Navbar() {
                           <Link
                             key={sub.href}
                             href={sub.href}
-                            className="block px-4 py-3 text-xs font-semibold uppercase tracking-widest rounded-lg transition-all duration-300 hover:bg-white/5"
+                            className="block px-4 py-3 text-xs font-semibold uppercase tracking-widest rounded-lg transition-all duration-300"
                             style={{ color: 'var(--text-secondary)' }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                           >
                             {sub.label}
                           </Link>
@@ -212,12 +214,14 @@ export default function Navbar() {
                           key={opt.value}
                           onClick={() => { setLocale(opt.value); setLangOpen(false); }}
                           className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
-                            locale === opt.value ? '' : 'hover:bg-white/5'
+                            locale === opt.value ? '' : ''
                           }`}
                           style={locale === opt.value ? {
                             backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)',
                             color: 'var(--color-primary)',
                           } : { color: 'var(--text-secondary)' }}
+                          onMouseEnter={(e) => { if (locale !== opt.value) e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'; }}
+                          onMouseLeave={(e) => { if (locale !== opt.value) e.currentTarget.style.backgroundColor = 'transparent'; }}
                         >
                           <span>{opt.flag}</span>
                           <span>{opt.label}</span>
@@ -301,8 +305,10 @@ export default function Navbar() {
                     {user.role === 'ADMIN' && (
                       <Link
                         href="/admin"
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-white/5 rounded-lg"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm rounded-lg"
                         style={{ color: 'var(--color-primary)' }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                       >
                         <Shield size={14} />
                         {t('nav.adminPanel')}
@@ -310,7 +316,9 @@ export default function Navbar() {
                     )}
                     <button
                       onClick={() => logout()}
-                      className="w-full text-left px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 rounded-lg"
+                      className="w-full text-left px-4 py-2.5 text-sm text-red-400 rounded-lg"
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                     >
                       {t('nav.logout')}
                     </button>

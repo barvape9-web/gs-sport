@@ -338,7 +338,7 @@ export default function AdminProductsPage() {
 
       {/* Search */}
       <div className="relative">
-        <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
+        <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -372,7 +372,7 @@ export default function AdminProductsPage() {
                 <td>
                   <div className="flex items-center gap-3">
                     {product.images?.[0] ? (
-                      <div className="w-10 h-10 shrink-0 rounded-xl overflow-hidden border border-white/10">
+                      <div className="w-10 h-10 shrink-0 rounded-xl overflow-hidden" style={{ border: '1px solid var(--border-subtle)' }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={product.images[0]} alt="" className="w-full h-full object-cover" />
                       </div>
@@ -400,8 +400,9 @@ export default function AdminProductsPage() {
                       product.gender === 'MEN'
                         ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20'
                         : product.gender === 'WOMEN' ? 'bg-pink-500/10 text-pink-300 border border-pink-500/20'
-                        : 'bg-white/5 text-white/50 border border-white/10'
+                        : ''
                     }`}
+                    style={product.gender === 'UNISEX' ? { backgroundColor: 'var(--overlay-bg)', color: 'var(--text-muted)', border: '1px solid var(--border-subtle)' } : undefined}
                   >
                     {product.gender}
                   </span>
@@ -437,7 +438,10 @@ export default function AdminProductsPage() {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => openEdit(product)}
-                      className="p-2 text-white/25 hover:text-[#f97316] hover:bg-[#f97316]/10 rounded-xl transition-all"
+                      className="p-2 rounded-xl transition-all"
+                      style={{ color: 'var(--text-muted)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = '#f97316'; e.currentTarget.style.backgroundColor = 'rgba(249,115,22,0.1)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.backgroundColor = ''; }}
                     >
                       <Edit size={14} />
                     </motion.button>
@@ -445,7 +449,10 @@ export default function AdminProductsPage() {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => handleDelete(product.id)}
-                      className="p-2 text-white/25 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
+                      className="p-2 rounded-xl transition-all"
+                      style={{ color: 'var(--text-muted)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = '#f87171'; e.currentTarget.style.backgroundColor = 'rgba(248,113,113,0.1)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.backgroundColor = ''; }}
                     >
                       <Trash2 size={14} />
                     </motion.button>
@@ -493,7 +500,10 @@ export default function AdminProductsPage() {
                   </div>
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="text-white/30 hover:text-white p-2 rounded-xl hover:bg-white/5 transition-all"
+                    className="p-2 rounded-xl transition-all"
+                    style={{ color: 'var(--text-muted)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.backgroundColor = ''; }}
                   >
                     <X size={18} />
                   </button>
@@ -610,7 +620,7 @@ export default function AdminProductsPage() {
                     {(existingImages.length > 0 || imagePreviews.length > 0) && (
                       <div className="flex flex-wrap gap-3 mb-3">
                         {existingImages.map((url, i) => (
-                          <div key={`e-${i}`} className="relative w-20 h-20 rounded-xl overflow-hidden border border-white/10 group">
+                          <div key={`e-${i}`} className="relative w-20 h-20 rounded-xl overflow-hidden group" style={{ border: '1px solid var(--border-subtle)' }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={url} alt="" className="w-full h-full object-cover" />
                             <button
@@ -650,13 +660,14 @@ export default function AdminProductsPage() {
                     />
                     <div
                       onClick={() => fileInputRef.current?.click()}
-                      className="border-2 border-dashed border-white/10 rounded-xl p-6 text-center hover:border-[#f97316]/30 transition-colors cursor-pointer active:bg-white/[0.02]"
+                      className="border-2 border-dashed rounded-xl p-6 text-center hover:border-[#f97316]/30 transition-colors cursor-pointer active:bg-white/[0.02]"
+                      style={{ borderColor: 'var(--border-subtle)' }}
                     >
-                      <Upload size={24} className="text-white/20 mx-auto mb-2" />
+                      <Upload size={24} className="mx-auto mb-2" style={{ color: 'var(--text-muted)' }} />
                       <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
                         Click to upload images (JPG, PNG, WebP — max 5 MB)
                       </p>
-                      <p className="text-[10px] mt-1 text-white/20">
+                      <p className="text-[10px] mt-1" style={{ color: 'var(--text-muted)', opacity: 0.7 }}>
                         Supports phone gallery &amp; camera
                       </p>
                     </div>
@@ -670,7 +681,7 @@ export default function AdminProductsPage() {
                     {(existingVideos.length > 0 || videoPreviews.length > 0) && (
                       <div className="flex flex-wrap gap-3 mb-3">
                         {existingVideos.map((url, i) => (
-                          <div key={`ev-${i}`} className="relative w-32 h-24 rounded-xl overflow-hidden border border-white/10 group">
+                          <div key={`ev-${i}`} className="relative w-32 h-24 rounded-xl overflow-hidden group" style={{ border: '1px solid var(--border-subtle)' }}>
                             <video src={url} className="w-full h-full object-cover" muted />
                             <button
                               type="button"
@@ -711,9 +722,10 @@ export default function AdminProductsPage() {
                     />
                     <div
                       onClick={() => videoInputRef.current?.click()}
-                      className="border-2 border-dashed border-white/10 rounded-xl p-6 text-center hover:border-[#f97316]/30 transition-colors cursor-pointer active:bg-white/[0.02]"
+                      className="border-2 border-dashed rounded-xl p-6 text-center hover:border-[#f97316]/30 transition-colors cursor-pointer active:bg-white/[0.02]"
+                      style={{ borderColor: 'var(--border-subtle)' }}
                     >
-                      <Video size={24} className="text-white/20 mx-auto mb-2" />
+                      <Video size={24} className="mx-auto mb-2" style={{ color: 'var(--text-muted)' }} />
                       <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
                         Click to upload videos (MP4, WebM, MOV, AVI — max 50 MB)
                       </p>
@@ -747,7 +759,10 @@ export default function AdminProductsPage() {
                   </motion.button>
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="px-6 py-3 glass rounded-xl text-white/60 hover:text-white transition-colors"
+                    className="px-6 py-3 glass rounded-xl transition-colors"
+                    style={{ color: 'var(--text-secondary)' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                   >
                     Cancel
                   </button>

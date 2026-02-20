@@ -76,8 +76,8 @@ function StatusDropdown({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="fixed z-[9999] w-44 rounded-xl border border-white/10 bg-[#141414]/95 backdrop-blur-xl shadow-2xl p-1.5"
-            style={{ top: pos.top, left: pos.left }}
+            className="fixed z-[9999] w-44 rounded-xl backdrop-blur-xl shadow-2xl p-1.5"
+            style={{ top: pos.top, left: pos.left, border: '1px solid var(--border-subtle)', backgroundColor: 'color-mix(in srgb, var(--bg-secondary) 95%, transparent)' }}
           >
             <p className="px-3 py-1.5 text-[9px] uppercase tracking-widest font-bold" style={{ color: 'var(--text-muted)' }}>
               Change Status
@@ -92,8 +92,11 @@ function StatusDropdown({
                 className={`w-full flex items-center justify-between px-3 py-2 text-xs rounded-lg transition-colors ${
                   currentStatus === s
                     ? 'text-[#f97316] bg-[#f97316]/10'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    : ''
                 }`}
+                style={currentStatus !== s ? { color: 'var(--text-secondary)' } : undefined}
+                onMouseEnter={(e) => { if (currentStatus !== s) { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'; } }}
+                onMouseLeave={(e) => { if (currentStatus !== s) { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.backgroundColor = ''; } }}
               >
                 <span className="flex items-center gap-2">
                   <span
@@ -184,7 +187,7 @@ export default function AdminOrdersPage() {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -193,7 +196,7 @@ export default function AdminOrdersPage() {
           />
         </div>
         <div className="relative">
-          <Filter size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+          <Filter size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as OrderStatus | 'ALL')}
@@ -204,7 +207,7 @@ export default function AdminOrdersPage() {
               <option key={s} value={s}>{s}</option>
             ))}
           </select>
-          <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
+          <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--text-muted)' }} />
         </div>
       </div>
 
@@ -301,8 +304,11 @@ export default function AdminOrdersPage() {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setSelectedOrder(order)}
-                      className="p-2 text-white/25 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+                      className="p-2 rounded-xl transition-all"
                       title="View Order"
+                      style={{ color: 'var(--text-muted)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.backgroundColor = ''; }}
                     >
                       <Eye size={14} />
                     </motion.button>
@@ -310,8 +316,11 @@ export default function AdminOrdersPage() {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setSelectedOrder(order)}
-                      className="p-2 text-white/25 hover:text-[#f97316] hover:bg-[#f97316]/10 rounded-xl transition-all"
+                      className="p-2 rounded-xl transition-all"
                       title="Edit Order"
+                      style={{ color: 'var(--text-muted)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = '#f97316'; e.currentTarget.style.backgroundColor = 'rgba(249,115,22,0.1)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.backgroundColor = ''; }}
                     >
                       <Edit size={14} />
                     </motion.button>
@@ -361,7 +370,10 @@ export default function AdminOrdersPage() {
                   </div>
                   <button
                     onClick={() => setSelectedOrder(null)}
-                    className="text-white/30 hover:text-white p-2 rounded-xl hover:bg-white/5 transition-all"
+                    className="p-2 rounded-xl transition-all"
+                    style={{ color: 'var(--text-muted)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.backgroundColor = ''; }}
                   >
                     <X size={18} />
                   </button>
@@ -417,7 +429,7 @@ export default function AdminOrdersPage() {
                               <img src={item.product.images[0]} alt="" className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
-                                <Package size={12} className="text-white/20" />
+                                <Package size={12} style={{ color: 'var(--text-muted)' }} />
                               </div>
                             )}
                           </div>
