@@ -1,9 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { X } from 'lucide-react';
 import { ProductFilters as IProductFilters, Gender, Category } from '@/types';
-import { getCategoryLabel } from '@/lib/utils';
 import { useTranslation } from '@/lib/useTranslation';
 
 interface ProductFiltersProps {
@@ -12,16 +10,18 @@ interface ProductFiltersProps {
   onClose?: () => void;
 }
 
-const categories: { value: Category; label: string }[] = [
-  { value: 'UPPER_WEAR', label: getCategoryLabel('UPPER_WEAR') },
-  { value: 'LOWER_WEAR', label: getCategoryLabel('LOWER_WEAR') },
-  { value: 'WINTER_WEAR', label: getCategoryLabel('WINTER_WEAR') },
-  { value: 'SUMMER_WEAR', label: getCategoryLabel('SUMMER_WEAR') },
-  { value: 'ACCESSORIES', label: getCategoryLabel('ACCESSORIES') },
+const categoryKeys: { value: Category; key: string }[] = [
+  { value: 'UPPER_WEAR', key: 'products.upperWear' },
+  { value: 'LOWER_WEAR', key: 'products.lowerWear' },
+  { value: 'WINTER_WEAR', key: 'products.winterWear' },
+  { value: 'SUMMER_WEAR', key: 'products.summerWear' },
+  { value: 'ACCESSORIES', key: 'products.accessories' },
 ];
 
 export default function ProductFilters({ filters, onFiltersChange, onClose }: ProductFiltersProps) {
   const { t } = useTranslation();
+
+  const categories = categoryKeys.map(({ value, key }) => ({ value, label: t(key) }));
 
   const genders: { value: Gender; label: string }[] = [
     { value: 'MEN', label: t('products.mens') },
@@ -60,7 +60,6 @@ export default function ProductFilters({ filters, onFiltersChange, onClose }: Pr
             className="text-xs flex items-center gap-1"
             style={{ color: 'var(--color-primary)' }}
           >
-            <X size={12} />
             {t('products.clearAll')}
           </motion.button>
         )}

@@ -166,6 +166,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'products.range30_60': '₾30 – ₾60',
     'products.range60_100': '₾60 – ₾100',
     'products.over100': '₾100-ზე ზემოთ',
+    'products.upperWear': 'ზედა ტანსაცმელი',
+    'products.lowerWear': 'ქვედა ტანსაცმელი',
+    'products.winterWear': 'ზამთრის ტანსაცმელი',
+    'products.summerWear': 'ზაფხულის ტანსაცმელი',
+    'products.accessories': 'აქსესუარები',
 
     // ── Product Detail ──
     'productDetail.home': 'მთავარი',
@@ -493,6 +498,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'products.range30_60': '₾30 – ₾60',
     'products.range60_100': '₾60 – ₾100',
     'products.over100': 'Over ₾100',
+    'products.upperWear': 'Upper Wear',
+    'products.lowerWear': 'Lower Wear',
+    'products.winterWear': 'Winter Wear',
+    'products.summerWear': 'Summer Wear',
+    'products.accessories': 'Accessories',
 
     // ── Product Detail ──
     'productDetail.home': 'Home',
@@ -820,6 +830,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'products.range30_60': '₾30 – ₾60',
     'products.range60_100': '₾60 – ₾100',
     'products.over100': 'Более ₾100',
+    'products.upperWear': 'Верхняя одежда',
+    'products.lowerWear': 'Нижняя одежда',
+    'products.winterWear': 'Зимняя одежда',
+    'products.summerWear': 'Летняя одежда',
+    'products.accessories': 'Аксессуары',
 
     // ── Product Detail ──
     'productDetail.home': 'Главная',
