@@ -172,6 +172,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'products.winterWear': 'ზამთრის ტანსაცმელი',
     'products.summerWear': 'ზაფხულის ტანსაცმელი',
     'products.accessories': 'აქსესუარები',
+    'products.onSale': 'ფასდაკლება',
 
     // ── Product Detail ──
     'productDetail.home': 'მთავარი',
@@ -505,6 +506,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'products.winterWear': 'Winter Wear',
     'products.summerWear': 'Summer Wear',
     'products.accessories': 'Accessories',
+    'products.onSale': 'On Sale',
 
     // ── Product Detail ──
     'productDetail.home': 'Home',
@@ -838,6 +840,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'products.winterWear': 'Зимняя одежда',
     'products.summerWear': 'Летняя одежда',
     'products.accessories': 'Аксессуары',
+    'products.onSale': 'Скидки',
 
     // ── Product Detail ──
     'productDetail.home': 'Главная',

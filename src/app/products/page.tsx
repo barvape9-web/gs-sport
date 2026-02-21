@@ -123,6 +123,7 @@ function ProductsPageInner() {
       if (filters.maxPrice) params.set('maxPrice', String(filters.maxPrice));
       if (filters.sortBy) params.set('sortBy', filters.sortBy);
       if (filters.search) params.set('search', filters.search);
+      if (filters.onSale) params.set('onSale', 'true');
 
       const res = await axios.get(`/api/products?${params.toString()}`);
       setProducts(res.data.products || []);
@@ -133,6 +134,7 @@ function ProductsPageInner() {
       if (filters.category) filtered = filtered.filter((p) => p.category === filters.category);
       if (filters.minPrice) filtered = filtered.filter((p) => p.price >= filters.minPrice!);
       if (filters.maxPrice) filtered = filtered.filter((p) => p.price <= filters.maxPrice!);
+      if (filters.onSale) filtered = filtered.filter((p) => p.originalPrice && p.originalPrice > p.price);
       if (filters.sortBy === 'popularity') filtered.sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0));
       if (filters.sortBy === 'price_asc') filtered.sort((a, b) => a.price - b.price);
       if (filters.sortBy === 'price_desc') filtered.sort((a, b) => b.price - a.price);

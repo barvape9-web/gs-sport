@@ -15,11 +15,15 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search');
     const minPrice = searchParams.get('minPrice');
     const maxPrice = searchParams.get('maxPrice');
+    const onSale = searchParams.get('onSale');
 
     const where: Record<string, unknown> = {};
     if (gender && gender !== 'ALL') where.gender = gender;
     if (category) where.category = category;
     if (featured === 'true') where.isFeatured = true;
+    if (onSale === 'true') {
+      where.originalPrice = { not: null, gt: 0 };
+    }
     if (minPrice || maxPrice) {
       where.price = {};
       if (minPrice) (where.price as Record<string, number>).gte = parseFloat(minPrice);

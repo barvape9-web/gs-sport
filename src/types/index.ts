@@ -151,6 +151,7 @@ export interface ProductFilters {
   maxPrice?: number;
   sortBy?: 'newest' | 'popularity' | 'price_asc' | 'price_desc';
   search?: string;
+  onSale?: boolean;
 }
 
 export interface ApiResponse<T> {
