@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, User, Menu, X, Shield, Globe } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
@@ -18,6 +18,7 @@ const localeOptions: { value: Locale; label: string; flag: string }[] = [
 ];
 
 export default function Navbar() {
+  const router = useRouter();
   const pathname = usePathname();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,7 +42,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Real live user counter — heartbeat + fetch
   useEffect(() => {
     let sessionId = sessionStorage.getItem('gs-session-id');
     if (!sessionId) {
@@ -75,9 +75,7 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? 'backdrop-blur-xl shadow-2xl'
-            : 'backdrop-blur-md'
+          isScrolled ? 'backdrop-blur-xl shadow-2xl' : 'backdrop-blur-md'
         }`}
         style={{
           backgroundColor: isScrolled
@@ -89,7 +87,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
+            <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -110,16 +108,13 @@ export default function Navbar() {
               </motion.div>
             </Link>
 
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-2">
+            {/* Desktop Nav — visible at lg (1024px+) */}
+            <div className="hidden lg:flex items-center gap-1 xl:gap-2">
               {navLinks.map((link) => (
-                <div
-                  key={link.href}
-                  className="relative"
-                >
+                <div key={link.href} className="relative">
                   <Link
                     href={link.href}
-                    className={`group relative flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-semibold uppercase tracking-widest transition-all duration-300`}
+                    className="group relative flex items-center gap-1 px-2 xl:px-3 py-2 rounded-lg text-[11px] xl:text-xs font-semibold uppercase tracking-widest transition-all duration-300"
                     style={{ color: pathname === link.href ? 'var(--text-primary)' : 'var(--text-secondary)' }}
                   >
                     {link.label}
@@ -135,14 +130,14 @@ export default function Navbar() {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
-              {/* Language Switcher */}
-              <div className="relative">
+            <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 flex-shrink-0 flex-nowrap">
+              {/* Language Switcher — always visible */}
+              <div className="relative flex-shrink-0">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setLangOpen(!langOpen)}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-semibold transition-all"
+                  className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-full border text-[11px] sm:text-xs font-semibold transition-all"
                   style={{
                     borderColor: 'color-mix(in srgb, var(--color-primary) 25%, transparent)',
                     backgroundColor: 'color-mix(in srgb, var(--color-primary) 6%, transparent)',
@@ -150,7 +145,6 @@ export default function Navbar() {
                   }}
                 >
                   <Globe size={14} style={{ color: 'var(--color-primary)' }} />
-                  <span className="hidden sm:inline">{localeOptions.find(l => l.value === locale)?.flag}</span>
                   <span>{localeOptions.find(l => l.value === locale)?.label}</span>
                 </motion.button>
 
@@ -173,9 +167,7 @@ export default function Navbar() {
                         <button
                           key={opt.value}
                           onClick={() => { setLocale(opt.value); setLangOpen(false); }}
-                          className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
-                            locale === opt.value ? '' : ''
-                          }`}
+                          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all"
                           style={locale === opt.value ? {
                             backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)',
                             color: 'var(--color-primary)',
@@ -192,18 +184,18 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
 
-              {/* Live Counter */}
+              {/* Live Counter — desktop only (lg+) */}
               {onlineCount > 0 && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border"
+                  className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full border flex-shrink-0 whitespace-nowrap"
                   style={{
                     borderColor: 'color-mix(in srgb, #22c55e 25%, transparent)',
                     backgroundColor: 'color-mix(in srgb, #22c55e 6%, transparent)',
                   }}
                 >
-                  <span className="relative flex h-2 w-2">
+                  <span className="relative flex h-2 w-2 flex-shrink-0">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
                   </span>
@@ -212,7 +204,7 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="text-[11px] font-semibold tracking-wide"
+                    className="text-[11px] font-semibold tracking-wide whitespace-nowrap"
                     style={{ color: '#4ade80' }}
                   >
                     {t('nav.online')}: {onlineCount}
@@ -220,12 +212,12 @@ export default function Navbar() {
                 </motion.div>
               )}
 
-              {/* Cart */}
+              {/* Cart — always visible */}
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={toggleCart}
-                className="relative p-2 rounded-lg transition-all duration-300"
+                className="relative p-2 rounded-lg transition-all duration-300 flex-shrink-0"
                 style={{ color: 'var(--text-secondary)' }}
               >
                 <ShoppingBag size={20} />
@@ -241,22 +233,25 @@ export default function Navbar() {
                 )}
               </motion.button>
 
-              {/* User */}
+              {/* User — logged in */}
               {user ? (
-                <div className="relative group">
+                <div className="relative group flex-shrink-0">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
-                    className="flex items-center gap-2 px-3 py-2 glass rounded-full text-sm font-medium transition-all"
+                    className="flex items-center gap-2 px-2 sm:px-3 py-2 glass rounded-full text-sm font-medium transition-all"
                     style={{ color: 'var(--text-secondary)' }}
                   >
-                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold overflow-hidden" style={{ backgroundImage: 'linear-gradient(to bottom right, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))' }}>
+                    <div
+                      className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold overflow-hidden flex-shrink-0"
+                      style={{ backgroundImage: 'linear-gradient(to bottom right, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))' }}
+                    >
                       {user.avatar ? (
                         <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
                       ) : (
                         user.name?.charAt(0).toUpperCase()
                       )}
                     </div>
-                    <span className="hidden sm:block max-w-[80px] truncate">{user.name}</span>
+                    <span className="hidden lg:block max-w-[80px] truncate">{user.name}</span>
                   </motion.button>
                   <div
                     className="absolute right-0 top-full mt-2 w-48 p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 rounded-xl"
@@ -267,11 +262,7 @@ export default function Navbar() {
                       boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03)',
                     }}
                   >
-                    <Link
-                      href="/dashboard"
-                      className="block px-4 py-2.5 text-sm rounded-lg"
-                      style={{ color: 'var(--text-secondary)' }}
-                    >
+                    <Link href="/dashboard" className="block px-4 py-2.5 text-sm rounded-lg" style={{ color: 'var(--text-secondary)' }}>
                       {t('nav.dashboard')}
                     </Link>
                     {user.role === 'ADMIN' && (
@@ -297,22 +288,22 @@ export default function Navbar() {
                   </div>
                 </div>
               ) : (
-                <Link href="/login">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="hidden sm:flex items-center gap-2 px-4 py-2 btn-primary rounded-lg text-xs font-semibold uppercase tracking-widest text-white"
-                  >
-                    <User size={16} />
-                    {t('nav.signIn')}
-                  </motion.button>
-                </Link>
+                /* Sign In — desktop only (lg+) */
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => router.push('/login')}
+                  className="hidden lg:flex items-center gap-1 px-3 py-1.5 btn-primary rounded-lg text-[11px] font-semibold uppercase tracking-wider text-white flex-shrink-0 whitespace-nowrap"
+                >
+                  <User size={14} />
+                  {t('nav.signIn')}
+                </motion.button>
               )}
 
-              {/* Mobile toggle */}
+              {/* Mobile toggle — below lg */}
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                className="md:hidden p-2 rounded-lg transition-all duration-300"
+                className="lg:hidden p-2 rounded-lg transition-all duration-300 flex-shrink-0"
                 style={{ color: 'var(--text-secondary)' }}
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
               >
@@ -322,40 +313,61 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile menu — below lg */}
         <AnimatePresence>
           {isMobileOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden backdrop-blur-xl"
+              className="lg:hidden backdrop-blur-xl overflow-hidden"
               style={{ backgroundColor: 'color-mix(in srgb, var(--bg-primary) 95%, transparent)', borderTop: '1px solid var(--glass-border)' }}
             >
               <div className="px-4 py-4 space-y-1">
                 {navLinks.map((link) => (
-                  <div key={link.href}>
-                    <Link
-                      href={link.href}
-                      onClick={() => setIsMobileOpen(false)}
-                      className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                        pathname === link.href
-                          ? 'bg-[color-mix(in_srgb,var(--color-primary)_10%,transparent)]'
-                          : ''
-                      }`}
-                      style={pathname === link.href ? { color: 'var(--color-primary)' } : { color: 'var(--text-secondary)' }}
-                    >
-                      {link.label}
-                    </Link>
-                  </div>
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMobileOpen(false)}
+                    className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      pathname === link.href
+                        ? 'bg-[color-mix(in_srgb,var(--color-primary)_10%,transparent)]'
+                        : ''
+                    }`}
+                    style={pathname === link.href ? { color: 'var(--color-primary)' } : { color: 'var(--text-secondary)' }}
+                  >
+                    {link.label}
+                  </Link>
                 ))}
+
+                {/* Online counter — mobile menu */}
+                {onlineCount > 0 && (
+                  <div
+                    className="flex items-center gap-2 px-4 py-3 rounded-lg"
+                    style={{ backgroundColor: 'color-mix(in srgb, #22c55e 6%, transparent)' }}
+                  >
+                    <span className="relative flex h-2 w-2 flex-shrink-0">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                    </span>
+                    <span className="text-sm font-medium" style={{ color: '#4ade80' }}>
+                      {t('nav.online')}: {onlineCount}
+                    </span>
+                  </div>
+                )}
+
+                {/* Sign In — mobile menu */}
                 {!user && (
                   <div className="pt-2" style={{ borderTop: '1px solid var(--glass-border)' }}>
-                    <Link href="/login" onClick={() => setIsMobileOpen(false)}>
-                      <button className="w-full btn-primary py-3 rounded-xl text-sm font-semibold text-white">
-                        {t('nav.signIn')}
-                      </button>
-                    </Link>
+                    <button
+                      className="w-full btn-primary py-3 rounded-xl text-sm font-semibold text-white"
+                      onClick={() => {
+                        setIsMobileOpen(false);
+                        router.push('/login');
+                      }}
+                    >
+                      {t('nav.signIn')}
+                    </button>
                   </div>
                 )}
               </div>
