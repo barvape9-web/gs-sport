@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     const token = await signJWT({ userId: user.id, email: user.email, role: user.role });
 
     const response = NextResponse.json(
-      { user: { id: user.id, name: user.name, email: user.email, role: user.role } },
+      { user: { id: user.id, name: user.name, email: user.email, role: user.role, avatar: user.avatar } },
       { status: 201 }
     );
 

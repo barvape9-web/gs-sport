@@ -289,8 +289,12 @@ export default function Navbar() {
                     className="flex items-center gap-2 px-3 py-2 glass rounded-full text-sm font-medium transition-all"
                     style={{ color: 'var(--text-secondary)' }}
                   >
-                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundImage: 'linear-gradient(to bottom right, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))' }}>
-                      {user.name?.charAt(0).toUpperCase()}
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold overflow-hidden" style={{ backgroundImage: 'linear-gradient(to bottom right, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))' }}>
+                      {user.avatar ? (
+                        <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                      ) : (
+                        user.name?.charAt(0).toUpperCase()
+                      )}
                     </div>
                     <span className="hidden sm:block max-w-[80px] truncate">{user.name}</span>
                   </motion.button>

@@ -57,9 +57,9 @@ function ProductCard({ product, isSaved = false, onToggleSave }: ProductCardProp
       transition={{ duration: 0.25 }}
       className="product-card group cursor-pointer overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-200 h-full"
       style={{
-        backgroundColor: isWomen ? 'rgba(236,72,153,0.04)' : 'var(--card-bg)',
-        border: isWomen ? '1px solid rgba(236,72,153,0.15)' : '1px solid var(--card-border)',
-        boxShadow: isWomen ? '0 0 20px rgba(236,72,153,0.06), inset 0 0 30px rgba(236,72,153,0.03)' : undefined,
+        backgroundColor: isWomen ? 'rgba(236,72,153,0.08)' : 'var(--card-bg)',
+        border: isWomen ? '1px solid rgba(236,72,153,0.22)' : '1px solid var(--card-border)',
+        boxShadow: isWomen ? '0 0 20px rgba(236,72,153,0.10), inset 0 0 30px rgba(236,72,153,0.06)' : undefined,
         willChange: 'transform',
       }}
       onHoverStart={() => setIsHovered(true)}

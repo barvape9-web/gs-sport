@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Package, Heart, User, Settings, ShoppingBag, LogOut, Star, Trash2,
   ChevronRight, TruckIcon, Clock, CheckCircle2, XCircle, Loader2,
-  MapPin,
+  MapPin, Camera,
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -29,10 +29,52 @@ export default function DashboardPage() {
   const { user, logout, setUser } = useAuthStore();
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('orders');
+  const ordersRef = useRef<HTMLDivElement>(null);
+
+  const scrollToOrders = useCallback(() => {
+    setActiveTab('orders');
+    setTimeout(() => {
+      ordersRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }, []);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [profileName, setProfileName] = useState(user?.name || '');
   const [profileEmail, setProfileEmail] = useState(user?.email || '');
   const [savingProfile, setSavingProfile] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      toast.error('Invalid file type. Allowed: JPG, PNG, WebP.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File too large. Maximum 5 MB.');
+      return;
+    }
+
+    setUploadingAvatar(true);
+    try {
+      const formData = new FormData();
+      formData.append('avatar', file);
+      formData.append('name', profileName);
+      formData.append('email', profileEmail);
+
+      const res = await axios.put('/api/auth/profile', formData);
+      setUser(res.data.user);
+      toast.success(t('dashboard.avatarUpdated') || 'Profile photo updated!');
+    } catch (err: any) {
+      toast.error(err.response?.data?.error || 'Failed to upload photo');
+    } finally {
+      setUploadingAvatar(false);
+      if (avatarInputRef.current) avatarInputRef.current.value = '';
+    }
+  };
 
   const handleSaveProfile = async () => {
     if (!profileName.trim() || !profileEmail.trim()) {
@@ -176,13 +218,17 @@ export default function DashboardPage() {
             <motion.div
               whileHover={{ scale: 1.05, rotateY: 10 }}
               transition={{ type: 'spring', stiffness: 300 }}
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl font-black text-white"
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl font-black text-white overflow-hidden relative"
               style={{
                 backgroundImage: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, #000))',
                 boxShadow: '0 10px 40px color-mix(in srgb, var(--color-primary) 35%, transparent), 0 0 0 1px color-mix(in srgb, var(--color-primary) 20%, transparent)',
               }}
             >
-              {user.name?.charAt(0).toUpperCase()}
+              {user.avatar ? (
+                <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+              ) : (
+                user.name?.charAt(0).toUpperCase()
+              )}
             </motion.div>
             <div className="flex-1">
               <h1 className="text-2xl sm:text-3xl font-black" style={{ color: 'var(--text-primary)' }}>
@@ -215,7 +261,10 @@ export default function DashboardPage() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ delay: i * 0.1, type: 'spring', stiffness: 200 }}
                   whileHover={{ y: -4, scale: 1.02 }}
-                  className="glass-card p-5 flex items-center gap-4"
+                  onClick={() => {
+                    if (stat.label === t('dashboard.orders')) scrollToOrders();
+                  }}
+                  className="glass-card p-5 flex items-center gap-4 cursor-pointer"
                 >
                   <motion.div
                     whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
@@ -251,7 +300,14 @@ export default function DashboardPage() {
                     key={id}
                     whileHover={{ x: 4 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => setActiveTab(id)}
+                    onClick={() => {
+                      setActiveTab(id);
+                      if (id === 'orders') {
+                        setTimeout(() => {
+                          ordersRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                      }
+                    }}
                     className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold transition-all relative overflow-hidden"
                     style={
                       activeTab === id
@@ -342,6 +398,7 @@ export default function DashboardPage() {
                 {activeTab === 'orders' && (
                   <motion.div
                     key="orders"
+                    ref={ordersRef}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
@@ -733,6 +790,54 @@ export default function DashboardPage() {
                     </div>
 
                     <div className="glass-card p-8">
+                      {/* Avatar Upload */}
+                      <div className="flex flex-col items-center mb-8">
+                        <div className="relative group">
+                          <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden flex items-center justify-center text-3xl font-black text-white"
+                            style={{
+                              backgroundImage: user.avatar ? 'none' : 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, #000))',
+                              boxShadow: '0 10px 40px color-mix(in srgb, var(--color-primary) 25%, transparent)',
+                            }}
+                          >
+                            {user.avatar ? (
+                              <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                            ) : (
+                              user.name?.charAt(0).toUpperCase()
+                            )}
+                          </motion.div>
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => avatarInputRef.current?.click()}
+                            disabled={uploadingAvatar}
+                            className="absolute -bottom-2 -right-2 w-10 h-10 rounded-xl flex items-center justify-center text-white"
+                            style={{
+                              background: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, #000))',
+                              boxShadow: '0 4px 15px color-mix(in srgb, var(--color-primary) 30%, transparent)',
+                              border: '3px solid var(--bg-primary)',
+                            }}
+                          >
+                            {uploadingAvatar ? (
+                              <Loader2 size={16} className="animate-spin" />
+                            ) : (
+                              <Camera size={16} />
+                            )}
+                          </motion.button>
+                          <input
+                            ref={avatarInputRef}
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            className="hidden"
+                            onChange={handleAvatarUpload}
+                          />
+                        </div>
+                        <p className="text-xs mt-3" style={{ color: 'var(--text-muted)' }}>
+                          {t('dashboard.changePhoto') || 'Click to change photo'}
+                        </p>
+                      </div>
+
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div>
                           <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>{t('dashboard.fullName')}</label>
