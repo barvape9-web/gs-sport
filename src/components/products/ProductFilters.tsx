@@ -154,6 +154,36 @@ export default function ProductFilters({ filters, onFiltersChange, onClose }: Pr
           })}
         </div>
       </div>
+
+      {/* Sort / Quick Filters */}
+      <div>
+        <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--text-muted)' }}>{t('products.sortBy') || 'სორტირება'}</p>
+        <div className="space-y-1">
+          {[
+            { value: 'newest' as const, label: t('products.newest') },
+            { value: 'popularity' as const, label: t('products.mostPopular') },
+            { value: 'price_asc' as const, label: t('products.priceLowHigh') },
+            { value: 'price_desc' as const, label: t('products.priceHighLow') },
+          ].map(({ value, label }) => (
+            <motion.button
+              key={value}
+              whileHover={{ x: 4 }}
+              onClick={() => { onFiltersChange({ ...filters, sortBy: value }); onClose?.(); }}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
+                filters.sortBy === value ? 'border' : ''
+              }`}
+              style={filters.sortBy === value ? {
+                backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)',
+                color: 'var(--color-primary)',
+                borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)',
+              } : { color: 'var(--text-secondary)' }}
+            >
+              {label}
+              {filters.sortBy === value && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }} />}
+            </motion.button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, User, Menu, X, ChevronDown, Shield, Globe } from 'lucide-react';
+import { ShoppingBag, User, Menu, X, Shield, Globe } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 import { useLanguageStore, Locale } from '@/store/languageStore';
@@ -21,7 +21,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [onlineCount, setOnlineCount] = useState(0);
   const [langOpen, setLangOpen] = useState(false);
   const { getTotalItems, toggleCart } = useCartStore();
@@ -31,16 +30,7 @@ export default function Navbar() {
 
   const navLinks = [
     { label: t('nav.home'), href: '/' },
-    {
-      label: t('nav.products'),
-      href: '/products',
-      sublinks: [
-        { label: t('nav.mensCollection'), href: '/products?gender=MEN' },
-        { label: t('nav.womensCollection'), href: '/products?gender=WOMEN' },
-        { label: t('nav.newArrivals'), href: '/products?sort=newest' },
-        { label: t('nav.bestSellers'), href: '/products?sort=popularity' },
-      ],
-    },
+    { label: t('nav.products'), href: '/products' },
     { label: t('nav.about'), href: '/about' },
     { label: t('nav.contact'), href: '/contact' },
   ];
@@ -126,8 +116,6 @@ export default function Navbar() {
                 <div
                   key={link.href}
                   className="relative"
-                  onMouseEnter={() => link.sublinks && setActiveDropdown(link.label)}
-                  onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <Link
                     href={link.href}
@@ -135,14 +123,6 @@ export default function Navbar() {
                     style={{ color: pathname === link.href ? 'var(--text-primary)' : 'var(--text-secondary)' }}
                   >
                     {link.label}
-                    {link.sublinks && (
-                      <ChevronDown
-                        size={14}
-                        className={`transition-transform duration-200 ${
-                          activeDropdown === link.label ? 'rotate-180' : ''
-                        }`}
-                      />
-                    )}
                     <span
                       className={`pointer-events-none absolute left-3 right-3 -bottom-0.5 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 ${
                         pathname === link.href ? 'scale-x-100' : ''
@@ -150,32 +130,6 @@ export default function Navbar() {
                       style={{ backgroundImage: 'linear-gradient(to right, var(--color-primary), color-mix(in srgb, var(--color-primary) 60%, transparent), transparent)' }}
                     />
                   </Link>
-
-                  {/* Dropdown */}
-                  <AnimatePresence>
-                    {link.sublinks && activeDropdown === link.label && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute top-full left-0 mt-3 w-56 glass-card p-2 shadow-2xl"
-                      >
-                        {link.sublinks.map((sub) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            className="block px-4 py-3 text-xs font-semibold uppercase tracking-widest rounded-lg transition-all duration-300"
-                            style={{ color: 'var(--text-secondary)' }}
-                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--overlay-bg)'}
-                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                          >
-                            {sub.label}
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
               ))}
             </div>
@@ -207,7 +161,13 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.95 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 top-full mt-2 glass-card p-1.5 shadow-2xl z-50 min-w-[120px]"
+                      className="absolute right-0 top-full mt-2 p-1.5 shadow-2xl z-50 min-w-[120px] rounded-xl"
+                      style={{
+                        backgroundColor: 'color-mix(in srgb, var(--bg-primary) 97%, var(--color-primary))',
+                        border: '1px solid color-mix(in srgb, var(--color-primary) 15%, var(--bg-secondary))',
+                        backdropFilter: 'blur(20px)',
+                        boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03)',
+                      }}
                     >
                       {localeOptions.map((opt) => (
                         <button
@@ -298,7 +258,15 @@ export default function Navbar() {
                     </div>
                     <span className="hidden sm:block max-w-[80px] truncate">{user.name}</span>
                   </motion.button>
-                  <div className="absolute right-0 top-full mt-2 w-48 glass-card p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                  <div
+                    className="absolute right-0 top-full mt-2 w-48 p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 rounded-xl"
+                    style={{
+                      backgroundColor: 'color-mix(in srgb, var(--bg-primary) 97%, var(--color-primary))',
+                      border: '1px solid color-mix(in srgb, var(--color-primary) 15%, var(--bg-secondary))',
+                      backdropFilter: 'blur(20px)',
+                      boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03)',
+                    }}
+                  >
                     <Link
                       href="/dashboard"
                       className="block px-4 py-2.5 text-sm rounded-lg"
@@ -379,21 +347,6 @@ export default function Navbar() {
                     >
                       {link.label}
                     </Link>
-                    {link.sublinks && (
-                      <div className="pl-4 mt-1 space-y-1">
-                        {link.sublinks.map((sub) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            onClick={() => setIsMobileOpen(false)}
-                            className="block px-4 py-2 text-xs rounded-lg"
-                            style={{ color: 'var(--text-muted)' }}
-                          >
-                            {sub.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
                   </div>
                 ))}
                 {!user && (
